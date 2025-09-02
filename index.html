@@ -441,6 +441,34 @@
             display: none;
         }
         
+        .my-items-list {
+            margin-top: 15px;
+            border: 1px solid #3498db;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: #f0f8ff;
+        }
+        
+        .my-items-list h3 {
+            color: #3498db;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .my-item {
+            padding: 10px;
+            border-bottom: 1px solid #d1e7ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .my-item:last-child {
+            border-bottom: none;
+        }
+        
         @media (max-width: 768px) {
             .dashboard {
                 grid-template-columns: 1fr;
@@ -492,7 +520,7 @@
         
         <div id="user-bar" class="user-bar">
             <div>
-                <i class="fas fa-user"></i> Modo Usuário: Acesso para retirada de materiais
+                <i class="fas fa-user"></i> Modo Usuário: Acesso para retirada e devolução de materiais
             </div>
             <div>
                 <button class="secondary-btn" id="user-share-btn">
@@ -528,7 +556,7 @@
                 <div class="card admin-only">
                     <h2><i class="fas fa-cog"></i> Ações Administrativas</h2>
                     <div class="actions">
-                        <button id="return-btn"><i class="fas fa-undo"></i> Registrar Devolução</button>
+                        <button id="admin-return-btn"><i class="fas fa-undo"></i> Registrar Devolução</button>
                         <button id="maintenance-btn"><i class="fas fa-tools"></i> Registrar Manutenção</button>
                         <button class="admin-btn" id="admin-alerts-btn"><i class="fab fa-whatsapp"></i> Alertas WhatsApp</button>
                         <button class="danger-btn" id="clear-data-btn"><i class="fas fa-trash"></i> Limpar Dados</button>
@@ -536,9 +564,17 @@
                 </div>
 
                 <div class="card user-only">
-                    <h2><i class="fas fa-hand-holding"></i> Retirar Material</h2>
+                    <h2><i class="fas fa-hand-holding"></i> Minhas Ações</h2>
                     <div class="actions">
                         <button id="user-borrow-btn"><i class="fas fa-hand-holding"></i> Fazer Retirada</button>
+                        <button id="user-return-btn"><i class="fas fa-undo"></i> Fazer Devolução</button>
+                    </div>
+                </div>
+
+                <div class="card user-only">
+                    <h2><i class="fas fa-tools"></i> Meus Materiais</h2>
+                    <div id="my-items-list" class="my-items-list">
+                        <p>Você não possui materiais no momento.</p>
                     </div>
                 </div>
 
@@ -605,7 +641,7 @@
             
             <div class="form-group">
                 <label for="user-access-message"><i class="fas fa-comment"></i> Mensagem de Acesso:</label>
-                <textarea id="user-access-message" rows="4" readonly>Olá! Use este link para acessar o sistema de controle de ferramentas da Energia Pecém e fazer retiradas de materiais.</textarea>
+                <textarea id="user-access-message" rows="4" readonly>Olá! Use este link para acessar o sistema de controle de ferramentas da Energia Pecém e fazer retiradas e devoluções de materiais.</textarea>
             </div>
             
             <div class="form-group">
@@ -653,6 +689,36 @@
                 <i class="fas fa-check-circle"></i> Retirada registrada com sucesso!
             </div>
             <div id="user-borrow-error-message" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> Por favor, preencha todos os campos.
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Devolução (Usuário) -->
+    <div id="user-return-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-undo"></i> Devolver Material</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="form-group">
+                <label for="returner-name">Seu Nome:</label>
+                <input type="text" id="returner-name" placeholder="Digite seu nome completo">
+            </div>
+            <div class="form-group">
+                <label for="user-return-item">Selecionar Item para Devolver:</label>
+                <select id="user-return-item">
+                    <option value="">Selecione um item</option>
+                    <!-- Opções preenchidas via JavaScript -->
+                </select>
+            </div>
+            
+            <button id="confirm-user-return"><i class="fas fa-check"></i> Confirmar Devolução</button>
+            
+            <div id="user-return-success-message" class="success-message">
+                <i class="fas fa-check-circle"></i> Devolução registrada com sucesso!
+            </div>
+            <div id="user-return-error-message" class="error-message">
                 <i class="fas fa-exclamation-circle"></i> Por favor, preencha todos os campos.
             </div>
         </div>
@@ -718,30 +784,30 @@
     </div>
 
     <!-- Modal para Devolução (Admin) -->
-    <div id="return-modal" class="modal">
+    <div id="admin-return-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2><i class="fas fa-undo"></i> Registrar Devolução</h2>
+                <h2><i class="fas fa-undo"></i> Registrar Devolução (Admin)</h2>
                 <span class="close">&times;</span>
             </div>
             <div class="form-group">
-                <label for="return-item">Selecionar Item:</label>
-                <select id="return-item">
+                <label for="admin-return-item">Selecionar Item:</label>
+                <select id="admin-return-item">
                     <option value="">Selecione um item</option>
                     <!-- Opções preenchidas via JavaScript -->
                 </select>
             </div>
             <div class="form-group">
-                <label for="return-notes">Observações:</label>
-                <textarea id="return-notes" rows="3" placeholder="Observações da devolução"></textarea>
+                <label for="admin-return-notes">Observações:</label>
+                <textarea id="admin-return-notes" rows="3" placeholder="Observações da devolução"></textarea>
             </div>
             
-            <button id="confirm-return"><i class="fas fa-check"></i> Confirmar Devolução</button>
+            <button id="confirm-admin-return"><i class="fas fa-check"></i> Confirmar Devolução</button>
             
-            <div id="return-success-message" class="success-message">
+            <div id="admin-return-success-message" class="success-message">
                 <i class="fas fa-check-circle"></i> Devolução registrada com sucesso!
             </div>
-            <div id="return-error-message" class="error-message">
+            <div id="admin-return-error-message" class="error-message">
                 <i class="fas fa-exclamation-circle"></i> Por favor, selecione um item para devolver.
             </div>
         </div>
@@ -818,6 +884,7 @@
         let activityLog = [];
         const ADMIN_NUMBER = "5585985691148";
         let isAdminMode = false;
+        let currentUserName = "";
         
         // Configurações de notificação
         let notificationSettings = {
@@ -856,7 +923,7 @@
             checkAdminStatus();
             
             // Atualizar o link de acesso do usuário
-            document.getElementById('user-access-link').value = window.location.href;
+            document.getElementById('user-access-link').value = window.location.href.split('?')[0];
         }
 
         // Função para verificar se é admin
@@ -883,6 +950,8 @@
                 document.getElementById('admin-bar').style.display = 'none';
                 document.getElementById('user-bar').style.display = 'flex';
             }
+            
+            updateMyItemsList();
         }
 
         // Função para salvar materiais no localStorage
@@ -1034,7 +1103,7 @@
                         returnBtn.className = 'action-btn secondary-btn';
                         returnBtn.innerHTML = '<i class="fas fa-undo"></i>';
                         returnBtn.title = 'Devolver';
-                        returnBtn.onclick = () => openReturnModal(material.id);
+                        returnBtn.onclick = () => openAdminReturnModal(material.id);
                         actionsCell.appendChild(returnBtn);
                     }
                     
@@ -1062,6 +1131,43 @@
             
             // Atualizar lista de itens atrasados
             updateOverdueList();
+            
+            // Atualizar lista de meus itens
+            updateMyItemsList();
+        }
+
+        // Função para atualizar a lista de meus itens (para usuários)
+        function updateMyItemsList() {
+            const myItemsList = document.getElementById('my-items-list');
+            myItemsList.innerHTML = '';
+            
+            if (!currentUserName) {
+                myItemsList.innerHTML = '<p>Digite seu nome para ver os materiais que você retirou.</p>';
+                return;
+            }
+            
+            const myItems = materials.filter(m => m.responsible === currentUserName && (m.status === 'borrowed' || m.status === 'overdue'));
+            
+            if (myItems.length === 0) {
+                myItemsList.innerHTML = '<p>Você não possui materiais no momento.</p>';
+                return;
+            }
+            
+            myItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'my-item';
+                
+                const itemInfo = document.createElement('div');
+                itemInfo.innerHTML = `<strong>${item.name}</strong> - Retirado em: ${item.borrowDate}`;
+                
+                const deadlineInfo = document.createElement('div');
+                deadlineInfo.innerHTML = `Devolução: ${item.deadline}`;
+                
+                itemElement.appendChild(itemInfo);
+                itemElement.appendChild(deadlineInfo);
+                
+                myItemsList.appendChild(itemElement);
+            });
         }
 
         // Função para atualizar a lista de itens atrasados
@@ -1164,6 +1270,83 @@
             }, 2000);
         }
 
+        // Função para abrir o modal de devolução (usuário)
+        function openUserReturnModal() {
+            const modal = document.getElementById('user-return-modal');
+            const itemSelect = document.getElementById('user-return-item');
+            
+            // Limpar seleção anterior
+            itemSelect.innerHTML = '<option value="">Selecione um item</option>';
+            
+            // Preencher com itens do usuário atual
+            if (currentUserName) {
+                materials.filter(m => m.responsible === currentUserName && (m.status === 'borrowed' || m.status === 'overdue')).forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.textContent = `${item.name} (Retirado em: ${item.borrowDate})`;
+                    itemSelect.appendChild(option);
+                });
+            }
+            
+            // Limpar mensagens
+            document.getElementById('user-return-success-message').style.display = 'none';
+            document.getElementById('user-return-error-message').style.display = 'none';
+            
+            modal.style.display = 'flex';
+        }
+
+        // Função para confirmar devolução (usuário)
+        function confirmUserReturn() {
+            const itemId = parseInt(document.getElementById('user-return-item').value);
+            const responsible = document.getElementById('returner-name').value.trim();
+            
+            if (!itemId || !responsible) {
+                document.getElementById('user-return-error-message').style.display = 'block';
+                return;
+            }
+            
+            const itemIndex = materials.findIndex(m => m.id === itemId);
+            if (itemIndex === -1) return;
+            
+            // Verificar se o item realmente pertence a esta pessoa
+            if (materials[itemIndex].responsible !== responsible) {
+                document.getElementById('user-return-error-message').textContent = 'Este item não está em seu nome.';
+                document.getElementById('user-return-error-message').style.display = 'block';
+                return;
+            }
+            
+            const item = materials[itemIndex];
+            
+            // Atualizar status do item
+            materials[itemIndex].status = 'available';
+            materials[itemIndex].responsible = '';
+            materials[itemIndex].borrowDate = '';
+            materials[itemIndex].deadline = '';
+            
+            // Adicionar ao log
+            addToLog(itemId, 'Devolução', { responsible });
+            
+            // Salvar alterações
+            saveMaterials();
+            
+            // Atualizar interface
+            updateMaterialsList();
+            
+            // Mostrar mensagem de sucesso
+            document.getElementById('user-return-success-message').style.display = 'block';
+            document.getElementById('user-return-error-message').style.display = 'none';
+            
+            // Enviar notificação para o administrador se configurado
+            if (notificationSettings.notifyReturn) {
+                sendReturnNotification(item);
+            }
+            
+            // Fechar modal após 2 segundos
+            setTimeout(() => {
+                document.getElementById('user-return-modal').style.display = 'none';
+            }, 2000);
+        }
+
         // Função para enviar notificação de empréstimo
         function sendBorrowNotification(item) {
             const adminNumber = notificationSettings.notificationNumber;
@@ -1185,9 +1368,9 @@
         }
 
         // Função para abrir o modal de devolução (admin)
-        function openReturnModal(itemId = null) {
-            const modal = document.getElementById('return-modal');
-            const itemSelect = document.getElementById('return-item');
+        function openAdminReturnModal(itemId = null) {
+            const modal = document.getElementById('admin-return-modal');
+            const itemSelect = document.getElementById('admin-return-item');
             
             // Limpar seleção anterior
             itemSelect.innerHTML = '<option value="">Selecione um item</option>';
@@ -1204,19 +1387,19 @@
             });
             
             // Limpar mensagens
-            document.getElementById('return-success-message').style.display = 'none';
-            document.getElementById('return-error-message').style.display = 'none';
+            document.getElementById('admin-return-success-message').style.display = 'none';
+            document.getElementById('admin-return-error-message').style.display = 'none';
             
             modal.style.display = 'flex';
         }
 
         // Função para confirmar devolução (admin)
-        function confirmReturn() {
-            const itemId = parseInt(document.getElementById('return-item').value);
-            const notes = document.getElementById('return-notes').value.trim();
+        function confirmAdminReturn() {
+            const itemId = parseInt(document.getElementById('admin-return-item').value);
+            const notes = document.getElementById('admin-return-notes').value.trim();
             
             if (!itemId) {
-                document.getElementById('return-error-message').style.display = 'block';
+                document.getElementById('admin-return-error-message').style.display = 'block';
                 return;
             }
             
@@ -1232,7 +1415,7 @@
             materials[itemIndex].deadline = '';
             
             // Adicionar ao log
-            addToLog(itemId, 'Devolução', { notes, responsible: item.responsible });
+            addToLog(itemId, 'Devolução (Admin)', { notes, responsible: item.responsible });
             
             // Salvar alterações
             saveMaterials();
@@ -1241,8 +1424,8 @@
             updateMaterialsList();
             
             // Mostrar mensagem de sucesso
-            document.getElementById('return-success-message').style.display = 'block';
-            document.getElementById('return-error-message').style.display = 'none';
+            document.getElementById('admin-return-success-message').style.display = 'block';
+            document.getElementById('admin-return-error-message').style.display = 'none';
             
             // Enviar notificação para o administrador se configurado
             if (notificationSettings.notifyReturn) {
@@ -1251,7 +1434,7 @@
             
             // Fechar modal após 2 segundos
             setTimeout(() => {
-                document.getElementById('return-modal').style.display = 'none';
+                document.getElementById('admin-return-modal').style.display = 'none';
             }, 2000);
         }
 
@@ -1341,7 +1524,7 @@
             const systemLink = document.getElementById('user-access-link').value;
             
             // Montar mensagem
-            const message = `Olá! Use este link para acessar o sistema de controle de ferramentas da Energia Pecém e fazer retiradas de materiais: ${systemLink}`;
+            const message = `Olá! Use este link para acessar o sistema de controle de ferramentas da Energia Pecém e fazer retiradas e devoluções de materiais: ${systemLink}`;
             
             // Codificar a mensagem para URL
             const encodedMessage = encodeURIComponent(message);
@@ -1394,7 +1577,7 @@
         function checkOverdueItems() {
             const today = new Date();
             
-            materials.forEach((item, index) => {
+            materials.forEach((item, index) {
                 if (item.status === 'borrowed' && item.deadline) {
                     const deadlineDate = new Date(item.deadline);
                     if (today > deadlineDate) {
@@ -1447,13 +1630,22 @@
 
         // Função para limpar todos os dados
         function clearAllData() {
-            if (confirm('Tem certeza que deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
+            if (confirm('Tem certeza que deseja limpar todos os dados? Esta ação não pode be desfeita.')) {
                 localStorage.removeItem('materials');
                 localStorage.removeItem('activityLog');
                 localStorage.removeItem('notificationSettings');
                 
                 // Recarregar a página para reinicializar os dados
                 location.reload();
+            }
+        }
+
+        // Função para armazenar o nome do usuário atual
+        function setCurrentUserName() {
+            const nameInput = document.getElementById('user-name');
+            if (nameInput.value.trim()) {
+                currentUserName = nameInput.value.trim();
+                updateMyItemsList();
             }
         }
 
@@ -1469,10 +1661,11 @@
             
             // Event listeners para os botões (usuário)
             document.getElementById('user-borrow-btn').addEventListener('click', openUserBorrowModal);
+            document.getElementById('user-return-btn').addEventListener('click', openUserReturnModal);
             document.getElementById('user-share-btn').addEventListener('click', () => document.getElementById('share-modal').style.display = 'flex');
             
             // Event listeners para os botões (admin)
-            document.getElementById('return-btn').addEventListener('click', () => openReturnModal());
+            document.getElementById('admin-return-btn').addEventListener('click', () => openAdminReturnModal());
             document.getElementById('maintenance-btn').addEventListener('click', () => openMaintenanceModal());
             document.getElementById('admin-alerts-btn').addEventListener('click', () => document.getElementById('admin-alerts-modal').style.display = 'flex');
             document.getElementById('notification-settings-btn').addEventListener('click', () => document.getElementById('notification-modal').style.display = 'flex');
@@ -1480,11 +1673,19 @@
             
             // Event listeners para confirmar ações
             document.getElementById('confirm-user-borrow').addEventListener('click', confirmUserBorrow);
-            document.getElementById('confirm-return').addEventListener('click', confirmReturn);
+            document.getElementById('confirm-user-return').addEventListener('click', confirmUserReturn);
+            document.getElementById('confirm-admin-return').addEventListener('click', confirmAdminReturn);
             document.getElementById('confirm-maintenance').addEventListener('click', confirmMaintenance);
             document.getElementById('btn-share-user-access').addEventListener('click', shareUserAccess);
             document.getElementById('copy-user-link-btn').addEventListener('click', copyUserAccessLink);
             document.getElementById('save-notification-settings').addEventListener('click', saveNotificationSettings);
+            
+            // Armazenar nome do usuário quando digitar
+            document.getElementById('user-name').addEventListener('change', setCurrentUserName);
+            document.getElementById('returner-name').addEventListener('change', function() {
+                currentUserName = this.value.trim();
+                updateMyItemsList();
+            });
             
             // Fechar modais ao clicar no X
             document.querySelectorAll('.close').forEach(closeBtn => {
