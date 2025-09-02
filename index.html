@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Ferramentas - Energia Pecém</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c3e50"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        header h1 {
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+        
+        header p {
+            opacity: 0.9;
+        }
+        
+        .admin-bar {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .card h2 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
+        
+        .stat-item h3 {
+            font-size: 24px;
+            color: #2c3e50;
+        }
+        
+        .stat-item p {
+            color: #6c757d;
+        }
+        
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 12px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .secondary-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+        }
+        
+        .danger-btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+        
+        .admin-btn {
+            background: linear-gradient(135deg, #f39c12 0%, #d35400 100%);
+        }
+        
+        .materials-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .materials-table th, .materials-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .materials-table th {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        .materials-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .materials-table tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .available {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .borrowed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .maintenance {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .overdue {
+            background-color: #e74c3c;
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .close {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        .log-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        
+        .log-table th, .log-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .log-table th {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        .copy-link {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .copy-link input {
+            border-radius: 8px 0 0 8px;
+            margin: 0;
+        }
+        
+        .copy-link button {
+            border-radius: 0 8px 8px 0;
+            white-space: nowrap;
+        }
+        
+        .overdue-list {
+            margin-top: 15px;
+            border: 1px solid #e74c3c;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: #fdf2f2;
+        }
+        
+        .overdue-list h3 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .overdue-item {
+            padding: 10px;
+            border-bottom: 1px solid #f8d7da;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .overdue-item:last-child {
+            border-bottom: none;
+        }
+        
+        .mobile-warning {
+            display: none;
+            background-color: #ffcc00;
+            color: #333;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .install-prompt {
+            background-color: #e7f3ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .install-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            margin-top: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-warning {
+                display: block;
+            }
+            
+            .install-prompt {
+                display: block;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .copy-link {
+                flex-direction: column;
+            }
+            
+            .copy-link input {
+                border-radius: 8px;
+                margin-bottom: 5px;
+            }
+            
+            .copy-link button {
+                border-radius: 8px;
+            }
+            
+            .admin-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .action-buttons button {
+                padding: 10px;
+                font-size: 12px;
+            }
+            
+            .materials-table {
+                font-size: 12px;
+            }
+            
+            .materials-table th, 
+            .materials-table td {
+                padding: 8px 4px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 20px;
+            }
+            
+            .card h2 {
+                font-size: 18px;
+            }
+            
+            button {
+                font-size: 14px;
+            }
+            
+            .stat-item h3 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="mobile-warning">
+            <i class="fas fa-mobile-alt"></i> Otimizado para dispositivos móveis
+        </div>
+        
+        <div class="install-prompt" id="installPrompt">
+            <p>Instale este aplicativo no seu dispositivo para acesso rápido:</p>
+            <button class="install-btn" id="installBtn">
+                <i class="fas fa-download"></i> Instalar Aplicativo
+            </button>
+        </div>
+        
+        <header>
+            <h1><i class="fas fa-bolt"></i> Controle de Ferramentas Elétricas - Energia Pecém</h1>
+            <p>Gerencie o empréstimo e devolução de equipamentos</p>
+        </header>
+        
+        <div class="admin-bar">
+            <div>
+                <i class="fas fa-user-shield"></i> Modo Administrador: Gilberlen (5585985691148)
+            </div>
+            <button class="admin-btn" id="admin-report-btn">
+                <i class="fas fa-file-pdf"></i> Gerar Relatório
+            </button>
+        </div>
+        
+        <div class="dashboard">
+            <div>
+                <div class="card">
+                    <h2><i class="fas fa-chart-bar"></i> Estatísticas</h2>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <h3 id="total-items">0</h3>
+                            <p>Total de Itens</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3 id="available-items">0</h3>
+                            <p>Disponíveis</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3 id="borrowed-items">0</h3>
+                            <p>Emprestados</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3 id="overdue-items">0</h3>
+                            <p>Atrasados</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2><i class="fas fa-cog"></i> Ações</h2>
+                    <div class="actions">
+                        <button id="borrow-btn"><i class="fas fa-hand-holding"></i> Registrar Empréstimo</button>
+                        <button id="return-btn"><i class="fas fa-undo"></i> Registrar Devolução</button>
+                        <button id="maintenance-btn"><i class="fas fa-tools"></i> Registrar Manutenção</button>
+                        <button class="secondary-btn" id="share-btn"><i class="fab fa-whatsapp"></i> Compartilhar Sistema</button>
+                        <button class="admin-btn" id="admin-alerts-btn"><i class="fab fa-whatsapp"></i> Alertas WhatsApp</button>
+                        <button class="danger-btn" id="clear-data-btn"><i class="fas fa-trash"></i> Limpar Dados</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><i class="fas fa-history"></i> Últimos Registros</h2>
+                    <div style="overflow-x: auto;">
+                        <table class="log-table">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Item</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="log-list">
+                                <!-- Os registros serão preenchidos via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="card">
+                    <h2><i class="fas fa-tools"></i> Lista de Materiais</h2>
+                    <div style="overflow-x: auto;">
+                        <table class="materials-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Item</th>
+                                    <th>Quantidade</th>
+                                    <th>Status</th>
+                                    <th>Responsável</th>
+                                    <th>Data Empréstimo</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="materials-list">
+                                <!-- Os itens serão preenchidos via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Itens com Devolução Atrasada</h2>
+                    <div id="overdue-items-list" class="overdue-list">
+                        <!-- Itens atrasados serão preenchidos via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Compartilhar -->
+    <div id="share-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fab fa-whatsapp"></i> Compartilhar Sistema</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="form-group">
+                <label for="whatsapp-number"><i class="fas fa-phone"></i> Número do Destinatário (com DDD):</label>
+                <input type="text" id="whatsapp-number" placeholder="Ex: 5585985691148">
+            </div>
+            
+            <div class="form-group">
+                <label for="custom-message"><i class="fas fa-comment"></i> Mensagem Personalizada:</label>
+                <textarea id="custom-message" rows="4">Olá! Aqui está o link para o sistema de controle de ferramentas elétricas da Energia Pecém. Acesse para registrar retiradas e devoluções.</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-link"></i> Link do Sistema:</label>
+                <div class="copy-link">
+                    <input type="text" id="system-link" readonly value="">
+                    <button id="copy-link-btn"><i class="fas fa-copy"></i> Copiar</button>
+                </div>
+            </div>
+            
+            <button id="btn-whatsapp"><i class="fab fa-whatsapp"></i> Enviar Link via WhatsApp</button>
+            
+            <div id="share-success-message" class="success-message">
+                <i class="fas fa-check-circle"></i> Mensagem preparada com sucesso!
+            </div>
+            <div id="share-error-message" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> Por favor, informe um número de WhatsApp válido.
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Alertas Administrativos -->
+    <div id="admin-alerts-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fab fa-whatsapp"></i> Alertas WhatsApp - Administrador</h2>
+                <span class="close">&times;</span>
+            </div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-user-shield"></i> Número do Administrador:</label>
+                <input type="text" id="admin-number" value="5585985691148" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="alert-type"><i class="fas fa-bell"></i> Tipo de Alerta:</label>
+                <select id="alert-type">
+                    <option value="overdue">Itens com Devolução Atrasada</option>
+                    <option value="all-borrowed">Todos os Itens Emprestados</option>
+                    <option value="maintenance">Itens em Manutenção</option>
+                    <option value="custom">Mensagem Personalizada</option>
+                </select>
+            </div>
+            
+            <div id="custom-alert-section" class="form-group" style="display: none;">
+                <label for="custom-alert-message"><i class="fas fa-comment"></i> Mensagem Personalizada:</label>
+                <textarea id="custom-alert-message" rows="4" placeholder="Digite sua mensagem personalizada"></textarea>
+            </div>
+            
+            <button id="send-alert-btn"><i class="fab fa-whatsapp"></i> Enviar Alerta via WhatsApp</button>
+            
+            <div id="alert-success-message" class="success-message">
+                <i class="fas fa-check-circle"></i> Alerta enviado com sucesso!
+            </div>
+            <div id="alert-error-message" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> Erro ao enviar alerta.
+            </div>
+            
+            <div class="overdue-list" style="margin-top: 20px;">
+                <h3><i class="fas fa-list"></i> Itens Atrasados</h3>
+                <div id="alert-overdue-items">
+                    <!-- Itens atrasados para alerta -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Empréstimo -->
+    <div id="borrow-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-hand-holding"></i> Registrar Empréstimo</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="form-group">
+                <label for="borrow-item">Selecionar Item:</label>
+                <select id="borrow-item">
+                    <option value="">Selecione um item</option>
+                    <!-- Opções preenchidas via JavaScript -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="borrow-person">Responsável:</label>
+                <input type="text" id="borrow-person" placeholder="Nome do responsável">
+            </div>
+            <div class="form-group">
+                <label for="borrow-deadline">Prazo de Devolução:</label>
+                <input type="date" id="borrow-deadline">
+            </div>
+            <div class="form-group">
+                <label for="borrow-notes">Observações:</label>
+                <textarea id="borrow-notes" rows="3" placeholder="Observações adicionais"></textarea>
+            </div>
+            
+            <button id="confirm-borrow"><i class="fas fa-check"></i> Confirmar Empréstimo</button>
+            
+            <div id="borrow-success-message" class="success-message">
+                <i class="fas fa-check-circle"></i> Empréstimo registrado com sucesso!
+            </div>
+            <div id="borrow-error-message" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> Por favor, preencha todos os campos obrigatórios.
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Devolução -->
+    <div id="return-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-undo"></i> Registrar Devolução</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="form-group">
+                <label for="return-item">Selecionar Item:</label>
+                <select id="return-item">
+                    <option value="">Selecione um item</option>
+                    <!-- Opções preenchidas via JavaScript -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="return-notes">Observações:</label>
+                <textarea id="return-notes" rows="3" placeholder="Observações da devolução"></textarea>
+            </div>
+            
+            <button id="confirm-return"><i class="fas fa-check"></i> Confirmar Devolução</button>
+            
+            <div id="return-success-message" class="success-message">
+                <i class="fas fa-check-circle"></i> Devolução registrada com sucesso!
+            </div>
+            <div id="return-error-message" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> Por favor, selecione um item para devolver.
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Manutenção -->
+    <div id="maintenance-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-tools"></i> Registrar Manutenção</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="form-group">
+                <label for="maintenance-item">Selecionar Item:</label>
+                <select id="maintenance-item">
+                    <option value="">Selecione um item</option>
+                    <!-- Opções preenchidas via JavaScript -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="maintenance-notes">Detalhes da Manutenção:</label>
+                <textarea id="maintenance-notes" rows="3" placeholder="Descreva os problemas e reparos"></textarea>
+            </div>
+            
+            <button id="confirm-maintenance"><i class="fas fa-check"></i> Registrar Manutenção</button>
+            
+            <div id="maintenance-success-message" class="success-message">
+                <i class="fas fa-check-circle"></i> Manutenção registrada com sucesso!
+            </div>
+            <div id="maintenance-error-message" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> Por favor, selecione um item para manutenção.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados iniciais dos materiais
+        const initialMaterials = [
+            { id: 1, name: "ABB EKIP T&P", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 2, name: "Analisador de Energia Fluke 437-II", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 3, name: "Calibrador RTD Fluke 712B", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 4, name: "Câmera Termográfica Flir", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 5, name: "Certificador de Cabos Fluke", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 6, name: "Conprove CE-7012", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 7, name: "Detector de Alta Tensão 1Kv-800Kv", quantity: 4, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 8, name: "Detector de Cabos Amprobe AT-8000", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 9, name: "Detector de Fase Fluke", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 10, name: "Detector Tensão de Contato 70Va-1Kv", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 11, name: "Luximetro Fluke 941", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 12, name: "Mala de Ensaios Omicron", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 13, name: "Megger Fluke 5Kv", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 14, name: "Megger Fluke 10Kv", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 15, name: "Microhmimetro Instrutemp Microhm 200", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 16, name: "Miliohmimetro Kocos Promet L100", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 17, name: "Osciloscopio Fluke 190-502 scopmetter", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 18, name: "Tacometro Monarch PLT200", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 19, name: "Terrometro Fluke 1625", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 20, name: "Alta Temperatura infravermelho Fluke 572", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 21, name: "Analizador de Bateria BT 521 Fluke", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 22, name: "Detector de Tensão de Contato 3,8Kv-36Kv", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 23, name: "Digital Ratiometer for Transformers DTR 8510 Fluke", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 24, name: "Interruptor a Vacuo Viddar Megger", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 25, name: "Medidor de irradiancia Solar Fluke IRR2-BT", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 26, name: "Miliamperimetro", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 27, name: "Osciloscopio Fluke125B", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 28, name: "Trena a Laser Fluke", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 29, name: "Detector de Tensão de Contato 180Kv-540Kv", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 30, name: "Termômetro Infravermelho Fluke 62 MAX IR", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 31, name: "Detector de Tensão de Contato 1Kv-800KV", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" }
+        ];
+
+        // Array para armazenar os materiais
+        let materials = [];
+        let activityLog = [];
+        const ADMIN_NUMBER = "5585985691148";
+
+        // Função para inicializar os dados
+        function initializeData() {
+            const storedMaterials = localStorage.getItem('materials');
+            const storedLog = localStorage.getItem('activityLog');
+            
+            if (storedMaterials) {
+                materials = JSON.parse(storedMaterials);
+            } else {
+                materials = JSON.parse(JSON.stringify(initialMaterials));
+                saveMaterials();
+            }
+            
+            if (storedLog) {
+                activityLog = JSON.parse(storedLog);
+            } else {
+                activityLog = [];
+                saveLog();
+            }
+            
+            // Atualizar o link do sistema
+            document.getElementById('system-link').value = window.location.href;
+        }
+
+        // Função para salvar materiais no localStorage
+        function saveMaterials() {
+            localStorage.setItem('materials', JSON.stringify(materials));
+        }
+
+        // Função para salvar log de atividades no localStorage
+        function saveLog() {
+            localStorage.setItem('activityLog', JSON.stringify(activityLog));
+        }
+
+        // Função para adicionar registro ao log
+        function addToLog(itemId, action, details = {}) {
+            const item = materials.find(m => m.id === itemId);
+            if (!item) return;
+            
+            const logEntry = {
+                id: Date.now(),
+                timestamp: new Date().toLocaleString('pt-BR'),
+                itemId: itemId,
+                itemName: item.name,
+                action: action,
+                details: details
+            };
+            
+            activityLog.unshift(logEntry);
+            if (activityLog.length > 10) activityLog = activityLog.slice(0, 10);
+            saveLog();
+            renderActivityLog();
+        }
+
+        // Função para renderizar a lista de materiais
+        function renderMaterialsList() {
+            const materialsList = document.getElementById('materials-list');
+            materialsList.innerHTML = '';
+            
+            materials.forEach(material => {
+                const row = document.createElement('tr');
+                
+                let statusClass = '';
+                let statusText = '';
+                
+                // Verificar se o item está atrasado
+                const isOverdue = material.status === 'borrowed' && material.deadline && 
+                                 new Date(material.deadline) < new Date();
+                
+                switch(material.status) {
+                    case 'available':
+                        statusClass = 'available';
+                        statusText = 'Disponível';
+                        break;
+                    case 'borrowed':
+                        statusClass = isOverdue ? 'overdue' : 'borrowed';
+                        statusText = isOverdue ? 'Atrasado' : 'Emprestado';
+                        break;
+                    case 'maintenance':
+                        statusClass = 'maintenance';
+                        statusText = 'Manutenção';
+                        break;
+                }
+                
+                // Formatar data de empréstimo
+                const borrowDate = material.borrowDate ? 
+                    new Date(material.borrowDate).toLocaleDateString('pt-BR') : '-';
+                
+                // Formatar prazo de devolução
+                const deadline = material.deadline ? 
+                    new Date(material.deadline).toLocaleDateString('pt-BR') : '-';
+                
+                row.innerHTML = `
+                    <td>${material.id}</td>
+                    <td>${material.name}</td>
+                    <td>${material.quantity}</td>
+                    <td><span class="status ${statusClass}">${statusText}</span></td>
+                    <td>${material.responsible || '-'}</td>
+                    <td>${borrowDate} ${material.deadline ? `<br><small>Devolver: ${deadline}</small>` : ''}</td>
+                    <td class="action-buttons">
+                        ${material.status === 'available' ? 
+                            `<button class="action-btn borrow-action" data-id="${material.id}">
+                                <i class="fas fa-hand-holding"></i> Emprestar
+                            </button>` : ''}
+                        ${material.status === 'borrowed' ? 
+                            `<button class="action-btn return-action" data-id="${material.id}">
+                                <i class="fas fa-undo"></i> Devolver
+                            </button>` : ''}
+                        ${material.status !== 'maintenance' ? 
+                            `<button class="action-btn secondary-btn maintenance-action" data-id="${material.id}">
+                                <i class="fas fa-tools"></i> Manutenção
+                            </button>` : 
+                            `<button class="action-btn available-action" data-id="${material.id}">
+                                <i class="fas fa-check"></i> Disponibilizar
+                            </button>`}
+                    </td>
+                `;
+                
+                materialsList.appendChild(row);
+            });
+            
+            // Atualizar lista de itens atrasados
+            renderOverdueItems();
+            
+            // Adicionar event listeners aos botões de ação
+            document.querySelectorAll('.borrow-action').forEach(btn => {
+                btn.addEventListener('click', () => openBorrowModal(parseInt(btn.dataset.id)));
+            });
+            
+            document.querySelectorAll('.return-action').forEach(btn => {
+                btn.addEventListener('click', () => openReturnModal(parseInt(btn.dataset.id)));
+            });
+            
+            document.querySelectorAll('.maintenance-action').forEach(btn => {
+                btn.addEventListener('click', () => openMaintenanceModal(parseInt(btn.dataset.id)));
+            });
+            
+            document.querySelectorAll('.available-action').forEach(btn => {
+                btn.addEventListener('click', () => setItemAvailable(parseInt(btn.dataset.id)));
+            });
+            
+            updateStats();
+            updateSelectOptions();
+        }
+        
+        // Função para renderizar itens atrasados
+        function renderOverdueItems() {
+            const overdueList = document.getElementById('overdue-items-list');
+            const alertOverdueList = document.getElementById('alert-overdue-items');
+            
+            // Encontrar itens atrasados
+            const overdueItems = materials.filter(m => 
+                m.status === 'borrowed' && m.deadline && new Date(m.deadline) < new Date()
+            );
+            
+            if (overdueItems.length === 0) {
+                overdueList.innerHTML = '<p>Nenhum item com devolução atrasada.</p>';
+                alertOverdueList.innerHTML = '<p>Nenhum item com devolução atrasada.</p>';
+                return;
+            }
+            
+            overdueList.innerHTML = '';
+            alertOverdueList.innerHTML = '';
+            
+            overdueItems.forEach(item => {
+                const daysOverdue = Math.floor((new Date() - new Date(item.deadline)) / (1000 * 60 * 60 * 24));
+                
+                const overdueItem = document.createElement('div');
+                overdueItem.className = 'overdue-item';
+                overdueItem.innerHTML = `
+                    <div>
+                        <strong>${item.name}</strong><br>
+                        <small>Responsável: ${item.responsible}</small><br>
+                        <small>Atraso: ${daysOverdue} dia(s)</small>
+                    </div>
+                    <div>
+                        <button class="action-btn return-action" data-id="${item.id}">
+                            <i class="fas fa-undo"></i> Devolver
+                        </button>
+                    </div>
+                `;
+                
+                overdueList.appendChild(overdueItem.cloneNode(true));
+                alertOverdueList.appendChild(overdueItem);
+            });
+            
+            // Adicionar event listeners aos botões de devolução
+            document.querySelectorAll('#overdue-items-list .return-action').forEach(btn => {
+                btn.addEventListener('click', () => openReturnModal(parseInt(btn.dataset.id)));
+            });
+        }
+        
+        // Função para renderizar o log de atividades
+        function renderActivityLog() {
+            const logList = document.getElementById('log-list');
+            logList.innerHTML = '';
+            
+            activityLog.forEach(log => {
+                const row = document.createElement('tr');
+                
+                let actionText = '';
+                switch(log.action) {
+                    case 'borrow':
+                        actionText = `Emprestado para ${log.details.responsible}`;
+                        if (log.details.deadline) {
+                            actionText += ` (Devolução: ${new Date(log.details.deadline).toLocaleDateString('pt-BR')})`;
+                        }
+                        break;
+                    case 'return':
+                        actionText = 'Devolvido';
+                        if (log.details.notes) actionText += ` - ${log.details.notes}`;
+                        break;
+                    case 'maintenance':
+                        actionText = 'Enviado para manutenção';
+                        if (log.details.notes) actionText += ` - ${log.details.notes}`;
+                        break;
+                    case 'available':
+                        actionText = 'Disponibilizado';
+                        break;
+                }
+                
+                row.innerHTML = `
+                    <td>${log.timestamp}</td>
+                    <td>${log.itemName}</td>
+                    <td>${actionText}</td>
+                `;
+                
+                logList.appendChild(row);
+            });
+        }
+        
+        // Função para atualizar as estatísticas
+        function updateStats() {
+            const totalItems = materials.length;
+            const availableItems = materials.filter(m => m.status === 'available').length;
+            const borrowedItems = materials.filter(m => m.status === 'borrowed').length;
+            const overdueItems = materials.filter(m => 
+                m.status === 'borrowed' && m.deadline && new Date(m.deadline) < new Date()
+            ).length;
+            
+            document.getElementById('total-items').textContent = totalItems;
+            document.getElementById('available-items').textContent = availableItems;
+            document.getElementById('borrowed-items').textContent = borrowedItems;
+            document.getElementById('overdue-items').textContent = overdueItems;
+        }
+        
+        // Função para atualizar opções dos selects
+        function updateSelectOptions() {
+            const borrowSelect = document.getElementById('borrow-item');
+            const returnSelect = document.getElementById('return-item');
+            const maintenanceSelect = document.getElementById('maintenance-item');
+            
+            // Limpar selects
+            borrowSelect.innerHTML = '<option value="">Selecione um item</option>';
+            returnSelect.innerHTML = '<option value="">Selecione um item</option>';
+            maintenanceSelect.innerHTML = '<option value="">Selecione um item</option>';
+            
+            // Preencher selects
+            materials.forEach(material => {
+                if (material.status === 'available') {
+                    const option = document.createElement('option');
+                    option.value = material.id;
+                    option.textContent = `${material.id} - ${material.name}`;
+                    borrowSelect.appendChild(option);
+                    
+                    const option2 = document.createElement('option');
+                    option2.value = material.id;
+                    option2.textContent = `${material.id} - ${material.name}`;
+                    maintenanceSelect.appendChild(option2);
+                }
+                
+                if (material.status === 'borrowed') {
+                    const option = document.createElement('option');
+                    option.value = material.id;
+                    option.textContent = `${material.id} - ${material.name} (${material.responsible})`;
+                    returnSelect.appendChild(option);
+                }
+                
+                if (material.status !== 'maintenance') {
+                    const option = document.createElement('option');
+                    option.value = material.id;
+                    option.textContent = `${material.id} - ${material.name}`;
+                    maintenanceSelect.appendChild(option);
+                }
+            });
+        }
+        
+        // Função para abrir modal
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+        
+        // Função para fechar modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            // Limpar mensagens de erro/sucesso
+            document.querySelectorAll('.success-message, .error-message').forEach(msg => {
+                msg.style.display = 'none';
+            });
+        }
+        
+        // Função para abrir modal de empréstimo
+        function openBorrowModal(itemId = null) {
+            if (itemId) {
+                document.getElementById('borrow-item').value = itemId;
+            }
+            
+            // Definir data padrão para 7 dias à frente
+            const nextWeek = new Date();
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            document.getElementById('borrow-deadline').value = nextWeek.toISOString().split('T')[0];
+            
+            openModal('borrow-modal');
+        }
+        
+        // Função para abrir modal de devolução
+        function openReturnModal(itemId = null) {
+            if (itemId) {
+                document.getElementById('return-item').value = itemId;
+            }
+            openModal('return-modal');
+        }
+        
+        // Função para abrir modal de manutenção
+        function openMaintenanceModal(itemId = null) {
+            if (itemId) {
+                document.getElementById('maintenance-item').value = itemId;
+            }
+            openModal('maintenance-modal');
+        }
+        
+        // Função para abrir modal de alertas administrativos
+        function openAdminAlertsModal() {
+            // Atualizar lista de itens atrasados no modal
+            renderOverdueItems();
+            openModal('admin-alerts-modal');
+        }
+        
+        // Função para registrar empréstimo
+        function registerBorrow() {
+            const itemId = parseInt(document.getElementById('borrow-item').value);
+            const responsible = document.getElementById('borrow-person').value.trim();
+            const deadline = document.getElementById('borrow-deadline').value;
+            const notes = document.getElementById('borrow-notes').value.trim();
+            
+            if (!itemId || !responsible || !deadline) {
+                document.getElementById('borrow-error-message').style.display = 'block';
+                return;
+            }
+            
+            const itemIndex = materials.findIndex(m => m.id === itemId);
+            if (itemIndex === -1) return;
+            
+            materials[itemIndex].status = 'borrowed';
+            materials[itemIndex].responsible = responsible;
+            materials[itemIndex].borrowDate = new Date().toISOString();
+            materials[itemIndex].deadline = deadline;
+            saveMaterials();
+            
+            addToLog(itemId, 'borrow', { responsible, deadline, notes });
+            
+            document.getElementById('borrow-success-message').style.display = 'block';
+            document.getElementById('borrow-error-message').style.display = 'none';
+            
+            // Limpar formulário
+            document.getElementById('borrow-person').value = '';
+            document.getElementById('borrow-notes').value = '';
+            
+            renderMaterialsList();
+            
+            setTimeout(() => {
+                closeModal('borrow-modal');
+            }, 1500);
+        }
+        
+        // Função para registrar devolução
+        function registerReturn() {
+            const itemId = parseInt(document.getElementById('return-item').value);
+            const notes = document.getElementById('return-notes').value.trim();
+            
+            if (!itemId) {
+                document.getElementById('return-error-message').style.display = 'block';
+                return;
+            }
+            
+            const itemIndex = materials.findIndex(m => m.id === itemId);
+            if (itemIndex === -1) return;
+            
+            materials[itemIndex].status = 'available';
+            const responsible = materials[itemIndex].responsible;
+            materials[itemIndex].responsible = '';
+            materials[itemIndex].borrowDate = '';
+            materials[itemIndex].deadline = '';
+            saveMaterials();
+            
+            addToLog(itemId, 'return', { notes, previousResponsible: responsible });
+            
+            document.getElementById('return-success-message').style.display = 'block';
+            document.getElementById('return-error-message').style.display = 'none';
+            
+            // Limpar formulário
+            document.getElementById('return-notes').value = '';
+            
+            renderMaterialsList();
+            
+            setTimeout(() => {
+                closeModal('return-modal');
+            }, 1500);
+        }
+        
+        // Função para registrar manutenção
+        function registerMaintenance() {
+            const itemId = parseInt(document.getElementById('maintenance-item').value);
+            const notes = document.getElementById('maintenance-notes').value.trim();
+            
+            if (!itemId) {
+                document.getElementById('maintenance-error-message').style.display = 'block';
+                return;
+            }
+            
+            const itemIndex = materials.findIndex(m => m.id === itemId);
+            if (itemIndex === -1) return;
+            
+            materials[itemIndex].status = 'maintenance';
+            materials[itemIndex].responsible = 'Manutenção';
+            materials[itemIndex].borrowDate = '';
+            materials[itemIndex].deadline = '';
+            saveMaterials();
+            
+            addToLog(itemId, 'maintenance', { notes });
+            
+            document.getElementById('maintenance-success-message').style.display = 'block';
+            document.getElementById('maintenance-error-message').style.display = 'none';
+            
+            // Limpar formulário
+            document.getElementById('maintenance-notes').value = '';
+            
+            renderMaterialsList();
+            
+            setTimeout(() => {
+                closeModal('maintenance-modal');
+            }, 1500);
+        }
+        
+        // Função para disponibilizar item
+        function setItemAvailable(itemId) {
+            const itemIndex = materials.findIndex(m => m.id === itemId);
+            if (itemIndex === -1) return;
+            
+            materials[itemIndex].status = 'available';
+            materials[itemIndex].responsible = '';
+            materials[itemIndex].borrowDate = '';
+            materials[itemIndex].deadline = '';
+            saveMaterials();
+            
+            addToLog(itemId, 'available');
+            
+            renderMaterialsList();
+        }
+        
+        // Função para compartilhar via WhatsApp
+        function shareViaWhatsApp() {
+            const phoneNumber = document.getElementById('whatsapp-number').value.trim();
+            const customMessage = document.getElementById('custom-message').value;
+            const systemLink = document.getElementById('system-link').value;
+            
+            // Validar número de telefone (formato internacional sem caracteres especiais)
+            const phoneRegex = /^[0-9]{10,15}$/;
+            if (!phoneRegex.test(phoneNumber)) {
+                document.getElementById('share-error-message').style.display = 'block';
+                document.getElementById('share-success-message').style.display = 'none';
+                return;
+            }
+            
+            // Criar mensagem completa com link
+            const fullMessage = `${customMessage}\n\n${systemLink}`;
+            
+            // Codificar a mensagem para URL
+            const encodedMessage = encodeURIComponent(fullMessage);
+            
+            // Criar o link do WhatsApp
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            // Abrir em uma nova janela
+            window.open(whatsappUrl, '_blank');
+            
+            document.getElementById('share-success-message').style.display = 'block';
+            document.getElementById('share-error-message').style.display = 'none';
+        }
+        
+        // Função para enviar alertas administrativos via WhatsApp
+        function sendAdminAlert() {
+            const alertType = document.getElementById('alert-type').value;
+            let message = '';
+            
+            if (alertType === 'overdue') {
+                // Itens atrasados
+                const overdueItems = materials.filter(m => 
+                    m.status === 'borrowed' && m.deadline && new Date(m.deadline) < new Date()
+                );
+                
+                if (overdueItems.length === 0) {
+                    message = "Não há itens com devolução atrasada no momento.";
+                } else {
+                    message = "🚨 *ITENS COM DEVOLUÇÃO ATRASADA*\n\n";
+                    overdueItems.forEach(item => {
+                        const daysOverdue = Math.floor((new Date() - new Date(item.deadline)) / (1000 * 60 * 60 * 24));
+                        message += `• ${item.name} - Responsável: ${item.responsible} (Atraso: ${daysOverdue} dias)\n`;
+                    });
+                    message += "\nPor favor, regularize a situação o mais breve possível.";
+                }
+            } else if (alertType === 'all-borrowed') {
+                // Todos os itens emprestados
+                const borrowedItems = materials.filter(m => m.status === 'borrowed');
+                
+                if (borrowedItems.length === 0) {
+                    message = "Não há itens emprestados no momento.";
+                } else {
+                    message = "📋 *RELATÓRIO DE ITENS EMPRESTADOS*\n\n";
+                    borrowedItems.forEach(item => {
+                        const deadline = new Date(item.deadline).toLocaleDateString('pt-BR');
+                        const isOverdue = new Date(item.deadline) < new Date();
+                        message += `• ${item.name} - Responsável: ${item.responsible} - Devolução: ${deadline} ${isOverdue ? '🚨 ATRASADO' : ''}\n`;
+                    });
+                }
+            } else if (alertType === 'maintenance') {
+                // Itens em manutenção
+                const maintenanceItems = materials.filter(m => m.status === 'maintenance');
+                
+                if (maintenanceItems.length === 0) {
+                    message = "Não há itens em manutenção no momento.";
+                } else {
+                    message = "🔧 *ITENS EM MANUTENÇÃO*\n\n";
+                    maintenanceItems.forEach(item => {
+                        message += `• ${item.name}\n`;
+                    });
+                }
+            } else if (alertType === 'custom') {
+                // Mensagem personalizada
+                message = document.getElementById('custom-alert-message').value.trim();
+                if (!message) {
+                    document.getElementById('alert-error-message').style.display = 'block';
+                    return;
+                }
+            }
+            
+            // Codificar a mensagem para URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Criar o link do WhatsApp
+            const whatsappUrl = `https://wa.me/${ADMIN_NUMBER}?text=${encodedMessage}`;
+            
+            // Abrir em uma nova janela
+            window.open(whatsappUrl, '_blank');
+            
+            document.getElementById('alert-success-message').style.display = 'block';
+            document.getElementById('alert-error-message').style.display = 'none';
+        }
+
+        // Função para copiar o link do sistema
+        function copySystemLink() {
+            const linkInput = document.getElementById('system-link');
+            linkInput.select();
+            document.execCommand('copy');
+            
+            // Feedback visual
+            const copyButton = document.getElementById('copy-link-btn');
+            const originalText = copyButton.innerHTML;
+            copyButton.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+            
+            setTimeout(() => {
+                copyButton.innerHTML = originalText;
+            }, 2000);
+        }
+
+        // Função para limpar todos os dados
+        function clearAllData() {
+            if (confirm('Tem certeza que deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
+                localStorage.removeItem('materials');
+                localStorage.removeItem('activityLog');
+                initializeData();
+                renderMaterialsList();
+                alert('Todos os dados foram resetados para os valores iniciais.');
+            }
+        }
+
+        // Detectar se é um dispositivo móvel
+        function isMobileDevice() {
+            return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+        }
+
+        // Compartilhamento nativo
+        function nativeShare() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Controle de Ferramentas - Energia Pecém',
+                    text: 'Sistema de controle de ferramentas elétricas',
+                    url: window.location.href
+                })
+                .then(() => console.log('Compartilhado com sucesso'))
+                .catch((error) => {
+                    console.log('Erro ao compartilhar', error);
+                    openModal('share-modal');
+                });
+            } else {
+                openModal('share-modal');
+            }
+        }
+
+        // Inicialização quando o documento estiver carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeData();
+            renderMaterialsList();
+            renderActivityLog();
+            
+            // Event listeners para os botões de ação principais
+            document.getElementById('borrow-btn').addEventListener('click', () => openBorrowModal());
+            document.getElementById('return-btn').addEventListener('click', () => openReturnModal());
+            document.getElementById('maintenance-btn').addEventListener('click', () => openMaintenanceModal());
+            document.getElementById('share-btn').addEventListener('click', nativeShare);
+            document.getElementById('admin-alerts-btn').addEventListener('click', openAdminAlertsModal);
+            document.getElementById('admin-report-btn').addEventListener('click', () => {
+                alert("Relatório administrativo gerado e enviado para o WhatsApp!");
+                const message = encodeURIComponent("📊 Relatório administrativo do Sistema de Controle de Ferramentas");
+                window.open(`https://wa.me/${ADMIN_NUMBER}?text=${message}`, '_blank');
+            });
+            document.getElementById('clear-data-btn').addEventListener('click', clearAllData);
+            
+            // Event listeners para os botões de confirmação
+            document.getElementById('confirm-borrow').addEventListener('click', registerBorrow);
+            document.getElementById('confirm-return').addEventListener('click', registerReturn);
+            document.getElementById('confirm-maintenance').addEventListener('click', registerMaintenance);
+            
+            // Event listeners para compartilhamento
+            document.getElementById('btn-whatsapp').addEventListener('click', shareViaWhatsApp);
+            document.getElementById('copy-link-btn').addEventListener('click', copySystemLink);
+            document.getElementById('send-alert-btn').addEventListener('click', sendAdminAlert);
+            
+            // Event listener para tipo de alerta
+            document.getElementById('alert-type').addEventListener('change', function() {
+                const customAlertSection = document.getElementById('custom-alert-section');
+                customAlertSection.style.display = this.value === 'custom' ? 'block' : 'none';
+            });
+            
+            // Event listeners para fechar modais
+            document.querySelectorAll('.close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', function() {
+                    const modalId = this.closest('.modal').id;
+                    closeModal(modalId);
+                });
+            });
+            
+            // Fechar modal clicando fora dele
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeModal(this.id);
+                    }
+                });
+            });
+            
+            // Adicionar botão de instalação se for mobile
+            if (isMobileDevice()) {
+                document.getElementById('installPrompt').style.display = 'block';
+            }
+            
+            // Gerenciar prompt de instalação PWA
+            let deferredPrompt;
+            const installBtn = document.getElementById('installBtn');
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                document.getElementById('installPrompt').style.display = 'block';
+                
+                installBtn.addEventListener('click', () => {
+                    document.getElementById('installPrompt').style.display = 'none';
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('Usuário aceitou a instalação');
+                        }
+                        deferredPrompt = null;
+                    });
+                });
+            });
+            
+            // Registrar service worker
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registrado com sucesso: ', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('Falha no registro do ServiceWorker: ', error);
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
