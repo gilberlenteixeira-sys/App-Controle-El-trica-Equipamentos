@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Controle de Ferramentas - Energia Pecém</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2c3e50"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Estilos anteriores mantidos */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -148,6 +147,10 @@
         
         .admin-btn {
             background: linear-gradient(135deg, #f39c12 0%, #d35400 100%);
+        }
+        
+        .notification-btn {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
         }
         
         .materials-table {
@@ -361,39 +364,66 @@
             border-bottom: none;
         }
         
-        .mobile-warning {
-            display: none;
-            background-color: #ffcc00;
-            color: #333;
-            padding: 10px;
-            text-align: center;
-            border-radius: 5px;
+        .notification-settings {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 15px;
         }
         
-        .install-prompt {
-            background-color: #e7f3ff;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 15px 0;
-            text-align: center;
-            display: none;
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
         }
         
-        .install-btn {
-            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
-            margin-top: 8px;
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
         }
         
         @media (max-width: 768px) {
-            .mobile-warning {
-                display: block;
-            }
-            
-            .install-prompt {
-                display: block;
-            }
-            
             .dashboard {
                 grid-template-columns: 1fr;
             }
@@ -418,59 +448,11 @@
             .copy-link button {
                 border-radius: 8px;
             }
-            
-            .admin-bar {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .action-buttons button {
-                padding: 10px;
-                font-size: 12px;
-            }
-            
-            .materials-table {
-                font-size: 12px;
-            }
-            
-            .materials-table th, 
-            .materials-table td {
-                padding: 8px 4px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 20px;
-            }
-            
-            .card h2 {
-                font-size: 18px;
-            }
-            
-            button {
-                font-size: 14px;
-            }
-            
-            .stat-item h3 {
-                font-size: 20px;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="mobile-warning">
-            <i class="fas fa-mobile-alt"></i> Otimizado para dispositivos móveis
-        </div>
-        
-        <div class="install-prompt" id="installPrompt">
-            <p>Instale este aplicativo no seu dispositivo para acesso rápido:</p>
-            <button class="install-btn" id="installBtn">
-                <i class="fas fa-download"></i> Instalar Aplicativo
-            </button>
-        </div>
-        
         <header>
             <h1><i class="fas fa-bolt"></i> Controle de Ferramentas Elétricas - Energia Pecém</h1>
             <p>Gerencie o empréstimo e devolução de equipamentos</p>
@@ -480,9 +462,14 @@
             <div>
                 <i class="fas fa-user-shield"></i> Modo Administrador: Gilberlen (5585985691148)
             </div>
-            <button class="admin-btn" id="admin-report-btn">
-                <i class="fas fa-file-pdf"></i> Gerar Relatório
-            </button>
+            <div>
+                <button class="notification-btn" id="notification-settings-btn">
+                    <i class="fas fa-bell"></i> Configurar Notificações
+                </button>
+                <button class="admin-btn" id="admin-report-btn">
+                    <i class="fas fa-file-pdf"></i> Gerar Relatório
+                </button>
+            </div>
         </div>
         
         <div class="dashboard">
@@ -605,6 +592,65 @@
             </div>
             <div id="share-error-message" class="error-message">
                 <i class="fas fa-exclamation-circle"></i> Por favor, informe um número de WhatsApp válido.
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Notificações -->
+    <div id="notification-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-bell"></i> Configurações de Notificação</h2>
+                <span class="close">&times;</span>
+            </div>
+            
+            <div class="notification-settings">
+                <h3>Notificações Automáticas</h3>
+                
+                <div class="toggle-container">
+                    <div>
+                        <label>Notificar empréstimos</label>
+                        <p class="description">Enviar mensagem quando um item for emprestado</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="notify-borrow" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="toggle-container">
+                    <div>
+                        <label>Notificar devoluções</label>
+                        <p class="description">Enviar mensagem quando um item for devolvido</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="notify-return">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="toggle-container">
+                    <div>
+                        <label>Notificar atrasos</label>
+                        <p class="description">Enviar alertas de itens com devolução atrasada</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="notify-overdue" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="notification-number"><i class="fas fa-phone"></i> Número para Notificações:</label>
+                <input type="text" id="notification-number" value="5585985691148">
+                <p class="description">Número do administrador que receberá as notificações</p>
+            </div>
+            
+            <button id="save-notification-settings"><i class="fas fa-save"></i> Salvar Configurações</button>
+            
+            <div id="notification-success-message" class="success-message">
+                <i class="fas fa-check-circle"></i> Configurações salvas com sucesso!
             </div>
         </div>
     </div>
@@ -793,11 +839,20 @@
         let materials = [];
         let activityLog = [];
         const ADMIN_NUMBER = "5585985691148";
+        
+        // Configurações de notificação
+        let notificationSettings = {
+            notifyBorrow: true,
+            notifyReturn: false,
+            notifyOverdue: true,
+            notificationNumber: ADMIN_NUMBER
+        };
 
         // Função para inicializar os dados
         function initializeData() {
             const storedMaterials = localStorage.getItem('materials');
             const storedLog = localStorage.getItem('activityLog');
+            const storedSettings = localStorage.getItem('notificationSettings');
             
             if (storedMaterials) {
                 materials = JSON.parse(storedMaterials);
@@ -813,6 +868,11 @@
                 saveLog();
             }
             
+            if (storedSettings) {
+                notificationSettings = JSON.parse(storedSettings);
+                updateNotificationUI();
+            }
+            
             // Atualizar o link do sistema
             document.getElementById('system-link').value = window.location.href;
         }
@@ -825,6 +885,19 @@
         // Função para salvar log de atividades no localStorage
         function saveLog() {
             localStorage.setItem('activityLog', JSON.stringify(activityLog));
+        }
+        
+        // Função para salvar configurações de notificação
+        function saveNotificationSettings() {
+            localStorage.setItem('notificationSettings', JSON.stringify(notificationSettings));
+        }
+        
+        // Atualizar UI com configurações de notificação
+        function updateNotificationUI() {
+            document.getElementById('notify-borrow').checked = notificationSettings.notifyBorrow;
+            document.getElementById('notify-return').checked = notificationSettings.notifyReturn;
+            document.getElementById('notify-overdue').checked = notificationSettings.notifyOverdue;
+            document.getElementById('notification-number').value = notificationSettings.notificationNumber;
         }
 
         // Função para adicionar registro ao log
@@ -842,297 +915,206 @@
             };
             
             activityLog.unshift(logEntry);
-            if (activityLog.length > 10) activityLog = activityLog.slice(0, 10);
-            saveLog();
-            renderActivityLog();
-        }
-
-        // Função para renderizar a lista de materiais
-        function renderMaterialsList() {
-            const materialsList = document.getElementById('materials-list');
-            materialsList.innerHTML = '';
-            
-            materials.forEach(material => {
-                const row = document.createElement('tr');
-                
-                let statusClass = '';
-                let statusText = '';
-                
-                // Verificar se o item está atrasado
-                const isOverdue = material.status === 'borrowed' && material.deadline && 
-                                 new Date(material.deadline) < new Date();
-                
-                switch(material.status) {
-                    case 'available':
-                        statusClass = 'available';
-                        statusText = 'Disponível';
-                        break;
-                    case 'borrowed':
-                        statusClass = isOverdue ? 'overdue' : 'borrowed';
-                        statusText = isOverdue ? 'Atrasado' : 'Emprestado';
-                        break;
-                    case 'maintenance':
-                        statusClass = 'maintenance';
-                        statusText = 'Manutenção';
-                        break;
-                }
-                
-                // Formatar data de empréstimo
-                const borrowDate = material.borrowDate ? 
-                    new Date(material.borrowDate).toLocaleDateString('pt-BR') : '-';
-                
-                // Formatar prazo de devolução
-                const deadline = material.deadline ? 
-                    new Date(material.deadline).toLocaleDateString('pt-BR') : '-';
-                
-                row.innerHTML = `
-                    <td>${material.id}</td>
-                    <td>${material.name}</td>
-                    <td>${material.quantity}</td>
-                    <td><span class="status ${statusClass}">${statusText}</span></td>
-                    <td>${material.responsible || '-'}</td>
-                    <td>${borrowDate} ${material.deadline ? `<br><small>Devolver: ${deadline}</small>` : ''}</td>
-                    <td class="action-buttons">
-                        ${material.status === 'available' ? 
-                            `<button class="action-btn borrow-action" data-id="${material.id}">
-                                <i class="fas fa-hand-holding"></i> Emprestar
-                            </button>` : ''}
-                        ${material.status === 'borrowed' ? 
-                            `<button class="action-btn return-action" data-id="${material.id}">
-                                <i class="fas fa-undo"></i> Devolver
-                            </button>` : ''}
-                        ${material.status !== 'maintenance' ? 
-                            `<button class="action-btn secondary-btn maintenance-action" data-id="${material.id}">
-                                <i class="fas fa-tools"></i> Manutenção
-                            </button>` : 
-                            `<button class="action-btn available-action" data-id="${material.id}">
-                                <i class="fas fa-check"></i> Disponibilizar
-                            </button>`}
-                    </td>
-                `;
-                
-                materialsList.appendChild(row);
-            });
-            
-            // Atualizar lista de itens atrasados
-            renderOverdueItems();
-            
-            // Adicionar event listeners aos botões de ação
-            document.querySelectorAll('.borrow-action').forEach(btn => {
-                btn.addEventListener('click', () => openBorrowModal(parseInt(btn.dataset.id)));
-            });
-            
-            document.querySelectorAll('.return-action').forEach(btn => {
-                btn.addEventListener('click', () => openReturnModal(parseInt(btn.dataset.id)));
-            });
-            
-            document.querySelectorAll('.maintenance-action').forEach(btn => {
-                btn.addEventListener('click', () => openMaintenanceModal(parseInt(btn.dataset.id)));
-            });
-            
-            document.querySelectorAll('.available-action').forEach(btn => {
-                btn.addEventListener('click', () => setItemAvailable(parseInt(btn.dataset.id)));
-            });
-            
-            updateStats();
-            updateSelectOptions();
-        }
-        
-        // Função para renderizar itens atrasados
-        function renderOverdueItems() {
-            const overdueList = document.getElementById('overdue-items-list');
-            const alertOverdueList = document.getElementById('alert-overdue-items');
-            
-            // Encontrar itens atrasados
-            const overdueItems = materials.filter(m => 
-                m.status === 'borrowed' && m.deadline && new Date(m.deadline) < new Date()
-            );
-            
-            if (overdueItems.length === 0) {
-                overdueList.innerHTML = '<p>Nenhum item com devolução atrasada.</p>';
-                alertOverdueList.innerHTML = '<p>Nenhum item com devolução atrasada.</p>';
-                return;
+            // Manter apenas os últimos 50 registros
+            if (activityLog.length > 50) {
+                activityLog.pop();
             }
             
-            overdueList.innerHTML = '';
-            alertOverdueList.innerHTML = '';
-            
-            overdueItems.forEach(item => {
-                const daysOverdue = Math.floor((new Date() - new Date(item.deadline)) / (1000 * 60 * 60 * 24));
-                
-                const overdueItem = document.createElement('div');
-                overdueItem.className = 'overdue-item';
-                overdueItem.innerHTML = `
-                    <div>
-                        <strong>${item.name}</strong><br>
-                        <small>Responsável: ${item.responsible}</small><br>
-                        <small>Atraso: ${daysOverdue} dia(s)</small>
-                    </div>
-                    <div>
-                        <button class="action-btn return-action" data-id="${item.id}">
-                            <i class="fas fa-undo"></i> Devolver
-                        </button>
-                    </div>
-                `;
-                
-                overdueList.appendChild(overdueItem.cloneNode(true));
-                alertOverdueList.appendChild(overdueItem);
-            });
-            
-            // Adicionar event listeners aos botões de devolução
-            document.querySelectorAll('#overdue-items-list .return-action').forEach(btn => {
-                btn.addEventListener('click', () => openReturnModal(parseInt(btn.dataset.id)));
-            });
+            saveLog();
+            updateLogList();
         }
-        
-        // Função para renderizar o log de atividades
-        function renderActivityLog() {
+
+        // Função para atualizar a lista de logs na interface
+        function updateLogList() {
             const logList = document.getElementById('log-list');
             logList.innerHTML = '';
             
-            activityLog.forEach(log => {
+            const recentLogs = activityLog.slice(0, 5);
+            
+            recentLogs.forEach(log => {
                 const row = document.createElement('tr');
                 
-                let actionText = '';
-                switch(log.action) {
-                    case 'borrow':
-                        actionText = `Emprestado para ${log.details.responsible}`;
-                        if (log.details.deadline) {
-                            actionText += ` (Devolução: ${new Date(log.details.deadline).toLocaleDateString('pt-BR')})`;
-                        }
-                        break;
-                    case 'return':
-                        actionText = 'Devolvido';
-                        if (log.details.notes) actionText += ` - ${log.details.notes}`;
-                        break;
-                    case 'maintenance':
-                        actionText = 'Enviado para manutenção';
-                        if (log.details.notes) actionText += ` - ${log.details.notes}`;
-                        break;
-                    case 'available':
-                        actionText = 'Disponibilizado';
-                        break;
-                }
+                const dateCell = document.createElement('td');
+                dateCell.textContent = log.timestamp;
                 
-                row.innerHTML = `
-                    <td>${log.timestamp}</td>
-                    <td>${log.itemName}</td>
-                    <td>${actionText}</td>
-                `;
+                const itemCell = document.createElement('td');
+                itemCell.textContent = log.itemName;
+                
+                const actionCell = document.createElement('td');
+                actionCell.textContent = log.action;
+                
+                row.appendChild(dateCell);
+                row.appendChild(itemCell);
+                row.appendChild(actionCell);
                 
                 logList.appendChild(row);
             });
         }
-        
-        // Função para atualizar as estatísticas
-        function updateStats() {
+
+        // Função para atualizar a lista de materiais na interface
+        function updateMaterialsList() {
+            const materialsList = document.getElementById('materials-list');
+            materialsList.innerHTML = '';
+            
+            // Atualizar estatísticas
             const totalItems = materials.length;
             const availableItems = materials.filter(m => m.status === 'available').length;
             const borrowedItems = materials.filter(m => m.status === 'borrowed').length;
-            const overdueItems = materials.filter(m => 
-                m.status === 'borrowed' && m.deadline && new Date(m.deadline) < new Date()
-            ).length;
+            const overdueItems = materials.filter(m => m.status === 'overdue').length;
             
             document.getElementById('total-items').textContent = totalItems;
             document.getElementById('available-items').textContent = availableItems;
             document.getElementById('borrowed-items').textContent = borrowedItems;
             document.getElementById('overdue-items').textContent = overdueItems;
-        }
-        
-        // Função para atualizar opções dos selects
-        function updateSelectOptions() {
-            const borrowSelect = document.getElementById('borrow-item');
-            const returnSelect = document.getElementById('return-item');
-            const maintenanceSelect = document.getElementById('maintenance-item');
             
-            // Limpar selects
-            borrowSelect.innerHTML = '<option value="">Selecione um item</option>';
-            returnSelect.innerHTML = '<option value="">Selecione um item</option>';
-            maintenanceSelect.innerHTML = '<option value="">Selecione um item</option>';
-            
-            // Preencher selects
+            // Preencher a tabela de materiais
             materials.forEach(material => {
-                if (material.status === 'available') {
-                    const option = document.createElement('option');
-                    option.value = material.id;
-                    option.textContent = `${material.id} - ${material.name}`;
-                    borrowSelect.appendChild(option);
-                    
-                    const option2 = document.createElement('option');
-                    option2.value = material.id;
-                    option2.textContent = `${material.id} - ${material.name}`;
-                    maintenanceSelect.appendChild(option2);
+                const row = document.createElement('tr');
+                
+                const idCell = document.createElement('td');
+                idCell.textContent = material.id;
+                
+                const nameCell = document.createElement('td');
+                nameCell.textContent = material.name;
+                
+                const quantityCell = document.createElement('td');
+                quantityCell.textContent = material.quantity;
+                
+                const statusCell = document.createElement('td');
+                const statusSpan = document.createElement('span');
+                statusSpan.className = 'status';
+                
+                switch(material.status) {
+                    case 'available':
+                        statusSpan.classList.add('available');
+                        statusSpan.textContent = 'Disponível';
+                        break;
+                    case 'borrowed':
+                        statusSpan.classList.add('borrowed');
+                        statusSpan.textContent = 'Emprestado';
+                        break;
+                    case 'maintenance':
+                        statusSpan.classList.add('maintenance');
+                        statusSpan.textContent = 'Manutenção';
+                        break;
+                    case 'overdue':
+                        statusSpan.classList.add('overdue');
+                        statusSpan.textContent = 'Atrasado';
+                        break;
                 }
                 
-                if (material.status === 'borrowed') {
-                    const option = document.createElement('option');
-                    option.value = material.id;
-                    option.textContent = `${material.id} - ${material.name} (${material.responsible})`;
-                    returnSelect.appendChild(option);
+                statusCell.appendChild(statusSpan);
+                
+                const responsibleCell = document.createElement('td');
+                responsibleCell.textContent = material.responsible || '-';
+                
+                const dateCell = document.createElement('td');
+                dateCell.textContent = material.borrowDate || '-';
+                
+                const actionsCell = document.createElement('td');
+                actionsCell.className = 'action-buttons';
+                
+                if (material.status === 'available') {
+                    const borrowBtn = document.createElement('button');
+                    borrowBtn.className = 'action-btn';
+                    borrowBtn.innerHTML = '<i class="fas fa-hand-holding"></i>';
+                    borrowBtn.title = 'Emprestar';
+                    borrowBtn.onclick = () => openBorrowModal(material.id);
+                    actionsCell.appendChild(borrowBtn);
+                } else if (material.status === 'borrowed' || material.status === 'overdue') {
+                    const returnBtn = document.createElement('button');
+                    returnBtn.className = 'action-btn secondary-btn';
+                    returnBtn.innerHTML = '<i class="fas fa-undo"></i>';
+                    returnBtn.title = 'Devolver';
+                    returnBtn.onclick = () => openReturnModal(material.id);
+                    actionsCell.appendChild(returnBtn);
                 }
                 
                 if (material.status !== 'maintenance') {
-                    const option = document.createElement('option');
-                    option.value = material.id;
-                    option.textContent = `${material.id} - ${material.name}`;
-                    maintenanceSelect.appendChild(option);
+                    const maintenanceBtn = document.createElement('button');
+                    maintenanceBtn.className = 'action-btn admin-btn';
+                    maintenanceBtn.innerHTML = '<i class="fas fa-tools"></i>';
+                    maintenanceBtn.title = 'Manutenção';
+                    maintenanceBtn.onclick = () => openMaintenanceModal(material.id);
+                    actionsCell.appendChild(maintenanceBtn);
                 }
+                
+                row.appendChild(idCell);
+                row.appendChild(nameCell);
+                row.appendChild(quantityCell);
+                row.appendChild(statusCell);
+                row.appendChild(responsibleCell);
+                row.appendChild(dateCell);
+                row.appendChild(actionsCell);
+                
+                materialsList.appendChild(row);
+            });
+            
+            // Atualizar lista de itens atrasados
+            updateOverdueList();
+        }
+
+        // Função para atualizar a lista de itens atrasados
+        function updateOverdueList() {
+            const overdueList = document.getElementById('overdue-items-list');
+            overdueList.innerHTML = '';
+            
+            const overdueItems = materials.filter(m => m.status === 'overdue');
+            
+            if (overdueItems.length === 0) {
+                overdueList.innerHTML = '<p>Nenhum item com devolução atrasada.</p>';
+                return;
+            }
+            
+            overdueItems.forEach(item => {
+                const overdueItem = document.createElement('div');
+                overdueItem.className = 'overdue-item';
+                
+                const itemInfo = document.createElement('div');
+                itemInfo.innerHTML = `<strong>${item.name}</strong> - Responsável: ${item.responsible}`;
+                
+                const deadlineInfo = document.createElement('div');
+                deadlineInfo.innerHTML = `Devolução prevista: ${item.deadline}`;
+                
+                overdueItem.appendChild(itemInfo);
+                overdueItem.appendChild(deadlineInfo);
+                
+                overdueList.appendChild(overdueItem);
             });
         }
-        
-        // Função para abrir modal
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-        
-        // Função para fechar modal
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            // Limpar mensagens de erro/sucesso
-            document.querySelectorAll('.success-message, .error-message').forEach(msg => {
-                msg.style.display = 'none';
-            });
-        }
-        
-        // Função para abrir modal de empréstimo
+
+        // Função para abrir o modal de empréstimo
         function openBorrowModal(itemId = null) {
-            if (itemId) {
-                document.getElementById('borrow-item').value = itemId;
-            }
+            const modal = document.getElementById('borrow-modal');
+            const itemSelect = document.getElementById('borrow-item');
             
-            // Definir data padrão para 7 dias à frente
-            const nextWeek = new Date();
-            nextWeek.setDate(nextWeek.getDate() + 7);
-            document.getElementById('borrow-deadline').value = nextWeek.toISOString().split('T')[0];
+            // Limpar seleção anterior
+            itemSelect.innerHTML = '<option value="">Selecione um item</option>';
             
-            openModal('borrow-modal');
+            // Preencher com itens disponíveis
+            materials.filter(m => m.status === 'available').forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = item.name;
+                if (itemId && item.id === itemId) {
+                    option.selected = true;
+                }
+                itemSelect.appendChild(option);
+            });
+            
+            // Definir data mínima para hoje
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('borrow-deadline').min = today;
+            
+            // Limpar mensagens
+            document.getElementById('borrow-success-message').style.display = 'none';
+            document.getElementById('borrow-error-message').style.display = 'none';
+            
+            modal.style.display = 'flex';
         }
-        
-        // Função para abrir modal de devolução
-        function openReturnModal(itemId = null) {
-            if (itemId) {
-                document.getElementById('return-item').value = itemId;
-            }
-            openModal('return-modal');
-        }
-        
-        // Função para abrir modal de manutenção
-        function openMaintenanceModal(itemId = null) {
-            if (itemId) {
-                document.getElementById('maintenance-item').value = itemId;
-            }
-            openModal('maintenance-modal');
-        }
-        
-        // Função para abrir modal de alertas administrativos
-        function openAdminAlertsModal() {
-            // Atualizar lista de itens atrasados no modal
-            renderOverdueItems();
-            openModal('admin-alerts-modal');
-        }
-        
-        // Função para registrar empréstimo
-        function registerBorrow() {
+
+        // Função para confirmar empréstimo
+        function confirmBorrow() {
             const itemId = parseInt(document.getElementById('borrow-item').value);
             const responsible = document.getElementById('borrow-person').value.trim();
             const deadline = document.getElementById('borrow-deadline').value;
@@ -1146,30 +1128,84 @@
             const itemIndex = materials.findIndex(m => m.id === itemId);
             if (itemIndex === -1) return;
             
+            // Atualizar status do item
             materials[itemIndex].status = 'borrowed';
             materials[itemIndex].responsible = responsible;
-            materials[itemIndex].borrowDate = new Date().toISOString();
+            materials[itemIndex].borrowDate = new Date().toLocaleDateString('pt-BR');
             materials[itemIndex].deadline = deadline;
+            
+            // Adicionar ao log
+            addToLog(itemId, 'Empréstimo', { responsible, deadline, notes });
+            
+            // Salvar alterações
             saveMaterials();
             
-            addToLog(itemId, 'borrow', { responsible, deadline, notes });
+            // Atualizar interface
+            updateMaterialsList();
             
+            // Mostrar mensagem de sucesso
             document.getElementById('borrow-success-message').style.display = 'block';
             document.getElementById('borrow-error-message').style.display = 'none';
             
-            // Limpar formulário
-            document.getElementById('borrow-person').value = '';
-            document.getElementById('borrow-notes').value = '';
+            // Enviar notificação para o administrador
+            if (notificationSettings.notifyBorrow) {
+                sendBorrowNotification(materials[itemIndex]);
+            }
             
-            renderMaterialsList();
-            
+            // Fechar modal após 2 segundos
             setTimeout(() => {
-                closeModal('borrow-modal');
-            }, 1500);
+                document.getElementById('borrow-modal').style.display = 'none';
+            }, 2000);
         }
-        
-        // Função para registrar devolução
-        function registerReturn() {
+
+        // Função para enviar notificação de empréstimo
+        function sendBorrowNotification(item) {
+            const adminNumber = notificationSettings.notificationNumber;
+            const message = `🔔 *Notificação de Empréstimo* 🔔\n\n` +
+                           `*Item:* ${item.name}\n` +
+                           `*Responsável:* ${item.responsible}\n` +
+                           `*Data do Empréstimo:* ${item.borrowDate}\n` +
+                           `*Prazo de Devolução:* ${item.deadline}\n\n` +
+                           `_Sistema de Controle de Ferramentas - Energia Pecém_`;
+            
+            // Codificar a mensagem para URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Gerar link do WhatsApp
+            const whatsappUrl = `https://wa.me/${adminNumber}?text=${encodedMessage}`;
+            
+            // Abrir em uma nova janela (ou guia)
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Função para abrir o modal de devolução
+        function openReturnModal(itemId = null) {
+            const modal = document.getElementById('return-modal');
+            const itemSelect = document.getElementById('return-item');
+            
+            // Limpar seleção anterior
+            itemSelect.innerHTML = '<option value="">Selecione um item</option>';
+            
+            // Preencher com itens emprestados ou atrasados
+            materials.filter(m => m.status === 'borrowed' || m.status === 'overdue').forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = `${item.name} (${item.responsible})`;
+                if (itemId && item.id === itemId) {
+                    option.selected = true;
+                }
+                itemSelect.appendChild(option);
+            });
+            
+            // Limpar mensagens
+            document.getElementById('return-success-message').style.display = 'none';
+            document.getElementById('return-error-message').style.display = 'none';
+            
+            modal.style.display = 'flex';
+        }
+
+        // Função para confirmar devolução
+        function confirmReturn() {
             const itemId = parseInt(document.getElementById('return-item').value);
             const notes = document.getElementById('return-notes').value.trim();
             
@@ -1181,30 +1217,85 @@
             const itemIndex = materials.findIndex(m => m.id === itemId);
             if (itemIndex === -1) return;
             
+            const item = materials[itemIndex];
+            
+            // Atualizar status do item
             materials[itemIndex].status = 'available';
-            const responsible = materials[itemIndex].responsible;
             materials[itemIndex].responsible = '';
             materials[itemIndex].borrowDate = '';
             materials[itemIndex].deadline = '';
+            
+            // Adicionar ao log
+            addToLog(itemId, 'Devolução', { notes });
+            
+            // Salvar alterações
             saveMaterials();
             
-            addToLog(itemId, 'return', { notes, previousResponsible: responsible });
+            // Atualizar interface
+            updateMaterialsList();
             
+            // Mostrar mensagem de sucesso
             document.getElementById('return-success-message').style.display = 'block';
             document.getElementById('return-error-message').style.display = 'none';
             
-            // Limpar formulário
-            document.getElementById('return-notes').value = '';
+            // Enviar notificação para o administrador se configurado
+            if (notificationSettings.notifyReturn) {
+                sendReturnNotification(item);
+            }
             
-            renderMaterialsList();
-            
+            // Fechar modal após 2 segundos
             setTimeout(() => {
-                closeModal('return-modal');
-            }, 1500);
+                document.getElementById('return-modal').style.display = 'none';
+            }, 2000);
         }
-        
-        // Função para registrar manutenção
-        function registerMaintenance() {
+
+        // Função para enviar notificação de devolução
+        function sendReturnNotification(item) {
+            const adminNumber = notificationSettings.notificationNumber;
+            const message = `🔔 *Notificação de Devolução* 🔔\n\n` +
+                           `*Item:* ${item.name}\n` +
+                           `*Responsável:* ${item.responsible}\n` +
+                           `*Data da Devolução:* ${new Date().toLocaleDateString('pt-BR')}\n\n` +
+                           `_Sistema de Controle de Ferramentas - Energia Pecém_`;
+            
+            // Codificar a mensagem para URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Gerar link do WhatsApp
+            const whatsappUrl = `https://wa.me/${adminNumber}?text=${encodedMessage}`;
+            
+            // Abrir em uma nova janela (ou guia)
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Função para abrir o modal de manutenção
+        function openMaintenanceModal(itemId = null) {
+            const modal = document.getElementById('maintenance-modal');
+            const itemSelect = document.getElementById('maintenance-item');
+            
+            // Limpar seleção anterior
+            itemSelect.innerHTML = '<option value="">Selecione um item</option>';
+            
+            // Preencher com todos os itens
+            materials.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = item.name;
+                if (itemId && item.id === itemId) {
+                    option.selected = true;
+                }
+                itemSelect.appendChild(option);
+            });
+            
+            // Limpar mensagens
+            document.getElementById('maintenance-success-message').style.display = 'none';
+            document.getElementById('maintenance-error-message').style.display = 'none';
+            
+            modal.style.display = 'flex';
+        }
+
+        // Função para confirmar manutenção
+        function confirmMaintenance() {
             const itemId = parseInt(document.getElementById('maintenance-item').value);
             const notes = document.getElementById('maintenance-notes').value.trim();
             
@@ -1216,140 +1307,62 @@
             const itemIndex = materials.findIndex(m => m.id === itemId);
             if (itemIndex === -1) return;
             
+            // Atualizar status do item
             materials[itemIndex].status = 'maintenance';
             materials[itemIndex].responsible = 'Manutenção';
-            materials[itemIndex].borrowDate = '';
-            materials[itemIndex].deadline = '';
+            
+            // Adicionar ao log
+            addToLog(itemId, 'Manutenção', { notes });
+            
+            // Salvar alterações
             saveMaterials();
             
-            addToLog(itemId, 'maintenance', { notes });
+            // Atualizar interface
+            updateMaterialsList();
             
+            // Mostrar mensagem de sucesso
             document.getElementById('maintenance-success-message').style.display = 'block';
             document.getElementById('maintenance-error-message').style.display = 'none';
             
-            // Limpar formulário
-            document.getElementById('maintenance-notes').value = '';
-            
-            renderMaterialsList();
-            
+            // Fechar modal após 2 segundos
             setTimeout(() => {
-                closeModal('maintenance-modal');
-            }, 1500);
+                document.getElementById('maintenance-modal').style.display = 'none';
+            }, 2000);
         }
-        
-        // Função para disponibilizar item
-        function setItemAvailable(itemId) {
-            const itemIndex = materials.findIndex(m => m.id === itemId);
-            if (itemIndex === -1) return;
-            
-            materials[itemIndex].status = 'available';
-            materials[itemIndex].responsible = '';
-            materials[itemIndex].borrowDate = '';
-            materials[itemIndex].deadline = '';
-            saveMaterials();
-            
-            addToLog(itemId, 'available');
-            
-            renderMaterialsList();
-        }
-        
-        // Função para compartilhar via WhatsApp
-        function shareViaWhatsApp() {
-            const phoneNumber = document.getElementById('whatsapp-number').value.trim();
+
+        // Função para compartilhar o sistema via WhatsApp
+        function shareSystem() {
+            const number = document.getElementById('whatsapp-number').value.trim();
             const customMessage = document.getElementById('custom-message').value;
             const systemLink = document.getElementById('system-link').value;
             
-            // Validar número de telefone (formato internacional sem caracteres especiais)
-            const phoneRegex = /^[0-9]{10,15}$/;
-            if (!phoneRegex.test(phoneNumber)) {
+            // Validar número (formato internacional sem +)
+            const numberRegex = /^[1-9][0-9]{10,14}$/;
+            if (!numberRegex.test(number)) {
                 document.getElementById('share-error-message').style.display = 'block';
-                document.getElementById('share-success-message').style.display = 'none';
                 return;
             }
             
-            // Criar mensagem completa com link
+            // Montar mensagem completa
             const fullMessage = `${customMessage}\n\n${systemLink}`;
             
             // Codificar a mensagem para URL
             const encodedMessage = encodeURIComponent(fullMessage);
             
-            // Criar o link do WhatsApp
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            // Gerar link do WhatsApp
+            const whatsappUrl = `https://wa.me/${number}?text=${encodedMessage}`;
             
-            // Abrir em uma nova janela
+            // Abrir em uma nova janela (ou guia)
             window.open(whatsappUrl, '_blank');
             
+            // Mostrar mensagem de sucesso
             document.getElementById('share-success-message').style.display = 'block';
             document.getElementById('share-error-message').style.display = 'none';
-        }
-        
-        // Função para enviar alertas administrativos via WhatsApp
-        function sendAdminAlert() {
-            const alertType = document.getElementById('alert-type').value;
-            let message = '';
             
-            if (alertType === 'overdue') {
-                // Itens atrasados
-                const overdueItems = materials.filter(m => 
-                    m.status === 'borrowed' && m.deadline && new Date(m.deadline) < new Date()
-                );
-                
-                if (overdueItems.length === 0) {
-                    message = "Não há itens com devolução atrasada no momento.";
-                } else {
-                    message = "🚨 *ITENS COM DEVOLUÇÃO ATRASADA*\n\n";
-                    overdueItems.forEach(item => {
-                        const daysOverdue = Math.floor((new Date() - new Date(item.deadline)) / (1000 * 60 * 60 * 24));
-                        message += `• ${item.name} - Responsável: ${item.responsible} (Atraso: ${daysOverdue} dias)\n`;
-                    });
-                    message += "\nPor favor, regularize a situação o mais breve possível.";
-                }
-            } else if (alertType === 'all-borrowed') {
-                // Todos os itens emprestados
-                const borrowedItems = materials.filter(m => m.status === 'borrowed');
-                
-                if (borrowedItems.length === 0) {
-                    message = "Não há itens emprestados no momento.";
-                } else {
-                    message = "📋 *RELATÓRIO DE ITENS EMPRESTADOS*\n\n";
-                    borrowedItems.forEach(item => {
-                        const deadline = new Date(item.deadline).toLocaleDateString('pt-BR');
-                        const isOverdue = new Date(item.deadline) < new Date();
-                        message += `• ${item.name} - Responsável: ${item.responsible} - Devolução: ${deadline} ${isOverdue ? '🚨 ATRASADO' : ''}\n`;
-                    });
-                }
-            } else if (alertType === 'maintenance') {
-                // Itens em manutenção
-                const maintenanceItems = materials.filter(m => m.status === 'maintenance');
-                
-                if (maintenanceItems.length === 0) {
-                    message = "Não há itens em manutenção no momento.";
-                } else {
-                    message = "🔧 *ITENS EM MANUTENÇÃO*\n\n";
-                    maintenanceItems.forEach(item => {
-                        message += `• ${item.name}\n`;
-                    });
-                }
-            } else if (alertType === 'custom') {
-                // Mensagem personalizada
-                message = document.getElementById('custom-alert-message').value.trim();
-                if (!message) {
-                    document.getElementById('alert-error-message').style.display = 'block';
-                    return;
-                }
-            }
-            
-            // Codificar a mensagem para URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Criar o link do WhatsApp
-            const whatsappUrl = `https://wa.me/${ADMIN_NUMBER}?text=${encodedMessage}`;
-            
-            // Abrir em uma nova janela
-            window.open(whatsappUrl, '_blank');
-            
-            document.getElementById('alert-success-message').style.display = 'block';
-            document.getElementById('alert-error-message').style.display = 'none';
+            // Fechar modal após 2 segundos
+            setTimeout(() => {
+                document.getElementById('share-modal').style.display = 'none';
+            }, 2000);
         }
 
         // Função para copiar o link do sistema
@@ -1359,13 +1372,86 @@
             document.execCommand('copy');
             
             // Feedback visual
-            const copyButton = document.getElementById('copy-link-btn');
-            const originalText = copyButton.innerHTML;
-            copyButton.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+            const copyBtn = document.getElementById('copy-link-btn');
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
             
             setTimeout(() => {
-                copyButton.innerHTML = originalText;
+                copyBtn.innerHTML = originalText;
             }, 2000);
+        }
+
+        // Função para salvar configurações de notificação
+        function saveNotificationSettings() {
+            notificationSettings.notifyBorrow = document.getElementById('notify-borrow').checked;
+            notificationSettings.notifyReturn = document.getElementById('notify-return').checked;
+            notificationSettings.notifyOverdue = document.getElementById('notify-overdue').checked;
+            notificationSettings.notificationNumber = document.getElementById('notification-number').value.trim();
+            
+            saveNotificationSettings();
+            
+            // Mostrar mensagem de sucesso
+            document.getElementById('notification-success-message').style.display = 'block';
+            
+            // Fechar modal após 2 segundos
+            setTimeout(() => {
+                document.getElementById('notification-modal').style.display = 'none';
+            }, 2000);
+        }
+
+        // Função para verificar itens atrasados periodicamente
+        function checkOverdueItems() {
+            const today = new Date();
+            
+            materials.forEach((item, index) => {
+                if (item.status === 'borrowed' && item.deadline) {
+                    const deadlineDate = new Date(item.deadline);
+                    if (today > deadlineDate) {
+                        materials[index].status = 'overdue';
+                    }
+                }
+            });
+            
+            saveMaterials();
+            updateMaterialsList();
+            
+            // Verificar se há itens atrasados e enviar notificação se configurado
+            if (notificationSettings.notifyOverdue) {
+                const overdueItems = materials.filter(m => m.status === 'overdue');
+                if (overdueItems.length > 0) {
+                    // Enviar notificação apenas uma vez por dia
+                    const lastNotification = localStorage.getItem('lastOverdueNotification');
+                    const todayStr = today.toDateString();
+                    
+                    if (lastNotification !== todayStr) {
+                        sendOverdueNotification(overdueItems);
+                        localStorage.setItem('lastOverdueNotification', todayStr);
+                    }
+                }
+            }
+        }
+
+        // Função para enviar notificação de itens atrasados
+        function sendOverdueNotification(overdueItems) {
+            const adminNumber = notificationSettings.notificationNumber;
+            
+            let message = `⚠️ *Notificação de Itens Atrasados* ⚠️\n\n`;
+            message += `Os seguintes itens estão com devolução atrasada:\n\n`;
+            
+            overdueItems.forEach(item => {
+                message += `• ${item.name} - Responsável: ${item.responsible} - Prazo: ${item.deadline}\n`;
+            });
+            
+            message += `\n_Sistema de Controle de Ferramentas - Energia Pecém_`;
+            
+            // Codificar a mensagem para URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Gerar link do WhatsApp
+            const whatsappUrl = `https://wa.me/${adminNumber}?text=${encodedMessage}`;
+            
+            // Abrir em uma nova janela (ou guia)
+            window.open(whatsappUrl, '_blank');
         }
 
         // Função para limpar todos os dados
@@ -1373,125 +1459,61 @@
             if (confirm('Tem certeza que deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
                 localStorage.removeItem('materials');
                 localStorage.removeItem('activityLog');
-                initializeData();
-                renderMaterialsList();
-                alert('Todos os dados foram resetados para os valores iniciais.');
+                localStorage.removeItem('notificationSettings');
+                
+                // Recarregar a página para reinicializar os dados
+                location.reload();
             }
         }
 
-        // Detectar se é um dispositivo móvel
-        function isMobileDevice() {
-            return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-        }
-
-        // Compartilhamento nativo
-        function nativeShare() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Controle de Ferramentas - Energia Pecém',
-                    text: 'Sistema de controle de ferramentas elétricas',
-                    url: window.location.href
-                })
-                .then(() => console.log('Compartilhado com sucesso'))
-                .catch((error) => {
-                    console.log('Erro ao compartilhar', error);
-                    openModal('share-modal');
-                });
-            } else {
-                openModal('share-modal');
-            }
-        }
-
-        // Inicialização quando o documento estiver carregado
+        // Inicializar a aplicação quando o DOM estiver carregado
         document.addEventListener('DOMContentLoaded', function() {
             initializeData();
-            renderMaterialsList();
-            renderActivityLog();
+            updateMaterialsList();
+            updateLogList();
             
-            // Event listeners para os botões de ação principais
+            // Verificar itens atrasados a cada hora
+            checkOverdueItems();
+            setInterval(checkOverdueItems, 60 * 60 * 1000);
+            
+            // Event listeners para os botões
             document.getElementById('borrow-btn').addEventListener('click', () => openBorrowModal());
             document.getElementById('return-btn').addEventListener('click', () => openReturnModal());
             document.getElementById('maintenance-btn').addEventListener('click', () => openMaintenanceModal());
-            document.getElementById('share-btn').addEventListener('click', nativeShare);
-            document.getElementById('admin-alerts-btn').addEventListener('click', openAdminAlertsModal);
-            document.getElementById('admin-report-btn').addEventListener('click', () => {
-                alert("Relatório administrativo gerado e enviado para o WhatsApp!");
-                const message = encodeURIComponent("📊 Relatório administrativo do Sistema de Controle de Ferramentas");
-                window.open(`https://wa.me/${ADMIN_NUMBER}?text=${message}`, '_blank');
-            });
+            document.getElementById('share-btn').addEventListener('click', () => document.getElementById('share-modal').style.display = 'flex');
+            document.getElementById('admin-alerts-btn').addEventListener('click', () => document.getElementById('admin-alerts-modal').style.display = 'flex');
+            document.getElementById('notification-settings-btn').addEventListener('click', () => document.getElementById('notification-modal').style.display = 'flex');
             document.getElementById('clear-data-btn').addEventListener('click', clearAllData);
             
-            // Event listeners para os botões de confirmação
-            document.getElementById('confirm-borrow').addEventListener('click', registerBorrow);
-            document.getElementById('confirm-return').addEventListener('click', registerReturn);
-            document.getElementById('confirm-maintenance').addEventListener('click', registerMaintenance);
-            
-            // Event listeners para compartilhamento
-            document.getElementById('btn-whatsapp').addEventListener('click', shareViaWhatsApp);
+            // Event listeners para confirmar ações
+            document.getElementById('confirm-borrow').addEventListener('click', confirmBorrow);
+            document.getElementById('confirm-return').addEventListener('click', confirmReturn);
+            document.getElementById('confirm-maintenance').addEventListener('click', confirmMaintenance);
+            document.getElementById('btn-whatsapp').addEventListener('click', shareSystem);
             document.getElementById('copy-link-btn').addEventListener('click', copySystemLink);
-            document.getElementById('send-alert-btn').addEventListener('click', sendAdminAlert);
+            document.getElementById('save-notification-settings').addEventListener('click', saveNotificationSettings);
             
-            // Event listener para tipo de alerta
-            document.getElementById('alert-type').addEventListener('change', function() {
-                const customAlertSection = document.getElementById('custom-alert-section');
-                customAlertSection.style.display = this.value === 'custom' ? 'block' : 'none';
-            });
-            
-            // Event listeners para fechar modais
+            // Fechar modais ao clicar no X
             document.querySelectorAll('.close').forEach(closeBtn => {
                 closeBtn.addEventListener('click', function() {
-                    const modalId = this.closest('.modal').id;
-                    closeModal(modalId);
+                    this.closest('.modal').style.display = 'none';
                 });
             });
             
-            // Fechar modal clicando fora dele
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        closeModal(this.id);
+            // Fechar modais ao clicar fora deles
+            window.addEventListener('click', function(event) {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
                     }
                 });
             });
             
-            // Adicionar botão de instalação se for mobile
-            if (isMobileDevice()) {
-                document.getElementById('installPrompt').style.display = 'block';
-            }
-            
-            // Gerenciar prompt de instalação PWA
-            let deferredPrompt;
-            const installBtn = document.getElementById('installBtn');
-
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                document.getElementById('installPrompt').style.display = 'block';
-                
-                installBtn.addEventListener('click', () => {
-                    document.getElementById('installPrompt').style.display = 'none';
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('Usuário aceitou a instalação');
-                        }
-                        deferredPrompt = null;
-                    });
-                });
+            // Alternar seção de mensagem personalizada no modal de alertas
+            document.getElementById('alert-type').addEventListener('change', function() {
+                const customSection = document.getElementById('custom-alert-section');
+                customSection.style.display = this.value === 'custom' ? 'block' : 'none';
             });
-            
-            // Registrar service worker
-            if ('serviceWorker' in navigator) {
-                window.addEventListener('load', function() {
-                    navigator.serviceWorker.register('sw.js')
-                    .then(function(registration) {
-                        console.log('ServiceWorker registrado com sucesso: ', registration.scope);
-                    })
-                    .catch(function(error) {
-                        console.log('Falha no registro do ServiceWorker: ', error);
-                    });
-                });
-            }
         });
     </script>
 </body>
