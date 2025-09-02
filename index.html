@@ -6,7 +6,6 @@
     <title>Controle de Ferramentas - Energia Pecém</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Estilos anteriores mantidos */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -47,6 +46,17 @@
         
         .admin-bar {
             background-color: #e74c3c;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .user-bar {
+            background-color: #3498db;
             color: white;
             padding: 10px;
             border-radius: 8px;
@@ -423,6 +433,14 @@
             transform: translateX(26px);
         }
         
+        .user-view .admin-only {
+            display: none;
+        }
+        
+        .admin-view .user-only {
+            display: none;
+        }
+        
         @media (max-width: 768px) {
             .dashboard {
                 grid-template-columns: 1fr;
@@ -458,7 +476,7 @@
             <p>Gerencie o empréstimo e devolução de equipamentos</p>
         </header>
         
-        <div class="admin-bar">
+        <div id="admin-bar" class="admin-bar">
             <div>
                 <i class="fas fa-user-shield"></i> Modo Administrador: Gilberlen (5585985691148)
             </div>
@@ -468,6 +486,17 @@
                 </button>
                 <button class="admin-btn" id="admin-report-btn">
                     <i class="fas fa-file-pdf"></i> Gerar Relatório
+                </button>
+            </div>
+        </div>
+        
+        <div id="user-bar" class="user-bar">
+            <div>
+                <i class="fas fa-user"></i> Modo Usuário: Acesso para retirada de materiais
+            </div>
+            <div>
+                <button class="secondary-btn" id="user-share-btn">
+                    <i class="fab fa-whatsapp"></i> Compartilhar Acesso
                 </button>
             </div>
         </div>
@@ -496,15 +525,20 @@
                     </div>
                 </div>
                 
-                <div class="card">
-                    <h2><i class="fas fa-cog"></i> Ações</h2>
+                <div class="card admin-only">
+                    <h2><i class="fas fa-cog"></i> Ações Administrativas</h2>
                     <div class="actions">
-                        <button id="borrow-btn"><i class="fas fa-hand-holding"></i> Registrar Empréstimo</button>
                         <button id="return-btn"><i class="fas fa-undo"></i> Registrar Devolução</button>
                         <button id="maintenance-btn"><i class="fas fa-tools"></i> Registrar Manutenção</button>
-                        <button class="secondary-btn" id="share-btn"><i class="fab fa-whatsapp"></i> Compartilhar Sistema</button>
                         <button class="admin-btn" id="admin-alerts-btn"><i class="fab fa-whatsapp"></i> Alertas WhatsApp</button>
                         <button class="danger-btn" id="clear-data-btn"><i class="fas fa-trash"></i> Limpar Dados</button>
+                    </div>
+                </div>
+
+                <div class="card user-only">
+                    <h2><i class="fas fa-hand-holding"></i> Retirar Material</h2>
+                    <div class="actions">
+                        <button id="user-borrow-btn"><i class="fas fa-hand-holding"></i> Fazer Retirada</button>
                     </div>
                 </div>
 
@@ -517,6 +551,7 @@
                                     <th>Data</th>
                                     <th>Item</th>
                                     <th>Ação</th>
+                                    <th>Responsável</th>
                                 </tr>
                             </thead>
                             <tbody id="log-list">
@@ -540,7 +575,7 @@
                                     <th>Status</th>
                                     <th>Responsável</th>
                                     <th>Data Empréstimo</th>
-                                    <th>Ações</th>
+                                    <th class="admin-only">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="materials-list">
@@ -550,7 +585,7 @@
                     </div>
                 </div>
                 
-                <div class="card">
+                <div class="card admin-only">
                     <h2><i class="fas fa-exclamation-triangle"></i> Itens com Devolução Atrasada</h2>
                     <div id="overdue-items-list" class="overdue-list">
                         <!-- Itens atrasados serão preenchidos via JavaScript -->
@@ -560,43 +595,70 @@
         </div>
     </div>
 
-    <!-- Modal para Compartilhar -->
+    <!-- Modal para Compartilhar (Usuário) -->
     <div id="share-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2><i class="fab fa-whatsapp"></i> Compartilhar Sistema</h2>
+                <h2><i class="fab fa-whatsapp"></i> Compartilhar Acesso</h2>
                 <span class="close">&times;</span>
             </div>
+            
             <div class="form-group">
-                <label for="whatsapp-number"><i class="fas fa-phone"></i> Número do Destinatário (com DDD):</label>
-                <input type="text" id="whatsapp-number" placeholder="Ex: 5585985691148">
+                <label for="user-access-message"><i class="fas fa-comment"></i> Mensagem de Acesso:</label>
+                <textarea id="user-access-message" rows="4" readonly>Olá! Use este link para acessar o sistema de controle de ferramentas da Energia Pecém e fazer retiradas de materiais.</textarea>
             </div>
             
             <div class="form-group">
-                <label for="custom-message"><i class="fas fa-comment"></i> Mensagem Personalizada:</label>
-                <textarea id="custom-message" rows="4">Olá! Aqui está o link para o sistema de controle de ferramentas elétricas da Energia Pecém. Acesse para registrar retiradas e devoluções.</textarea>
-            </div>
-            
-            <div class="form-group">
-                <label><i class="fas fa-link"></i> Link do Sistema:</label>
+                <label><i class="fas fa-link"></i> Link de Acesso:</label>
                 <div class="copy-link">
-                    <input type="text" id="system-link" readonly value="">
-                    <button id="copy-link-btn"><i class="fas fa-copy"></i> Copiar</button>
+                    <input type="text" id="user-access-link" readonly value="">
+                    <button id="copy-user-link-btn"><i class="fas fa-copy"></i> Copiar</button>
                 </div>
             </div>
             
-            <button id="btn-whatsapp"><i class="fab fa-whatsapp"></i> Enviar Link via WhatsApp</button>
+            <button id="btn-share-user-access"><i class="fab fa-whatsapp"></i> Compartilhar via WhatsApp</button>
             
             <div id="share-success-message" class="success-message">
-                <i class="fas fa-check-circle"></i> Mensagem preparada com sucesso!
-            </div>
-            <div id="share-error-message" class="error-message">
-                <i class="fas fa-exclamation-circle"></i> Por favor, informe um número de WhatsApp válido.
+                <i class="fas fa-check-circle"></i> Link copiado com sucesso!
             </div>
         </div>
     </div>
 
-    <!-- Modal para Notificações -->
+    <!-- Modal para Retirada (Usuário) -->
+    <div id="user-borrow-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-hand-holding"></i> Retirar Material</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="form-group">
+                <label for="user-name">Seu Nome:</label>
+                <input type="text" id="user-name" placeholder="Digite seu nome completo">
+            </div>
+            <div class="form-group">
+                <label for="user-borrow-item">Selecionar Item:</label>
+                <select id="user-borrow-item">
+                    <option value="">Selecione um item</option>
+                    <!-- Opções preenchidas via JavaScript -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="user-borrow-deadline">Previsão de Devolução:</label>
+                <input type="date" id="user-borrow-deadline">
+            </div>
+            
+            <button id="confirm-user-borrow"><i class="fas fa-check"></i> Confirmar Retirada</button>
+            
+            <div id="user-borrow-success-message" class="success-message">
+                <i class="fas fa-check-circle"></i> Retirada registrada com sucesso!
+            </div>
+            <div id="user-borrow-error-message" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> Por favor, preencha todos os campos.
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Notificações (Admin) -->
     <div id="notification-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -643,7 +705,7 @@
             
             <div class="form-group">
                 <label for="notification-number"><i class="fas fa-phone"></i> Número para Notificações:</label>
-                <input type="text" id="notification-number" value="5585985691148">
+                <input type="text" id="notification-number" value="5585985691148" readonly>
                 <p class="description">Número do administrador que receberá as notificações</p>
             </div>
             
@@ -655,91 +717,7 @@
         </div>
     </div>
 
-    <!-- Modal para Alertas Administrativos -->
-    <div id="admin-alerts-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fab fa-whatsapp"></i> Alertas WhatsApp - Administrador</h2>
-                <span class="close">&times;</span>
-            </div>
-            
-            <div class="form-group">
-                <label><i class="fas fa-user-shield"></i> Número do Administrador:</label>
-                <input type="text" id="admin-number" value="5585985691148" readonly>
-            </div>
-            
-            <div class="form-group">
-                <label for="alert-type"><i class="fas fa-bell"></i> Tipo de Alerta:</label>
-                <select id="alert-type">
-                    <option value="overdue">Itens com Devolução Atrasada</option>
-                    <option value="all-borrowed">Todos os Itens Emprestados</option>
-                    <option value="maintenance">Itens em Manutenção</option>
-                    <option value="custom">Mensagem Personalizada</option>
-                </select>
-            </div>
-            
-            <div id="custom-alert-section" class="form-group" style="display: none;">
-                <label for="custom-alert-message"><i class="fas fa-comment"></i> Mensagem Personalizada:</label>
-                <textarea id="custom-alert-message" rows="4" placeholder="Digite sua mensagem personalizada"></textarea>
-            </div>
-            
-            <button id="send-alert-btn"><i class="fab fa-whatsapp"></i> Enviar Alerta via WhatsApp</button>
-            
-            <div id="alert-success-message" class="success-message">
-                <i class="fas fa-check-circle"></i> Alerta enviado com sucesso!
-            </div>
-            <div id="alert-error-message" class="error-message">
-                <i class="fas fa-exclamation-circle"></i> Erro ao enviar alerta.
-            </div>
-            
-            <div class="overdue-list" style="margin-top: 20px;">
-                <h3><i class="fas fa-list"></i> Itens Atrasados</h3>
-                <div id="alert-overdue-items">
-                    <!-- Itens atrasados para alerta -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para Empréstimo -->
-    <div id="borrow-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fas fa-hand-holding"></i> Registrar Empréstimo</h2>
-                <span class="close">&times;</span>
-            </div>
-            <div class="form-group">
-                <label for="borrow-item">Selecionar Item:</label>
-                <select id="borrow-item">
-                    <option value="">Selecione um item</option>
-                    <!-- Opções preenchidas via JavaScript -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="borrow-person">Responsável:</label>
-                <input type="text" id="borrow-person" placeholder="Nome do responsável">
-            </div>
-            <div class="form-group">
-                <label for="borrow-deadline">Prazo de Devolução:</label>
-                <input type="date" id="borrow-deadline">
-            </div>
-            <div class="form-group">
-                <label for="borrow-notes">Observações:</label>
-                <textarea id="borrow-notes" rows="3" placeholder="Observações adicionais"></textarea>
-            </div>
-            
-            <button id="confirm-borrow"><i class="fas fa-check"></i> Confirmar Empréstimo</button>
-            
-            <div id="borrow-success-message" class="success-message">
-                <i class="fas fa-check-circle"></i> Empréstimo registrado com sucesso!
-            </div>
-            <div id="borrow-error-message" class="error-message">
-                <i class="fas fa-exclamation-circle"></i> Por favor, preencha todos os campos obrigatórios.
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para Devolução -->
+    <!-- Modal para Devolução (Admin) -->
     <div id="return-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -769,7 +747,7 @@
         </div>
     </div>
 
-    <!-- Modal para Manutenção -->
+    <!-- Modal para Manutenção (Admin) -->
     <div id="maintenance-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -839,6 +817,7 @@
         let materials = [];
         let activityLog = [];
         const ADMIN_NUMBER = "5585985691148";
+        let isAdminMode = false;
         
         // Configurações de notificação
         let notificationSettings = {
@@ -873,8 +852,37 @@
                 updateNotificationUI();
             }
             
-            // Atualizar o link do sistema
-            document.getElementById('system-link').value = window.location.href;
+            // Verificar se é admin pelo número (simulação)
+            checkAdminStatus();
+            
+            // Atualizar o link de acesso do usuário
+            document.getElementById('user-access-link').value = window.location.href;
+        }
+
+        // Função para verificar se é admin
+        function checkAdminStatus() {
+            // Em um sistema real, isso seria verificado de forma mais segura
+            // Aqui é apenas uma simulação
+            const urlParams = new URLSearchParams(window.location.search);
+            const adminParam = urlParams.get('admin');
+            
+            isAdminMode = adminParam === 'true' || false;
+            updateViewMode();
+        }
+
+        // Função para atualizar a visualização conforme o modo
+        function updateViewMode() {
+            if (isAdminMode) {
+                document.body.classList.add('admin-view');
+                document.body.classList.remove('user-view');
+                document.getElementById('admin-bar').style.display = 'flex';
+                document.getElementById('user-bar').style.display = 'none';
+            } else {
+                document.body.classList.add('user-view');
+                document.body.classList.remove('admin-view');
+                document.getElementById('admin-bar').style.display = 'none';
+                document.getElementById('user-bar').style.display = 'flex';
+            }
         }
 
         // Função para salvar materiais no localStorage
@@ -911,7 +919,8 @@
                 itemId: itemId,
                 itemName: item.name,
                 action: action,
-                details: details
+                details: details,
+                responsible: details.responsible || ''
             };
             
             activityLog.unshift(logEntry);
@@ -943,9 +952,13 @@
                 const actionCell = document.createElement('td');
                 actionCell.textContent = log.action;
                 
+                const responsibleCell = document.createElement('td');
+                responsibleCell.textContent = log.responsible || '-';
+                
                 row.appendChild(dateCell);
                 row.appendChild(itemCell);
                 row.appendChild(actionCell);
+                row.appendChild(responsibleCell);
                 
                 logList.appendChild(row);
             });
@@ -1011,32 +1024,30 @@
                 const dateCell = document.createElement('td');
                 dateCell.textContent = material.borrowDate || '-';
                 
-                const actionsCell = document.createElement('td');
-                actionsCell.className = 'action-buttons';
-                
-                if (material.status === 'available') {
-                    const borrowBtn = document.createElement('button');
-                    borrowBtn.className = 'action-btn';
-                    borrowBtn.innerHTML = '<i class="fas fa-hand-holding"></i>';
-                    borrowBtn.title = 'Emprestar';
-                    borrowBtn.onclick = () => openBorrowModal(material.id);
-                    actionsCell.appendChild(borrowBtn);
-                } else if (material.status === 'borrowed' || material.status === 'overdue') {
-                    const returnBtn = document.createElement('button');
-                    returnBtn.className = 'action-btn secondary-btn';
-                    returnBtn.innerHTML = '<i class="fas fa-undo"></i>';
-                    returnBtn.title = 'Devolver';
-                    returnBtn.onclick = () => openReturnModal(material.id);
-                    actionsCell.appendChild(returnBtn);
-                }
-                
-                if (material.status !== 'maintenance') {
-                    const maintenanceBtn = document.createElement('button');
-                    maintenanceBtn.className = 'action-btn admin-btn';
-                    maintenanceBtn.innerHTML = '<i class="fas fa-tools"></i>';
-                    maintenanceBtn.title = 'Manutenção';
-                    maintenanceBtn.onclick = () => openMaintenanceModal(material.id);
-                    actionsCell.appendChild(maintenanceBtn);
+                // Ações apenas para admin
+                if (isAdminMode) {
+                    const actionsCell = document.createElement('td');
+                    actionsCell.className = 'action-buttons';
+                    
+                    if (material.status === 'borrowed' || material.status === 'overdue') {
+                        const returnBtn = document.createElement('button');
+                        returnBtn.className = 'action-btn secondary-btn';
+                        returnBtn.innerHTML = '<i class="fas fa-undo"></i>';
+                        returnBtn.title = 'Devolver';
+                        returnBtn.onclick = () => openReturnModal(material.id);
+                        actionsCell.appendChild(returnBtn);
+                    }
+                    
+                    if (material.status !== 'maintenance') {
+                        const maintenanceBtn = document.createElement('button');
+                        maintenanceBtn.className = 'action-btn admin-btn';
+                        maintenanceBtn.innerHTML = '<i class="fas fa-tools"></i>';
+                        maintenanceBtn.title = 'Manutenção';
+                        maintenanceBtn.onclick = () => openMaintenanceModal(material.id);
+                        actionsCell.appendChild(maintenanceBtn);
+                    }
+                    
+                    row.appendChild(actionsCell);
                 }
                 
                 row.appendChild(idCell);
@@ -1045,7 +1056,6 @@
                 row.appendChild(statusCell);
                 row.appendChild(responsibleCell);
                 row.appendChild(dateCell);
-                row.appendChild(actionsCell);
                 
                 materialsList.appendChild(row);
             });
@@ -1083,10 +1093,10 @@
             });
         }
 
-        // Função para abrir o modal de empréstimo
-        function openBorrowModal(itemId = null) {
-            const modal = document.getElementById('borrow-modal');
-            const itemSelect = document.getElementById('borrow-item');
+        // Função para abrir o modal de retirada (usuário)
+        function openUserBorrowModal() {
+            const modal = document.getElementById('user-borrow-modal');
+            const itemSelect = document.getElementById('user-borrow-item');
             
             // Limpar seleção anterior
             itemSelect.innerHTML = '<option value="">Selecione um item</option>';
@@ -1096,32 +1106,28 @@
                 const option = document.createElement('option');
                 option.value = item.id;
                 option.textContent = item.name;
-                if (itemId && item.id === itemId) {
-                    option.selected = true;
-                }
                 itemSelect.appendChild(option);
             });
             
             // Definir data mínima para hoje
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('borrow-deadline').min = today;
+            document.getElementById('user-borrow-deadline').min = today;
             
             // Limpar mensagens
-            document.getElementById('borrow-success-message').style.display = 'none';
-            document.getElementById('borrow-error-message').style.display = 'none';
+            document.getElementById('user-borrow-success-message').style.display = 'none';
+            document.getElementById('user-borrow-error-message').style.display = 'none';
             
             modal.style.display = 'flex';
         }
 
-        // Função para confirmar empréstimo
-        function confirmBorrow() {
-            const itemId = parseInt(document.getElementById('borrow-item').value);
-            const responsible = document.getElementById('borrow-person').value.trim();
-            const deadline = document.getElementById('borrow-deadline').value;
-            const notes = document.getElementById('borrow-notes').value.trim();
+        // Função para confirmar retirada (usuário)
+        function confirmUserBorrow() {
+            const itemId = parseInt(document.getElementById('user-borrow-item').value);
+            const responsible = document.getElementById('user-name').value.trim();
+            const deadline = document.getElementById('user-borrow-deadline').value;
             
             if (!itemId || !responsible || !deadline) {
-                document.getElementById('borrow-error-message').style.display = 'block';
+                document.getElementById('user-borrow-error-message').style.display = 'block';
                 return;
             }
             
@@ -1135,7 +1141,7 @@
             materials[itemIndex].deadline = deadline;
             
             // Adicionar ao log
-            addToLog(itemId, 'Empréstimo', { responsible, deadline, notes });
+            addToLog(itemId, 'Retirada', { responsible, deadline });
             
             // Salvar alterações
             saveMaterials();
@@ -1144,8 +1150,8 @@
             updateMaterialsList();
             
             // Mostrar mensagem de sucesso
-            document.getElementById('borrow-success-message').style.display = 'block';
-            document.getElementById('borrow-error-message').style.display = 'none';
+            document.getElementById('user-borrow-success-message').style.display = 'block';
+            document.getElementById('user-borrow-error-message').style.display = 'none';
             
             // Enviar notificação para o administrador
             if (notificationSettings.notifyBorrow) {
@@ -1154,17 +1160,17 @@
             
             // Fechar modal após 2 segundos
             setTimeout(() => {
-                document.getElementById('borrow-modal').style.display = 'none';
+                document.getElementById('user-borrow-modal').style.display = 'none';
             }, 2000);
         }
 
         // Função para enviar notificação de empréstimo
         function sendBorrowNotification(item) {
             const adminNumber = notificationSettings.notificationNumber;
-            const message = `🔔 *Notificação de Empréstimo* 🔔\n\n` +
+            const message = `🔔 *Notificação de Retirada* 🔔\n\n` +
                            `*Item:* ${item.name}\n` +
                            `*Responsável:* ${item.responsible}\n` +
-                           `*Data do Empréstimo:* ${item.borrowDate}\n` +
+                           `*Data da Retirada:* ${item.borrowDate}\n` +
                            `*Prazo de Devolução:* ${item.deadline}\n\n` +
                            `_Sistema de Controle de Ferramentas - Energia Pecém_`;
             
@@ -1178,7 +1184,7 @@
             window.open(whatsappUrl, '_blank');
         }
 
-        // Função para abrir o modal de devolução
+        // Função para abrir o modal de devolução (admin)
         function openReturnModal(itemId = null) {
             const modal = document.getElementById('return-modal');
             const itemSelect = document.getElementById('return-item');
@@ -1204,7 +1210,7 @@
             modal.style.display = 'flex';
         }
 
-        // Função para confirmar devolução
+        // Função para confirmar devolução (admin)
         function confirmReturn() {
             const itemId = parseInt(document.getElementById('return-item').value);
             const notes = document.getElementById('return-notes').value.trim();
@@ -1226,7 +1232,7 @@
             materials[itemIndex].deadline = '';
             
             // Adicionar ao log
-            addToLog(itemId, 'Devolução', { notes });
+            addToLog(itemId, 'Devolução', { notes, responsible: item.responsible });
             
             // Salvar alterações
             saveMaterials();
@@ -1268,7 +1274,7 @@
             window.open(whatsappUrl, '_blank');
         }
 
-        // Função para abrir o modal de manutenção
+        // Função para abrir o modal de manutenção (admin)
         function openMaintenanceModal(itemId = null) {
             const modal = document.getElementById('maintenance-modal');
             const itemSelect = document.getElementById('maintenance-item');
@@ -1294,7 +1300,7 @@
             modal.style.display = 'flex';
         }
 
-        // Função para confirmar manutenção
+        // Função para confirmar manutenção (admin)
         function confirmMaintenance() {
             const itemId = parseInt(document.getElementById('maintenance-item').value);
             const notes = document.getElementById('maintenance-notes').value.trim();
@@ -1330,54 +1336,40 @@
             }, 2000);
         }
 
-        // Função para compartilhar o sistema via WhatsApp
-        function shareSystem() {
-            const number = document.getElementById('whatsapp-number').value.trim();
-            const customMessage = document.getElementById('custom-message').value;
-            const systemLink = document.getElementById('system-link').value;
+        // Função para compartilhar acesso de usuário
+        function shareUserAccess() {
+            const systemLink = document.getElementById('user-access-link').value;
             
-            // Validar número (formato internacional sem +)
-            const numberRegex = /^[1-9][0-9]{10,14}$/;
-            if (!numberRegex.test(number)) {
-                document.getElementById('share-error-message').style.display = 'block';
-                return;
-            }
-            
-            // Montar mensagem completa
-            const fullMessage = `${customMessage}\n\n${systemLink}`;
+            // Montar mensagem
+            const message = `Olá! Use este link para acessar o sistema de controle de ferramentas da Energia Pecém e fazer retiradas de materiais: ${systemLink}`;
             
             // Codificar a mensagem para URL
-            const encodedMessage = encodeURIComponent(fullMessage);
+            const encodedMessage = encodeURIComponent(message);
             
             // Gerar link do WhatsApp
-            const whatsappUrl = `https://wa.me/${number}?text=${encodedMessage}`;
+            const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
             
             // Abrir em uma nova janela (ou guia)
             window.open(whatsappUrl, '_blank');
-            
-            // Mostrar mensagem de sucesso
-            document.getElementById('share-success-message').style.display = 'block';
-            document.getElementById('share-error-message').style.display = 'none';
-            
-            // Fechar modal após 2 segundos
-            setTimeout(() => {
-                document.getElementById('share-modal').style.display = 'none';
-            }, 2000);
         }
 
-        // Função para copiar o link do sistema
-        function copySystemLink() {
-            const linkInput = document.getElementById('system-link');
+        // Função para copiar o link de acesso do usuário
+        function copyUserAccessLink() {
+            const linkInput = document.getElementById('user-access-link');
             linkInput.select();
             document.execCommand('copy');
             
             // Feedback visual
-            const copyBtn = document.getElementById('copy-link-btn');
+            const copyBtn = document.getElementById('copy-user-link-btn');
             const originalText = copyBtn.innerHTML;
             copyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
             
+            // Mostrar mensagem de sucesso
+            document.getElementById('share-success-message').style.display = 'block';
+            
             setTimeout(() => {
                 copyBtn.innerHTML = originalText;
+                document.getElementById('share-success-message').style.display = 'none';
             }, 2000);
         }
 
@@ -1386,7 +1378,6 @@
             notificationSettings.notifyBorrow = document.getElementById('notify-borrow').checked;
             notificationSettings.notifyReturn = document.getElementById('notify-return').checked;
             notificationSettings.notifyOverdue = document.getElementById('notify-overdue').checked;
-            notificationSettings.notificationNumber = document.getElementById('notification-number').value.trim();
             
             saveNotificationSettings();
             
@@ -1476,21 +1467,23 @@
             checkOverdueItems();
             setInterval(checkOverdueItems, 60 * 60 * 1000);
             
-            // Event listeners para os botões
-            document.getElementById('borrow-btn').addEventListener('click', () => openBorrowModal());
+            // Event listeners para os botões (usuário)
+            document.getElementById('user-borrow-btn').addEventListener('click', openUserBorrowModal);
+            document.getElementById('user-share-btn').addEventListener('click', () => document.getElementById('share-modal').style.display = 'flex');
+            
+            // Event listeners para os botões (admin)
             document.getElementById('return-btn').addEventListener('click', () => openReturnModal());
             document.getElementById('maintenance-btn').addEventListener('click', () => openMaintenanceModal());
-            document.getElementById('share-btn').addEventListener('click', () => document.getElementById('share-modal').style.display = 'flex');
             document.getElementById('admin-alerts-btn').addEventListener('click', () => document.getElementById('admin-alerts-modal').style.display = 'flex');
             document.getElementById('notification-settings-btn').addEventListener('click', () => document.getElementById('notification-modal').style.display = 'flex');
             document.getElementById('clear-data-btn').addEventListener('click', clearAllData);
             
             // Event listeners para confirmar ações
-            document.getElementById('confirm-borrow').addEventListener('click', confirmBorrow);
+            document.getElementById('confirm-user-borrow').addEventListener('click', confirmUserBorrow);
             document.getElementById('confirm-return').addEventListener('click', confirmReturn);
             document.getElementById('confirm-maintenance').addEventListener('click', confirmMaintenance);
-            document.getElementById('btn-whatsapp').addEventListener('click', shareSystem);
-            document.getElementById('copy-link-btn').addEventListener('click', copySystemLink);
+            document.getElementById('btn-share-user-access').addEventListener('click', shareUserAccess);
+            document.getElementById('copy-user-link-btn').addEventListener('click', copyUserAccessLink);
             document.getElementById('save-notification-settings').addEventListener('click', saveNotificationSettings);
             
             // Fechar modais ao clicar no X
@@ -1507,12 +1500,6 @@
                         modal.style.display = 'none';
                     }
                 });
-            });
-            
-            // Alternar seção de mensagem personalizada no modal de alertas
-            document.getElementById('alert-type').addEventListener('change', function() {
-                const customSection = document.getElementById('custom-alert-section');
-                customSection.style.display = this.value === 'custom' ? 'block' : 'none';
             });
         });
     </script>
