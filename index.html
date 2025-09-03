@@ -168,6 +168,9 @@
             border-collapse: collapse;
             margin-top: 15px;
             font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: block;
         }
         
         .materials-table th, .materials-table td {
@@ -270,11 +273,18 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
         }
         
         .close {
             font-size: 24px;
             cursor: pointer;
+            color: #888;
+        }
+        
+        .close:hover {
+            color: #333;
         }
         
         .success-message {
@@ -312,7 +322,7 @@
             border-collapse: collapse;
             margin-top: 15px;
             font-size: 14px;
-            max-height: 200px;
+            max-height: 300px;
             overflow-y: auto;
             display: block;
         }
@@ -369,65 +379,6 @@
         
         .overdue-item:last-child {
             border-bottom: none;
-        }
-        
-        .notification-settings {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-        
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-        
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .slider {
-            background-color: #2196F3;
-        }
-        
-        input:checked + .slider:before {
-            transform: translateX(26px);
         }
         
         .user-view .admin-only {
@@ -497,6 +448,7 @@
         
         .login-form .form-group {
             margin-bottom: 20px;
+            position: relative;
         }
         
         .login-btn {
@@ -527,6 +479,130 @@
             gap: 8px;
         }
         
+        /* Novos estilos para notificações */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            max-width: 350px;
+        }
+        
+        .notification {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 10px;
+            overflow: hidden;
+            animation: slideIn 0.3s ease-out;
+            display: flex;
+        }
+        
+        .notification-content {
+            padding: 15px;
+            flex: 1;
+        }
+        
+        .notification-close {
+            padding: 10px;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #888;
+        }
+        
+        .notification-close:hover {
+            background: #eee;
+            color: #333;
+        }
+        
+        .notification.borrowed {
+            border-left: 4px solid #3498db;
+        }
+        
+        .notification.returned {
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .notification.overdue {
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .notification-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .notification-time {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .notification-icon {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        
+        .notification-icon.borrowed {
+            color: #3498db;
+        }
+        
+        .notification-icon.returned {
+            color: #2ecc71;
+        }
+        
+        .notification-icon.overdue {
+            color: #e74c3c;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .whatsapp-notification {
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #25D366;
+            border-radius: 8px;
+            margin: 15px 0;
+            background-color: #f0fff4;
+        }
+        
+        .whatsapp-notification h3 {
+            color: #25D366;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .notification-badge {
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
         @media (max-width: 768px) {
             .dashboard {
                 grid-template-columns: 1fr;
@@ -551,6 +627,12 @@
             
             .copy-link button {
                 border-radius: 8px;
+            }
+            
+            .notification-container {
+                left: 20px;
+                right: 20px;
+                max-width: none;
             }
         }
     </style>
@@ -585,6 +667,7 @@
         <div id="admin-bar" class="admin-bar">
             <div>
                 <i class="fas fa-user-shield"></i> Modo Administrador: Gilberlen (5585985691148)
+                <span id="notification-badge" class="notification-badge" style="display: none;">0</span>
             </div>
             <div>
                 <button class="admin-btn" id="admin-report-btn">
@@ -711,6 +794,9 @@
         </div>
     </div>
 
+    <!-- Container para notificações em tempo real -->
+    <div id="notification-container" class="notification-container"></div>
+
     <!-- Modal para Compartilhar (Usuário) -->
     <div id="share-modal" class="modal">
         <div class="modal-content">
@@ -763,6 +849,11 @@
                 <input type="date" id="user-borrow-deadline">
             </div>
             
+            <div class="whatsapp-notification">
+                <h3><i class="fab fa-whatsapp"></i> Notificação Automática</h3>
+                <p>O administrador será notificado via WhatsApp sobre esta retirada.</p>
+            </div>
+            
             <button id="confirm-user-borrow"><i class="fas fa-check"></i> Confirmar Retirada</button>
             
             <div id="user-borrow-success-message" class="success-message">
@@ -791,6 +882,11 @@
                     <option value="">Selecione um item</option>
                     <!-- Opções preenchidas via JavaScript -->
                 </select>
+            </div>
+            
+            <div class="whatsapp-notification">
+                <h3><i class="fab fa-whatsapp"></i> Notificação Automática</h3>
+                <p>O administrador será notificado via WhatsApp sobre esta devolução.</p>
             </div>
             
             <button id="confirm-user-return"><i class="fas fa-check"></i> Confirmar Devolução</button>
@@ -891,7 +987,7 @@
             { id: 22, name: "Detector de Tensão de Contato 3,8Kv-36Kv", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 23, name: "Digital Ratiometer for Transformers DTR 8510 Fluke", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 24, name: "Interruptor a Vacuo Viddar Megger", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 25, name: "Medidor de irradiancia Solar Fluke IRR2-BT", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 25, name: "Medidor de irradiancia Solar Fluke IRR2-BT", quantity: 1, status: "available", responsibility: "", borrowDate: "", deadline: "" },
             { id: 26, name: "Miliamperimetro", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 27, name: "Osciloscopio Fluke125B", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 28, name: "Trena a Laser Fluke", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
@@ -903,7 +999,9 @@
         // Array para armazenar os materiais
         let materials = [];
         let activityLog = [];
+        let notifications = [];
         const ADMIN_PASSWORD = "admin123"; // Senha padrão para acesso administrativo
+        const ADMIN_WHATSAPP = "5585985691148"; // Número do WhatsApp do administrador
         let isAdminMode = false;
         let currentUserName = "";
 
@@ -911,6 +1009,7 @@
         function initializeData() {
             const storedMaterials = localStorage.getItem('materials');
             const storedLog = localStorage.getItem('activityLog');
+            const storedNotifications = localStorage.getItem('notifications');
             
             if (storedMaterials) {
                 materials = JSON.parse(storedMaterials);
@@ -926,12 +1025,180 @@
                 saveLog();
             }
             
+            if (storedNotifications) {
+                notifications = JSON.parse(storedNotifications);
+            } else {
+                notifications = [];
+                saveNotifications();
+            }
+            
             // Atualizar o link de acesso do usuário
             document.getElementById('user-access-link').value = window.location.href.split('?')[0];
             
             // Mostrar a tela de login inicialmente
             document.getElementById('admin-login-container').style.display = 'flex';
             document.getElementById('main-content').style.display = 'none';
+            
+            // Verificar se há notificações não lidas
+            updateNotificationBadge();
+        }
+
+        // Função para salvar notificações
+        function saveNotifications() {
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+        }
+
+        // Função para adicionar uma nova notificação
+        function addNotification(type, title, message, itemId = null, responsible = null) {
+            const notification = {
+                id: Date.now(),
+                type: type,
+                title: title,
+                message: message,
+                timestamp: new Date().toLocaleString('pt-BR'),
+                read: false,
+                itemId: itemId,
+                responsible: responsible
+            };
+            
+            notifications.unshift(notification);
+            saveNotifications();
+            
+            // Se o admin está logado, mostrar notificação em tempo real
+            if (isAdminMode) {
+                showRealTimeNotification(notification);
+                updateNotificationBadge();
+            }
+        }
+
+        // Função para mostrar notificação em tempo real
+        function showRealTimeNotification(notification) {
+            const notificationContainer = document.getElementById('notification-container');
+            
+            const notificationElement = document.createElement('div');
+            notificationElement.className = `notification ${notification.type}`;
+            
+            let iconClass = 'fas fa-info-circle';
+            if (notification.type === 'borrowed') iconClass = 'fas fa-hand-holding';
+            if (notification.type === 'returned') iconClass = 'fas fa-undo';
+            if (notification.type === 'overdue') iconClass = 'fas fa-exclamation-triangle';
+            
+            notificationElement.innerHTML = `
+                <div class="notification-content">
+                    <div class="notification-title">
+                        <i class="${iconClass} notification-icon ${notification.type}"></i>
+                        ${notification.title}
+                    </div>
+                    <div>${notification.message}</div>
+                    <div class="notification-time">${notification.timestamp}</div>
+                </div>
+                <div class="notification-close" onclick="closeNotification(this)">
+                    <i class="fas fa-times"></i>
+                </div>
+            `;
+            
+            notificationContainer.appendChild(notificationElement);
+            
+            // Remover automaticamente após 5 segundos
+            setTimeout(() => {
+                if (notificationElement.parentNode) {
+                    notificationElement.style.opacity = '0';
+                    notificationElement.style.transition = 'opacity 0.5s';
+                    setTimeout(() => {
+                        if (notificationElement.parentNode) {
+                            notificationContainer.removeChild(notificationElement);
+                        }
+                    }, 500);
+                }
+            }, 5000);
+        }
+
+        // Função para fechar notificação
+        function closeNotification(element) {
+            const notification = element.closest('.notification');
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.5s';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 500);
+        }
+
+        // Função para atualizar o badge de notificações
+        function updateNotificationBadge() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            const badge = document.getElementById('notification-badge');
+            
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        // Função para enviar notificação por WhatsApp
+        function sendWhatsAppNotification(type, itemName, responsible, deadline = null) {
+            let message = '';
+            
+            if (type === 'borrowed') {
+                message = `🔧 *Retirada de Equipamento - Energia Pecém* 🔧\n\n` +
+                         `📋 *Item:* ${itemName}\n` +
+                         `👤 *Responsável:* ${responsible}\n` +
+                         `📅 *Previsão de Devolução:* ${deadline}\n` +
+                         `⏰ *Data/Hora:* ${new Date().toLocaleString('pt-BR')}\n\n` +
+                         `_Esta é uma notificação automática do sistema de controle de ferramentas._`;
+            } else if (type === 'returned') {
+                message = `🔄 *Devolução de Equipamento - Energia Pecém* 🔄\n\n` +
+                         `📋 *Item:* ${itemName}\n` +
+                         `👤 *Responsável:* ${responsible}\n` +
+                         `⏰ *Data/Hora:* ${new Date().toLocaleString('pt-BR')}\n\n` +
+                         `_Esta é uma notificação automática do sistema de controle de ferramentas._`;
+            } else if (type === 'overdue') {
+                message = `⚠️ *ATRASO na Devolução - Energia Pecém* ⚠️\n\n` +
+                         `📋 *Item:* ${itemName}\n` +
+                         `👤 *Responsável:* ${responsible}\n` +
+                         `📅 *Data Prevista:* ${deadline}\n` +
+                         `⏰ *Data/Hora:* ${new Date().toLocaleString('pt-BR')}\n\n` +
+                         `_Esta é uma notificação automática do sistema de controle de ferramentas._`;
+            }
+            
+            // Codificar a mensagem para URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Gerar link do WhatsApp
+            const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodedMessage}`;
+            
+            // Abrir em uma nova janela (ou guia)
+            window.open(whatsappUrl, '_blank');
+            
+            // Adicionar notificação interna
+            let title = '';
+            if (type === 'borrowed') title = 'Retirada de Equipamento';
+            if (type === 'returned') title = 'Devolução de Equipamento';
+            if (type === 'overdue') title = 'Atraso na Devolução';
+            
+            addNotification(type, title, message);
+        }
+
+        // Função para verificar itens atrasados
+        function checkForOverdueItems() {
+            const today = new Date();
+            materials.forEach(item => {
+                if (item.status === 'borrowed' && item.deadline) {
+                    const deadlineDate = new Date(item.deadline);
+                    if (deadlineDate < today && item.status !== 'overdue') {
+                        // Item está atrasado
+                        item.status = 'overdue';
+                        
+                        // Enviar notificação por WhatsApp
+                        sendWhatsAppNotification('overdue', item.name, item.responsible, item.deadline);
+                    }
+                }
+            });
+            saveMaterials();
+            updateMaterialsList();
         }
 
         // Função para entrar como administrador
@@ -943,6 +1210,9 @@
                 updateViewMode();
                 document.getElementById('admin-login-container').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
+                
+                // Verificar se há itens atrasados ao entrar como admin
+                checkForOverdueItems();
             } else {
                 document.getElementById('login-error-message').style.display = 'block';
             }
@@ -1261,6 +1531,9 @@
             // Adicionar ao log
             addToLog(itemId, 'Retirada', { responsible, deadline });
             
+            // Enviar notificação por WhatsApp
+            sendWhatsAppNotification('borrowed', materials[itemIndex].name, responsible, deadline);
+            
             // Salvar alterações
             saveMaterials();
             
@@ -1332,6 +1605,9 @@
             
             // Adicionar ao log
             addToLog(itemId, 'Devolução', { responsible });
+            
+            // Enviar notificação por WhatsApp
+            sendWhatsAppNotification('returned', item.name, responsible);
             
             // Salvar alterações
             saveMaterials();
@@ -1490,7 +1766,7 @@
             // Gerar link do WhatsApp
             const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
             
-            // Abrir em uma nova janela (ou guia)
+            // Abrir em uma nova janela (or guia)
             window.open(whatsappUrl, '_blank');
         }
 
@@ -1519,6 +1795,7 @@
             if (confirm('Tem certeza que deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
                 localStorage.removeItem('materials');
                 localStorage.removeItem('activityLog');
+                localStorage.removeItem('notifications');
                 
                 // Recarregar a página para reinicializar os dados
                 location.reload();
