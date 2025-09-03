@@ -32,7 +32,7 @@
             background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
             color: white;
             border-radius: 12px;
-            box-shadow: 0 6px极地战斧12px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
         
         header h1 {
@@ -148,7 +148,7 @@
         }
         
         .secondary-btn {
-            background: linear-gradient(135deg, #3498db 极地战斧0%, #2c3e50 100%);
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
         }
         
         .danger-btn {
@@ -160,7 +160,7 @@
         }
         
         .notification-btn {
-            background: linear-gradient(135deg, #9b59b6 0%, #8e44极地战斧ad 100%);
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
         }
         
         .materials-table {
@@ -201,7 +201,7 @@
             color: #155724;
         }
         
-极地战斧        .borrowed {
+        .borrowed {
             background-color: #f8d7da;
             color: #721c24;
         }
@@ -214,13 +214,6 @@
         .overdue {
             background-color: #e74c3c;
             color: white;
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
         }
         
         .form-group {
@@ -244,7 +237,7 @@
             transition: border 0.3s;
         }
         
-        input:focus, select极地战斧:focus, textarea:focus {
+        input:focus, select:focus, textarea:focus {
             border-color: #3498db;
             outline: none;
         }
@@ -319,6 +312,9 @@
             border-collapse: collapse;
             margin-top: 15px;
             font-size: 14px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: block;
         }
         
         .log-table th, .log-table td {
@@ -327,8 +323,8 @@
             border-bottom: 1px solid #ddd;
         }
         
-        .log-table极地战斧 th {
-            background-color: #2极地战斧c3e50;
+        .log-table th {
+            background-color: #2c3e50;
             color: white;
         }
         
@@ -339,7 +335,7 @@
         
         .copy-link input {
             border-radius: 8px 0 0 8px;
-            margin: 极地战斧0;
+            margin: 0;
         }
         
         .copy-link button {
@@ -361,11 +357,11 @@
             display: flex;
             align-items: center;
             gap: 8px;
-极地战斧        }
+        }
         
         .overdue-item {
             padding: 10px;
-            border-bottom: 1px solid #f8极地战斧d7da;
+            border-bottom: 1px solid #f8d7da;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -386,7 +382,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 15极地战斧px;
+            margin-bottom: 15px;
         }
         
         .switch {
@@ -422,7 +418,7 @@
             left: 4px;
             bottom: 4px;
             background-color: white;
-            transition: .4极地战斧s;
+            transition: .4s;
             border-radius: 50%;
         }
         
@@ -470,51 +466,6 @@
             border-bottom: none;
         }
         
-        .report-section {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .report-item {
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: white;
-        }
-        
-        .report-chart {
-            height: 200px;
-            background-color: #f0f8ff;
-            border-radius: 8px;
-            margin: 15px 0;
-            display: flex;
-            align-items: flex-end;
-            padding: 10px;
-            gap: 5px;
-        }
-        
-        .chart-bar {
-            flex: 1;
-            background-color: #3498db;
-            border-radius: 4px 4px 0 0;
-            position: relative;
-            min-width: 20px;
-        }
-        
-        .chart-bar-label {
-            position: absolute;
-            bottom: -25px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 12px;
-            transform: rotate(-45deg);
-            transform-origin: top left;
-        }
-        
         .login-container {
             display: flex;
             justify-content: center;
@@ -554,7 +505,7 @@
             background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
             color: white;
             border: none;
-极地战斧            border-radius: 8px;
+            border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s;
@@ -618,7 +569,7 @@
                 <i class="fas fa-exclamation-circle"></i> Senha incorreta
             </div>
             <div style="text-align: center; margin-top: 20px;">
-                <button class="secondary-btn" onclick="enterAsUser()">
+                <button class="secondary-btn" id="enter-as-user-btn">
                     <i class="fas fa-user"></i> Entrar como Usuário
                 </button>
             </div>
@@ -626,7 +577,6 @@
     </div>
 
     <div class="container" id="main-content" style="display: none;">
-        <!-- Conteúdo principal do sistema -->
         <header>
             <h1><i class="fas fa-bolt"></i> Controle de Ferramentas Elétricas - Energia Pecém</h1>
             <p>Gerencie o empréstimo e devolução de equipamentos</p>
@@ -637,10 +587,7 @@
                 <i class="fas fa-user-shield"></i> Modo Administrador: Gilberlen (5585985691148)
             </div>
             <div>
-                <button class="notification-btn" id="notification-settings-btn">
-                    <i class="fas fa-bell"></i> Configurar Notificações
-                </button>
-                <button class="admin-btn"极地战斧 id="admin-report-btn">
+                <button class="admin-btn" id="admin-report-btn">
                     <i class="fas fa-file-pdf"></i> Gerar Relatório
                 </button>
                 <div class="admin-logout" id="admin-logout-btn">
@@ -667,7 +614,7 @@
             <div>
                 <div class="card">
                     <h2><i class="fas fa-chart-bar"></i> Estatísticas</h2>
-                    <div class极地战斧="stats">
+                    <div class="stats">
                         <div class="stat-item">
                             <h3 id="total-items">0</h3>
                             <p>Total de Itens</p>
@@ -680,7 +627,7 @@
                             <h3 id="borrowed-items">0</h3>
                             <p>Emprestados</p>
                         </div>
-                        <极地战斧div class="stat-item">
+                        <div class="stat-item">
                             <h3 id="overdue-items">0</h3>
                             <p>Atrasados</p>
                         </div>
@@ -692,16 +639,15 @@
                     <div class="actions">
                         <button id="admin-return-btn"><i class="fas fa-undo"></i> Registrar Devolução</button>
                         <button id="maintenance-btn"><i class="fas fa-tools"></i> Registrar Manutenção</button>
-                        <button class="admin-btn" id="admin-alerts-btn"><i class="fab fa-whatsapp"></i> Alertas WhatsApp</button>
                         <button class="danger-btn" id="clear-data-btn"><i class="fas fa-trash"></i> Limpar Dados</button>
                     </div>
                 </div>
 
                 <div class="card user-only">
-                    <h2><i class="fas极地战斧 fa-hand-holding"></i> Minhas Ações</h2>
+                    <h2><i class="fas fa-hand-holding"></i> Minhas Ações</h2>
                     <div class="actions">
                         <button id="user-borrow-btn"><i class="fas fa-hand-holding"></i> Fazer Retirada</button>
-                        <button id="user-return-btn"><极地战斧i class="fas fa-undo"></i> Fazer Devolução</button>
+                        <button id="user-return-btn"><i class="fas fa-undo"></i> Fazer Devolução</button>
                     </div>
                 </div>
 
@@ -714,13 +660,13 @@
 
                 <div class="card">
                     <h2><i class="fas fa-history"></i> Últimos Registros</h2>
-                    <div style="overflow-x: auto;">
+                    <div style="overflow-x: auto; max-height: 300px;">
                         <table class="log-table">
                             <thead>
                                 <tr>
                                     <th>Data</th>
                                     <th>Item</th>
-                                    <th>Ação</极地战斧th>
+                                    <th>Ação</th>
                                     <th>Responsável</th>
                                 </tr>
                             </thead>
@@ -761,44 +707,6 @@
                         <!-- Itens atrasados serão preenchidos via JavaScript -->
                     </div>
                 </div>
-                
-                <div id="admin-report-section" class="card admin-only">
-                    <h2><i class="fas fa-chart-pie"></极地战斧i> Relatórios Administrativos</h2>
-                    <div class="report-section">
-                        <div class="report-item">
-                            <h3>Materiais Mais Solicitados</h3>
-                            <div id="popular-items-chart" class="report-chart">
-                                <!-- Gráfico será preenchido via JavaScript -->
-                            </div>
-                        </div>
-                        
-                        <div class="report-item">
-                            <h3>Status dos Materiais</h3>
-                            <div id="status-chart" class="report-chart">
-                                <!-- Gráfico será preenchido via JavaScript -->
-                            </div>
-                        </div>
-                        
-                        <div class="report-item">
-                            <h3>Histórico de Empréstimos</h3>
-                            <div style="overflow-x: auto;">
-                                <table class="log-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Data</th>
-                                            <th>Item</th>
-                                            <th>Responsável</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="borrow-history-list">
-                                        <!-- Histórico será preenchido via JavaScript -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -813,12 +721,12 @@
             
             <div class="form-group">
                 <label for="user-access-message"><i class="fas fa-comment"></i> Mensagem de Acesso:</label>
-                <textarea id="user-access-message" rows="4" readonly>Olá! Use este link para acessar o sistema de controle de ferramentas da Energia Pecém极地战斧 e fazer retiradas e devoluções de materiais.</textarea>
+                <textarea id="user-access-message" rows="4" readonly>Olá! Use este link para acessar o sistema de controle de ferramentas da Energia Pecém e fazer retiradas e devoluções de materiais.</textarea>
             </div>
             
             <div class="form-group">
                 <label><i class="fas fa-link"></i> Link de Acesso:</label>
-                <div class极地战斧="copy-link">
+                <div class="copy-link">
                     <input type="text" id="user-access-link" readonly value="">
                     <button id="copy-user-link-btn"><i class="fas fa-copy"></i> Copiar</button>
                 </div>
@@ -857,8 +765,8 @@
             
             <button id="confirm-user-borrow"><i class="fas fa-check"></i> Confirmar Retirada</button>
             
-            <div id极地战斧="user-borrow-success-message" class="success-message">
-                <极地战斧i class="fas fa-check-circle"></i> Retirada registrada com sucesso!
+            <div id="user-borrow-success-message" class="success-message">
+                <i class="fas fa-check-circle"></i> Retirada registrada com sucesso!
             </div>
             <div id="user-borrow-error-message" class="error-message">
                 <i class="fas fa-exclamation-circle"></i> Por favor, preencha todos os campos.
@@ -870,9 +778,9 @@
     <div id="user-return-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2><i class="fas fa-undo"></i> Devolver Material</极地战斧h2>
+                <h2><i class="fas fa-undo"></i> Devolver Material</h2>
                 <span class="close">&times;</span>
-            </极地战斧div>
+            </div>
             <div class="form-group">
                 <label for="returner-name">Seu Nome:</label>
                 <input type="text" id="returner-name" placeholder="Digite seu nome completo">
@@ -896,65 +804,6 @@
         </div>
     </div>
 
-    <!-- Modal para Notificações (Admin) -->
-    <div id="notification-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fas fa-bell"></i> Configurações de Notificação</h2>
-                <span class="close">&times;</span>
-            </div>
-            
-            <div class="notification-settings">
-                <h3>Notificações Automáticas</h3>
-                
-                <div class="toggle-container">
-                    <div>
-                        <label>Notificar empréstimos</label>
-                        <p class="description">Enviar mensagem quando um item for emprestado</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="notify-borrow" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                
-                <div class="toggle-container">
-                    <div>
-                        <label>Notificar devoluções</label>
-                        <p class="description">Enviar mensagem quando an item for devolvido</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="notify-return">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                
-                <div class="toggle-container">
-                    <div>
-                        <label>Notificar atrasos</label>
-                        <p class="description">Enviar alertas de itens com devolução atrasada</极地战斧p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="notify-overdue" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="notification-number"><i class="fas fa-phone"></i> Número para Notificações:</label>
-                <input type="text" id="notification-number" value="5585985691148" readonly>
-                <p class="description">Número do administrador que receberá as notificações</p>
-            </div>
-            
-            <button id="save-notification-settings"><i class="fas fa-save"></i> Salvar Configurações</button>
-            
-            <div id="notification-success-message" class="success-message">
-                <i class="fas fa-check-circle"></i> Configurações salvas com sucesso!
-            </div>
-        </div>
-    </div>
-
     <!-- Modal para Devolução (Admin) -->
     <div id="admin-return-modal" class="modal">
         <div class="modal-content">
@@ -974,9 +823,9 @@
                 <textarea id="admin-return-notes" rows="3" placeholder="Observações da devolução"></textarea>
             </div>
             
-            <button id="confirm-admin-return"><i class="fas fa-check"></极地战斧i> Confirmar Devolução</button>
+            <button id="confirm-admin-return"><i class="fas fa-check"></i> Confirmar Devolução</button>
             
-            <div id="admin-return-success-message" class极地战斧="success-message">
+            <div id="admin-return-success-message" class="success-message">
                 <i class="fas fa-check-circle"></i> Devolução registrada com sucesso!
             </div>
             <div id="admin-return-error-message" class="error-message">
@@ -1029,7 +878,7 @@
             { id: 9, name: "Detector de Fase Fluke", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 10, name: "Detector Tensão de Contato 70Va-1Kv", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 11, name: "Luximetro Fluke 941", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 12, name: "Mala de Ensaios Omicron", quantity: 1, status极地战斧: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 12, name: "Mala de Ensaios Omicron", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 13, name: "Megger Fluke 5Kv", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 14, name: "Megger Fluke 10Kv", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 15, name: "Microhmimetro Instrutemp Microhm 200", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
@@ -1038,7 +887,7 @@
             { id: 18, name: "Tacometro Monarch PLT200", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 19, name: "Terrometro Fluke 1625", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 20, name: "Alta Temperatura infravermelho Fluke 572", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 21, name极地战斧: "Analizador de Bateria BT 521 Fluke", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 21, name: "Analizador de Bateria BT 521 Fluke", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 22, name: "Detector de Tensão de Contato 3,8Kv-36Kv", quantity: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 23, name: "Digital Ratiometer for Transformers DTR 8510 Fluke", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 24, name: "Interruptor a Vacuo Viddar Megger", quantity: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
@@ -1054,24 +903,14 @@
         // Array para armazenar os materiais
         let materials = [];
         let activityLog = [];
-        const ADMIN_NUMBER = "5585985691148";
         const ADMIN_PASSWORD = "admin123"; // Senha padrão para acesso administrativo
         let isAdminMode = false;
         let currentUserName = "";
-        
-        // Configurações de notificação
-        let notificationSettings = {
-            notifyBorrow: true,
-            notifyReturn: false,
-            notifyOverdue: true,
-            notificationNumber: ADMIN_NUMBER
-        };
 
         // Função para inicializar os dados
         function initializeData() {
             const storedMaterials = localStorage.getItem('materials');
             const storedLog = localStorage.getItem('activityLog');
-            const storedSettings = localStorage.getItem('notificationSettings');
             
             if (storedMaterials) {
                 materials = JSON.parse(storedMaterials);
@@ -1087,41 +926,31 @@
                 saveLog();
             }
             
-            if (storedSettings) {
-                notificationSettings = JSON.parse(storedSettings);
-                updateNotificationUI();
-            }
-            
-            // Verificar se já está logado como admin
-            const isAdmin = localStorage.getItem('isAdminMode') === 'true';
-            if (isAdmin) {
-                enterAsAdmin();
-            } else {
-                // Sempre mostrar a tela de login inicialmente
-                document.getElementById('admin-login-container').style.display = 'flex';
-            }
-            
             // Atualizar o link de acesso do usuário
             document.getElementById('user-access-link').value = window.location.href.split('?')[0];
             
-            // Atualizar a interface
-            updateMaterialsList();
-            updateLogList();
+            // Mostrar a tela de login inicialmente
+            document.getElementById('admin-login-container').style.display = 'flex';
+            document.getElementById('main-content').style.display = 'none';
         }
 
         // Função para entrar como administrador
         function enterAsAdmin() {
-            isAdminMode = true;
-            localStorage.setItem('isAdminMode', 'true');
-            updateViewMode();
-            document.getElementById('admin-login-container').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
+            const password = document.getElementById('admin-password').value;
+            if (password === ADMIN_PASSWORD) {
+                isAdminMode = true;
+                document.getElementById('login-error-message').style.display = 'none';
+                updateViewMode();
+                document.getElementById('admin-login-container').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            } else {
+                document.getElementById('login-error-message').style.display = 'block';
+            }
         }
 
         // Função para entrar como usuário
         function enterAsUser() {
             isAdminMode = false;
-            localStorage.setItem('isAdminMode', 'false');
             updateViewMode();
             document.getElementById('admin-login-container').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
@@ -1130,21 +959,9 @@
         // Função para fazer logout
         function logout() {
             isAdminMode = false;
-            localStorage.setItem('isAdminMode', 'false');
             document.getElementById('admin-login-container').style.display = 'flex';
             document.getElementById('main-content').style.display = 'none';
             document.getElementById('admin-password').value = '';
-        }
-
-        // Função para verificar login administrativo
-        function checkAdminLogin() {
-            const password = document.getElementById('admin-password').value;
-            if (password === ADMIN_PASSWORD) {
-                document.getElementById('login-error-message').style.display = 'none';
-                enterAsAdmin();
-            } else {
-                document.getElementById('login-error-message').style.display = 'block';
-            }
         }
 
         // Função para atualizar a visualização conforme o modo
@@ -1154,8 +971,6 @@
                 document.body.classList.remove('user-view');
                 document.getElementById('admin-bar').style.display = 'flex';
                 document.getElementById('user-bar').style.display = 'none';
-                // Gerar relatórios quando entrar no modo admin
-                generateReports();
             } else {
                 document.body.classList.add('user-view');
                 document.body.classList.remove('admin-view');
@@ -1163,6 +978,7 @@
                 document.getElementById('user-bar').style.display = 'flex';
             }
             
+            updateMaterialsList();
             updateMyItemsList();
         }
 
@@ -1174,21 +990,6 @@
         // Função para salvar log de atividades no localStorage
         function saveLog() {
             localStorage.setItem('activityLog', JSON.stringify(activityLog));
-        }
-        
-        // Função para salvar configurações de notificação
-        function saveNotificationSettingsToStorage() {
-            localStorage.setItem('notificationSettings', JSON.stringify(notificationSettings));
-        }
-        
-        // Atualizar UI com configurações de notificação
-        function updateNotificationUI() {
-            if (document.getElementById('notify-borrow')) {
-                document.getElementById('notify-borrow').checked = notificationSettings.notifyBorrow;
-                document.getElementById('notify-return').checked = notificationSettings.notifyReturn;
-                document.getElementById('notify-overdue').checked = notificationSettings.notifyOverdue;
-                document.getElementById('notification-number').value = notificationSettings.notificationNumber;
-            }
         }
 
         // Função para adicionar registro ao log
@@ -1219,11 +1020,9 @@
         // Função para atualizar a lista de logs na interface
         function updateLogList() {
             const logList = document.getElementById('log-list');
-            if (!logList) return;
-            
             logList.innerHTML = '';
             
-            const recentLogs = activityLog.slice(0, 5);
+            const recentLogs = activityLog.slice(0, 10);
             
             recentLogs.forEach(log => {
                 const row = document.createElement('tr');
@@ -1252,22 +1051,18 @@
         // Função para atualizar a lista de materiais na interface
         function updateMaterialsList() {
             const materialsList = document.getElementById('materials-list');
-            if (!materialsList) return;
-            
             materialsList.innerHTML = '';
             
             // Atualizar estatísticas
             const totalItems = materials.length;
             const availableItems = materials.filter(m => m.status === 'available').length;
-            const borrowedItems = materials.filter(m极地战斧 => m.status === 'borrowed').length;
+            const borrowedItems = materials.filter(m => m.status === 'borrowed').length;
             const overdueItems = materials.filter(m => m.status === 'overdue').length;
             
-            if (document.getElementById('total-items')) {
-                document.getElementById('total-items').textContent = totalItems;
-                document.getElementById('available-items').textContent = availableItems;
-                document.getElementById('borrowed-items').textContent = borrowedItems;
-                document.getElementById('overdue-items').textContent = overdueItems;
-            }
+            document.getElementById('total-items').textContent = totalItems;
+            document.getElementById('available-items').textContent = availableItems;
+            document.getElementById('borrowed-items').textContent = borrowedItems;
+            document.getElementById('overdue-items').textContent = overdueItems;
             
             // Preencher a tabela de materiais
             materials.forEach(material => {
@@ -1310,7 +1105,7 @@
                 const responsibleCell = document.createElement('td');
                 responsibleCell.textContent = material.responsible || '-';
                 
-                const dateCell = document.createElement极地战斧('td');
+                const dateCell = document.createElement('td');
                 dateCell.textContent = material.borrowDate || '-';
                 
                 // Ações apenas para admin
@@ -1351,21 +1146,11 @@
             
             // Atualizar lista de itens atrasados
             updateOverdueList();
-            
-            // Atualizar lista de meus itens
-            updateMyItemsList();
-            
-            // Se estiver no modo admin, atualizar relatórios
-            if (isAdminMode) {
-                generateReports();
-            }
         }
 
         // Função para atualizar a lista de meus itens (para usuários)
         function updateMyItemsList() {
             const myItemsList = document.getElementById('my-items-list');
-            if (!myItemsList) return;
-            
             myItemsList.innerHTML = '';
             
             if (!currentUserName) {
@@ -1376,7 +1161,7 @@
             const myItems = materials.filter(m => m.responsible === currentUserName && (m.status === 'borrowed' || m.status === 'overdue'));
             
             if (myItems.length === 0) {
-                myItemsList.innerHTML = '<p>Você não possui materiais no momento.</极地战斧p>';
+                myItemsList.innerHTML = '<p>Você não possui materiais no momento.</p>';
                 return;
             }
             
@@ -1400,8 +1185,6 @@
         // Função para atualizar a lista de itens atrasados
         function updateOverdueList() {
             const overdueList = document.getElementById('overdue-items-list');
-            if (!overdueList) return;
-            
             overdueList.innerHTML = '';
             
             const overdueItems = materials.filter(m => m.status === 'overdue');
@@ -1488,11 +1271,6 @@
             document.getElementById('user-borrow-success-message').style.display = 'block';
             document.getElementById('user-borrow-error-message').style.display = 'none';
             
-            // Enviar notificação para o administrador
-            if (notificationSettings.notifyBorrow) {
-                sendBorrowNotification(materials[itemIndex]);
-            }
-            
             // Fechar modal após 2 segundos
             setTimeout(() => {
                 document.getElementById('user-borrow-modal').style.display = 'none';
@@ -1538,7 +1316,7 @@
             if (itemIndex === -1) return;
             
             // Verificar se o item realmente pertence a esta pessoa
-            if (materials[item极地战斧Index].responsible !== responsible) {
+            if (materials[itemIndex].responsible !== responsible) {
                 document.getElementById('user-return-error-message').textContent = 'Este item não está em seu nome.';
                 document.getElementById('user-return-error-message').style.display = 'block';
                 return;
@@ -1555,45 +1333,20 @@
             // Adicionar ao log
             addToLog(itemId, 'Devolução', { responsible });
             
-极地战斧            // Salvar alterações
+            // Salvar alterações
             saveMaterials();
             
             // Atualizar interface
             updateMaterialsList();
             
             // Mostrar mensagem de sucesso
-            document.getElementById('user极地战斧-return-success-message').style.display = 'block';
+            document.getElementById('user-return-success-message').style.display = 'block';
             document.getElementById('user-return-error-message').style.display = 'none';
-            
-            // Enviar notificação para o administrador se configurado
-            if (notificationSettings.notifyReturn) {
-                sendReturnNotification(item);
-            }
             
             // Fechar modal após 2 segundos
             setTimeout(() => {
                 document.getElementById('user-return-modal').style.display = 'none';
             }, 2000);
-        }
-
-        // Função para enviar notificação de empréstimo
-        function sendBorrowNotification(item) {
-            const adminNumber = notificationSettings.notificationNumber;
-            const message = `🔔 *Notificação de Retirada* 🔔\n\n` +
-                           `*Item:* ${item.name}\n` +
-                           `*Responsável:* ${item.responsible}\n` +
-                           `*Data da Retirada:* ${item.borrowDate}\极地战斧n` +
-                           `*Prazo de Devolução:* ${item.deadline}\n\n` +
-                           `_Sistema de Controle de Ferramentas - Energia Pecém_`;
-            
-            // Codificar a mensagem para URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Gerar link do WhatsApp
-            const whatsappUrl = `https://wa.me/${adminNumber}?text=${encodedMessage}`;
-            
-            // Abrir em uma nova janela (ou guia)
-            window.open(whatsappUrl, '_blank');
         }
 
         // Função para abrir o modal de devolução (admin)
@@ -1617,7 +1370,7 @@
             
             // Limpar mensagens
             document.getElementById('admin-return-success-message').style.display = 'none';
-            document.getElementById('admin-return-error-message').极地战斧style.display = 'none';
+            document.getElementById('admin-return-error-message').style.display = 'none';
             
             modal.style.display = 'flex';
         }
@@ -1652,38 +1405,14 @@
             // Atualizar interface
             updateMaterialsList();
             
-            // Mostrar mensagem极地战斧 de sucesso
+            // Mostrar mensagem de sucesso
             document.getElementById('admin-return-success-message').style.display = 'block';
             document.getElementById('admin-return-error-message').style.display = 'none';
-            
-            // Enviar notificação para o administrador se configurado
-            if (notificationSettings.notifyReturn) {
-                sendReturnNotification(item);
-            }
             
             // Fechar modal após 2 segundos
             setTimeout(() => {
                 document.getElementById('admin-return-modal').style.display = 'none';
             }, 2000);
-        }
-
-        // Função para enviar notificação de devolução
-        function sendReturnNotification(item) {
-            const adminNumber = notificationSettings.notificationNumber;
-            const message = `🔔 *Notificação de Devolução* 🔔\n\n` +
-                           `*Item:* ${item.name}\n` +
-                           `*Responsável:* ${item.responsible}\n` +
-                           `*Data da Devolução:* ${new Date().toLocaleDateString('pt-BR')}\n\n` +
-                           `_Sistema de Controle de Ferramentas - Energia Pecém_`;
-            
-            // Codificar a mensagem para URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Gerar link do WhatsApp
-            const whatsappUrl = `极地战斧https://wa.me/${adminNumber}?text=${encodedMessage}`;
-            
-            // Abrir em uma nova janela (ou guia)
-            window.open(whatsappUrl, '_blank');
         }
 
         // Função para abrir o modal de manutenção (admin)
@@ -1785,85 +1514,11 @@
             }, 2000);
         }
 
-        // Função para salvar configurações de notificação
-        function saveNotificationSettings() {
-            notificationSettings.notifyBorrow = document.getElementById('notify-borrow').checked;
-            notificationSettings.notifyReturn = document.getElementById('notify-return').checked;
-            notificationSettings.notifyOverdue = document.getElementById('notify-overdue').checked;
-            
-            saveNotificationSettingsToStorage();
-            
-            // Mostrar mensagem de极地战斧 sucesso
-            document.getElementById('notification-success-message').style.display = 'block';
-            
-            // Fechar modal após 2 segundos
-            setTimeout(() => {
-                document.getElementById('notification-modal').style.display = 'none';
-            }, 2000);
-        }
-
-        // Função para verificar itens atrasados periodicamente
-        function checkOverdueItems() {
-            const today = new Date();
-            
-            materials.forEach((item, index) => {
-                if (item.status === 'borrowed' && item.deadline) {
-                    const deadlineDate = new Date(item.deadline);
-                    if (today > deadlineDate) {
-                        materials[index极地战斧].status = 'overdue';
-                    }
-                }
-            });
-            
-            saveMaterials();
-            updateMaterialsList();
-            
-            // Verificar se há itens atrasados e enviar notificação se configurado
-            if (notificationSettings.notifyOverdue) {
-                const overdueItems = materials.filter(m => m.status === 'overdue');
-                if (overdueItems.length > 0) {
-                    // Enviar notificação apenas uma vez por dia
-                    const lastNotification = localStorage.getItem('lastOverdueNotification');
-                    const todayStr = today.toDateString();
-                    
-                    if (lastNotification !== todayStr) {
-                        sendOverdueNotification(overdueItems);
-                        localStorage.setItem('lastOverdueNotification', todayStr);
-                    }
-                }
-            }
-        }
-
-        // Função para enviar notificação de itens atrasados
-        function sendOverdueNotification(overdueItems) {
-            const adminNumber = notificationSettings.notificationNumber;
-            
-            let message = `⚠️ *Notificação de Itens Atrasados* ⚠️\n\n`;
-            message += `Os seguintes itens estão com devolução atrasada:\n\n`;
-            
-            overdueItems.forEach(item => {
-                message += `• ${item.name} - Responsável: ${item.responsible} - Prazo: ${item.deadline}\n`;
-            });
-            
-            message += `\n_Sistema de Controle de Ferramentas - Energia Pecém_`;
-            
-            // Codificar a mensagem para URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Gerar link do WhatsApp
-            const whatsappUrl = `https://wa.me/${adminNumber极地战斧}?text=${encodedMessage}`;
-            
-            // Abrir em uma nova janela (ou guia)
-            window.open(whatsappUrl, '_blank');
-        }
-
         // Função para limpar todos os dados
         function clearAllData() {
             if (confirm('Tem certeza que deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
                 localStorage.removeItem('materials');
                 localStorage.removeItem('activityLog');
-                localStorage.removeItem('notificationSettings');
-                localStorage.removeItem('isAdminMode');
                 
                 // Recarregar a página para reinicializar os dados
                 location.reload();
@@ -1879,147 +1534,9 @@
             }
         }
 
-        // Função para gerar relatórios administrativos
-        function generateReports() {
-            // Relatório de materiais mais solicitados
-            generatePopularItemsReport();
-            
-            // Relatório de status dos materiais
-            generateStatusReport();
-            
-            // Histórico de empréstimos
-            generateBorrowHistory();
-        }
-
-        // Gerar relatório de materiais mais solicitados
-        function generatePopularItemsReport() {
-            const popularItemsChart = document.getElementById('popular-items-chart');
-            if (!popularItemsChart) return;
-            
-            popularItemsChart.innerHTML = '';
-            
-            // Contar quantas vezes cada item foi emprestado
-            const borrowCount = {};
-            activityLog.forEach(log => {
-                if (log.action.includes('Retirada') || log.action.includes('Devolução')) {
-                    if (!borrowCount[log.itemName]) {
-                        borrowCount[log.itemName] = 0;
-                    }
-                    borrowCount[log.itemName]++;
-                }
-            });
-            
-            // Converter para array e ordenar
-            const itemsArray = Object.entries(borrowCount)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 5); // Top 5
-            
-            // Encontrar o valor máximo para normalizar a altura das barras
-            const maxValue = Math.max(...itemsArray.map(item => item[1]), 1);
-            
-            // Criar as barras do gráfico
-            itemsArray.forEach(item => {
-                const barHeight = (item[1] / maxValue) * 180; // 180px é a altura máxima
-                const bar = document.createElement('div');
-                bar.className = 'chart-bar';
-                bar.style.height = `${barHeight}px`;
-                bar.title = `${item[0]}: ${item[1]} empréstimos`;
-                
-                const label = document.createElement极地战斧('div');
-                label.className = 'chart-bar-label';
-                label.textContent = item[0].substring(0, 10) + (item[0].length > 10 ? '...' : '');
-                
-                bar.appendChild(label);
-                popularItemsChart.appendChild(bar);
-            });
-            
-            if (itemsArray.length === 0) {
-                popularItemsChart.innerHTML = '<p>Nenhum dado de empréstimo disponível.</p>';
-            }
-        }
-
-        // Gerar relatório极地战斧 de status dos materiais
-        function generateStatusReport() {
-            const statusChart = document.getElementById极地战斧('status-chart');
-            if (!statusChart) return;
-            
-            statusChart.innerHTML = '';
-            
-            // Contar materiais por status
-            const status极地战斧Count = {
-                'Disponível': materials.filter(m => m.status === 'available').length,
-                'Emprestado': materials.filter(m => m.status === 'borrowed').length,
-                'Atrasado': materials.filter(m => m.status === 'overdue').length,
-                'Manutenção': materials.filter(m => m.status === 'maintenance').length
-            };
-            
-            // Encontrar o valor máximo para normalizar a altura das barras
-            const maxValue = Math.max(...Object.values(statusCount), 1);
-            
-            // Criar as barras do gráfico
-            Object.entries(statusCount).forEach(([status, count]) => {
-                const barHeight = (count / maxValue) * 180; // 180px é a altura máxima
-                const bar = document.createElement('div');
-                bar.className = 'chart-bar';
-                bar.style.height = `${barHeight}px`;
-                bar.title = `${status}: ${count} itens`;
-                
-                const label = document.createElement('div');
-                label.className = 'chart-bar-label';
-                label.textContent = status.substring(0, 8);
-                
-                bar.appendChild(label);
-                statusChart.appendChild(bar);
-            });
-        }
-
-        // Gerar histórico de empréstimos
-        function generateBorrowHistory() {
-            const borrowHistoryList = document.getElementById('borrow-history-list');
-            if (!borrowHistoryList) return;
-            
-            borrowHistoryList.innerHTML = '';
-            
-            // Filtrar apenas logs de empréstimo e devolução
-            const borrowLogs = activityLog.filter(log => 
-                log.action.includes('Retirada') || log.action.includes('Devolução')
-            ).slice(0, 10); // Últimos 10 registros
-            
-            borrowLogs.forEach(log => {
-                const row = document.createElement('tr');
-                
-                const dateCell = document.createElement('td');
-                dateCell.textContent = log.timestamp;
-                
-                const itemCell = document.createElement('td');
-                itemCell.textContent = log.itemName;
-                
-                const responsibleCell = document.createElement('td');
-                responsibleCell.textContent = log.responsible || '-';
-                
-                const statusCell = document.createElement('td');
-                statusCell.textContent = log.action;
-                
-                row.appendChild(dateCell);
-                row.appendChild(itemCell);
-                row.appendChild(responsibleCell);
-                row.appendChild(statusCell);
-                
-                borrowHistoryList.appendChild(row);
-            });
-            
-            if (borrowLogs.length === 0) {
-                borrowHistoryList.innerHTML = '<tr><td colspan="4" style="text-align: center;">Nenhum histórico de empréstimo disponível.</td></tr>';
-            }
-        }
-
         // Inicializar a aplicação quando o DOM estiver carregado
         document.addEventListener('DOMContentLoaded', function() {
             initializeData();
-            
-            // Verificar itens atrasados a cada hora
-            checkOverdueItems();
-            setInterval(checkOverdueItems, 60 * 60 * 1000);
             
             // Event listeners para os botões (usuário)
             document.getElementById('user-borrow-btn').addEventListener('click', openUserBorrowModal);
@@ -2029,15 +1546,15 @@
             // Event listeners para os botões (admin)
             document.getElementById('admin-return-btn').addEventListener('click', () => openAdminReturnModal());
             document.getElementById('maintenance-btn').addEventListener('click', () => openMaintenanceModal());
-            document.getElementById('admin-report-btn').addEventListener('click', generateReports);
-            document.getElementById('notification-settings-btn').addEventListener('click', () => document.getElementById('notification-modal').style.display = 'flex');
             document.getElementById('clear-data-btn').addEventListener('click', clearAllData);
             
             // Event listeners para login e logout
-            document.getElementById('admin-login-btn').addEventListener('click', checkAdminLogin);
+            document.getElementById('admin-login-btn').addEventListener('click', enterAsAdmin);
+            document.getElementById('enter-as-user-btn').addEventListener('click', enterAsUser);
             document.getElementById('admin-logout-btn').addEventListener('click', logout);
             document.getElementById('user-login-btn').addEventListener('click', () => {
                 document.getElementById('admin-login-container').style.display = 'flex';
+                document.getElementById('main-content').style.display = 'none';
             });
             
             // Event listeners para confirmar ações
@@ -2047,7 +1564,6 @@
             document.getElementById('confirm-maintenance').addEventListener('click', confirmMaintenance);
             document.getElementById('btn-share-user-access').addEventListener('click', shareUserAccess);
             document.getElementById('copy-user-link-btn').addEventListener('click', copyUserAccessLink);
-            document.getElementById('save-notification-settings').addEventListener('click', saveNotificationSettings);
             
             // Armazenar nome do usuário quando digitar
             document.getElementById('user-name').addEventListener('change', setCurrentUserName);
@@ -2075,7 +1591,7 @@
             // Permitir login com Enter
             document.getElementById('admin-password').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
-                    checkAdminLogin();
+                    enterAsAdmin();
                 }
             });
         });
