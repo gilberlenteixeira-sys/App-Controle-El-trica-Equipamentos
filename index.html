@@ -469,6 +469,112 @@
             border-bottom: none;
         }
         
+        .report-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .report-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+        }
+        
+        .report-chart {
+            height: 200px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: flex;
+            align-items: flex-end;
+            padding: 10px;
+            gap: 5px;
+        }
+        
+        .chart-bar {
+            flex: 1;
+            background-color: #3498db;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            min-width: 20px;
+        }
+        
+        .chart-bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            transform: rotate(-45deg);
+            transform-origin: top left;
+        }
+        
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2000;
+        }
+        
+        .login-form {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .admin-logout {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            padding: 8px 15px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
         @media (max-width: 768px) {
             .dashboard {
                 grid-template-columns: 1fr;
@@ -498,7 +604,27 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Tela de Login para Administrador -->
+    <div id="admin-login-container" class="login-container">
+        <div class="login-form">
+            <h2><i class="fas fa-user-shield"></i> Acesso Administrativo</h2>
+            <div class="form-group">
+                <label for="admin-password">Senha:</label>
+                <input type="password" id="admin-password" placeholder="Digite a senha de administrador">
+            </div>
+            <button id="admin-login-btn" class="login-btn">Entrar como Administrador</button>
+            <div id="login-error-message" class="error-message" style="margin-top: 15px;">
+                <i class="fas fa-exclamation-circle"></i> Senha incorreta
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="secondary-btn" onclick="enterAsUser()">
+                    <i class="fas fa-user"></i> Entrar como Usuário
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="main-content" style="display: none;">
         <header>
             <h1><i class="fas fa-bolt"></i> Controle de Ferramentas Elétricas - Energia Pecém</h1>
             <p>Gerencie o empréstimo e devolução de equipamentos</p>
@@ -515,6 +641,9 @@
                 <button class="admin-btn" id="admin-report-btn">
                     <i class="fas fa-file-pdf"></i> Gerar Relatório
                 </button>
+                <div class="admin-logout" id="admin-logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </div>
             </div>
         </div>
         
@@ -526,6 +655,9 @@
                 <button class="secondary-btn" id="user-share-btn">
                     <i class="fab fa-whatsapp"></i> Compartilhar Acesso
                 </button>
+                <div class="admin-logout" id="user-login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login Admin
+                </div>
             </div>
         </div>
         
@@ -574,7 +706,7 @@
                 <div class="card user-only">
                     <h2><i class="fas fa-tools"></i> Meus Materiais</h2>
                     <div id="my-items-list" class="my-items-list">
-                        <p>Você não possui materiais no momento.</p>
+                        <p>Digite seu nome para ver os materiais que você retirou.</p>
                     </div>
                 </div>
 
@@ -625,6 +757,44 @@
                     <h2><i class="fas fa-exclamation-triangle"></i> Itens com Devolução Atrasada</h2>
                     <div id="overdue-items-list" class="overdue-list">
                         <!-- Itens atrasados serão preenchidos via JavaScript -->
+                    </div>
+                </div>
+                
+                <div id="admin-report-section" class="card admin-only">
+                    <h2><i class="fas fa-chart-pie"></i> Relatórios Administrativos</h2>
+                    <div class="report-section">
+                        <div class="report-item">
+                            <h3>Materiais Mais Solicitados</h3>
+                            <div id="popular-items-chart" class="report-chart">
+                                <!-- Gráfico será preenchido via JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="report-item">
+                            <h3>Status dos Materiais</h3>
+                            <div id="status-chart" class="report-chart">
+                                <!-- Gráfico será preenchido via JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="report-item">
+                            <h3>Histórico de Empréstimos</h3>
+                            <div style="overflow-x: auto;">
+                                <table class="log-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Item</th>
+                                            <th>Responsável</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="borrow-history-list">
+                                        <!-- Histórico será preenchido via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -760,7 +930,7 @@
                 <div class="toggle-container">
                     <div>
                         <label>Notificar atrasos</label>
-                        <p class="description">Enviar alertas de itens com devolução atrasada</p>
+                        <p class="description">Enviar alertas de itens dengan devolução atrasada</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox" id="notify-overdue" checked>
@@ -883,6 +1053,7 @@
         let materials = [];
         let activityLog = [];
         const ADMIN_NUMBER = "5585985691148";
+        const ADMIN_PASSWORD = "admin123"; // Senha padrão para acesso administrativo
         let isAdminMode = false;
         let currentUserName = "";
         
@@ -919,22 +1090,54 @@
                 updateNotificationUI();
             }
             
-            // Verificar se é admin pelo número (simulação)
-            checkAdminStatus();
+            // Verificar se já está logado como admin
+            const isAdmin = localStorage.getItem('isAdminMode') === 'true';
+            if (isAdmin) {
+                enterAsAdmin();
+            } else {
+                enterAsUser();
+            }
             
             // Atualizar o link de acesso do usuário
             document.getElementById('user-access-link').value = window.location.href.split('?')[0];
         }
 
-        // Função para verificar se é admin
-        function checkAdminStatus() {
-            // Em um sistema real, isso seria verificado de forma mais segura
-            // Aqui é apenas uma simulação
-            const urlParams = new URLSearchParams(window.location.search);
-            const adminParam = urlParams.get('admin');
-            
-            isAdminMode = adminParam === 'true' || false;
+        // Função para entrar como administrador
+        function enterAsAdmin() {
+            isAdminMode = true;
+            localStorage.setItem('isAdminMode', 'true');
             updateViewMode();
+            document.getElementById('admin-login-container').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }
+
+        // Função para entrar como usuário
+        function enterAsUser() {
+            isAdminMode = false;
+            localStorage.setItem('isAdminMode', 'false');
+            updateViewMode();
+            document.getElementById('admin-login-container').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }
+
+        // Função para fazer logout
+        function logout() {
+            isAdminMode = false;
+            localStorage.setItem('isAdminMode', 'false');
+            document.getElementById('admin-login-container').style.display = 'flex';
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('admin-password').value = '';
+        }
+
+        // Função para verificar login administrativo
+        function checkAdminLogin() {
+            const password = document.getElementById('admin-password').value;
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('login-error-message').style.display = 'none';
+                enterAsAdmin();
+            } else {
+                document.getElementById('login-error-message').style.display = 'block';
+            }
         }
 
         // Função para atualizar a visualização conforme o modo
@@ -944,6 +1147,8 @@
                 document.body.classList.remove('user-view');
                 document.getElementById('admin-bar').style.display = 'flex';
                 document.getElementById('user-bar').style.display = 'none';
+                // Gerar relatórios quando entrar no modo admin
+                generateReports();
             } else {
                 document.body.classList.add('user-view');
                 document.body.classList.remove('admin-view');
@@ -1134,6 +1339,11 @@
             
             // Atualizar lista de meus itens
             updateMyItemsList();
+            
+            // Se estiver no modo admin, atualizar relatórios
+            if (isAdminMode) {
+                generateReports();
+            }
         }
 
         // Função para atualizar a lista de meus itens (para usuários)
@@ -1630,10 +1840,11 @@
 
         // Função para limpar todos os dados
         function clearAllData() {
-            if (confirm('Tem certeza que deseja limpar todos os dados? Esta ação não pode be desfeita.')) {
+            if (confirm('Tem certeza que deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
                 localStorage.removeItem('materials');
                 localStorage.removeItem('activityLog');
                 localStorage.removeItem('notificationSettings');
+                localStorage.removeItem('isAdminMode');
                 
                 // Recarregar a página para reinicializar os dados
                 location.reload();
@@ -1646,6 +1857,134 @@
             if (nameInput.value.trim()) {
                 currentUserName = nameInput.value.trim();
                 updateMyItemsList();
+            }
+        }
+
+        // Função para gerar relatórios administrativos
+        function generateReports() {
+            // Relatório de materiais mais solicitados
+            generatePopularItemsReport();
+            
+            // Relatório de status dos materiais
+            generateStatusReport();
+            
+            // Histórico de empréstimos
+            generateBorrowHistory();
+        }
+
+        // Gerar relatório de materiais mais solicitados
+        function generatePopularItemsReport() {
+            const popularItemsChart = document.getElementById('popular-items-chart');
+            popularItemsChart.innerHTML = '';
+            
+            // Contar quantas vezes cada item foi emprestado
+            const borrowCount = {};
+            activityLog.forEach(log => {
+                if (log.action.includes('Retirada') || log.action.includes('Devolução')) {
+                    if (!borrowCount[log.itemName]) {
+                        borrowCount[log.itemName] = 0;
+                    }
+                    borrowCount[log.itemName]++;
+                }
+            });
+            
+            // Converter para array e ordenar
+            const itemsArray = Object.entries(borrowCount)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5); // Top 5
+            
+            // Encontrar o valor máximo para normalizar a altura das barras
+            const maxValue = Math.max(...itemsArray.map(item => item[1]), 1);
+            
+            // Criar as barras do gráfico
+            itemsArray.forEach(item => {
+                const barHeight = (item[1] / maxValue) * 180; // 180px é a altura máxima
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.height = `${barHeight}px`;
+                bar.title = `${item[0]}: ${item[1]} empréstimos`;
+                
+                const label = document.createElement('div');
+                label.className = 'chart-bar-label';
+                label.textContent = item[0].substring(0, 10) + (item[0].length > 10 ? '...' : '');
+                
+                bar.appendChild(label);
+                popularItemsChart.appendChild(bar);
+            });
+            
+            if (itemsArray.length === 0) {
+                popularItemsChart.innerHTML = '<p>Nenhum dado de empréstimo disponível.</p>';
+            }
+        }
+
+        // Gerar relatório de status dos materiais
+        function generateStatusReport() {
+            const statusChart = document.getElementById('status-chart');
+            statusChart.innerHTML = '';
+            
+            // Contar materiais por status
+            const statusCount = {
+                'Disponível': materials.filter(m => m.status === 'available').length,
+                'Emprestado': materials.filter(m => m.status === 'borrowed').length,
+                'Atrasado': materials.filter(m => m.status === 'overdue').length,
+                'Manutenção': materials.filter(m => m.status === 'maintenance').length
+            };
+            
+            // Encontrar o valor máximo para normalizar a altura das barras
+            const maxValue = Math.max(...Object.values(statusCount), 1);
+            
+            // Criar as barras do gráfico
+            Object.entries(statusCount).forEach(([status, count]) => {
+                const barHeight = (count / maxValue) * 180; // 180px é a altura máxima
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.height = `${barHeight}px`;
+                bar.title = `${status}: ${count} itens`;
+                
+                const label = document.createElement('div');
+                label.className = 'chart-bar-label';
+                label.textContent = status.substring(0, 8);
+                
+                bar.appendChild(label);
+                statusChart.appendChild(bar);
+            });
+        }
+
+        // Gerar histórico de empréstimos
+        function generateBorrowHistory() {
+            const borrowHistoryList = document.getElementById('borrow-history-list');
+            borrowHistoryList.innerHTML = '';
+            
+            // Filtrar apenas logs de empréstimo and devolução
+            const borrowLogs = activityLog.filter(log => 
+                log.action.includes('Retirada') || log.action.includes('Devolução')
+            ).slice(0, 10); // Últimos 10 registros
+            
+            borrowLogs.forEach(log => {
+                const row = document.createElement('tr');
+                
+                const dateCell = document.createElement('td');
+                dateCell.textContent = log.timestamp;
+                
+                const itemCell = document.createElement('td');
+                itemCell.textContent = log.itemName;
+                
+                const responsibleCell = document.createElement('td');
+                responsibleCell.textContent = log.responsible || '-';
+                
+                const statusCell = document.createElement('td');
+                statusCell.textContent = log.action;
+                
+                row.appendChild(dateCell);
+                row.appendChild(itemCell);
+                row.appendChild(responsibleCell);
+                row.appendChild(statusCell);
+                
+                borrowHistoryList.appendChild(row);
+            });
+            
+            if (borrowLogs.length === 0) {
+                borrowHistoryList.innerHTML = '<tr><td colspan="4" style="text-align: center;">Nenhum histórico de empréstimo disponível.</td></tr>';
             }
         }
 
@@ -1667,9 +2006,16 @@
             // Event listeners para os botões (admin)
             document.getElementById('admin-return-btn').addEventListener('click', () => openAdminReturnModal());
             document.getElementById('maintenance-btn').addEventListener('click', () => openMaintenanceModal());
-            document.getElementById('admin-alerts-btn').addEventListener('click', () => document.getElementById('admin-alerts-modal').style.display = 'flex');
+            document.getElementById('admin-report-btn').addEventListener('click', generateReports);
             document.getElementById('notification-settings-btn').addEventListener('click', () => document.getElementById('notification-modal').style.display = 'flex');
             document.getElementById('clear-data-btn').addEventListener('click', clearAllData);
+            
+            // Event listeners para login e logout
+            document.getElementById('admin-login-btn').addEventListener('click', checkAdminLogin);
+            document.getElementById('admin-logout-btn').addEventListener('click', logout);
+            document.getElementById('user-login-btn').addEventListener('click', () => {
+                document.getElementById('admin-login-container').style.display = 'flex';
+            });
             
             // Event listeners para confirmar ações
             document.getElementById('confirm-user-borrow').addEventListener('click', confirmUserBorrow);
@@ -1701,6 +2047,13 @@
                         modal.style.display = 'none';
                     }
                 });
+            });
+            
+            // Permitir login com Enter
+            document.getElementById('admin-password').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkAdminLogin();
+                }
             });
         });
     </script>
