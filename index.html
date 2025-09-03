@@ -167,10 +167,11 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
+            font-size: 14px;
         }
         
         .materials-table th, .materials-table td {
-            padding: 12px;
+            padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
@@ -191,7 +192,7 @@
         .status {
             padding: 5px 10px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
         }
         
@@ -613,7 +614,7 @@
                 <input type="password" id="admin-password" placeholder="Digite a senha de administrador">
             </div>
             <button id="admin-login-btn" class="login-btn">Entrar como Administrador</button>
-            <div id="login-error-message" class="error-message" style="margin-top: 15px;">
+            <div id="login-error-message" class="error-message" style="margin-top: 15px; display: none;">
                 <i class="fas fa-exclamation-circle"></i> Senha incorreta
             </div>
             <div style="text-align: center; margin-top: 20px;">
@@ -930,7 +931,7 @@
                 <div class="toggle-container">
                     <div>
                         <label>Notificar atrasos</label>
-                        <p class="description">Enviar alertas de itens dengan devolução atrasada</p>
+                        <p class="description">Enviar alertas de itens com devolução atrasada</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox" id="notify-overdue" checked>
@@ -1100,6 +1101,10 @@
             
             // Atualizar o link de acesso do usuário
             document.getElementById('user-access-link').value = window.location.href.split('?')[0];
+            
+            // Atualizar a interface
+            updateMaterialsList();
+            updateLogList();
         }
 
         // Função para entrar como administrador
@@ -1170,7 +1175,7 @@
         }
         
         // Função para salvar configurações de notificação
-        function saveNotificationSettings() {
+        function saveNotificationSettingsToStorage() {
             localStorage.setItem('notificationSettings', JSON.stringify(notificationSettings));
         }
         
@@ -1772,7 +1777,7 @@
             notificationSettings.notifyReturn = document.getElementById('notify-return').checked;
             notificationSettings.notifyOverdue = document.getElementById('notify-overdue').checked;
             
-            saveNotificationSettings();
+            saveNotificationSettingsToStorage();
             
             // Mostrar mensagem de sucesso
             document.getElementById('notification-success-message').style.display = 'block';
@@ -1955,7 +1960,7 @@
             const borrowHistoryList = document.getElementById('borrow-history-list');
             borrowHistoryList.innerHTML = '';
             
-            // Filtrar apenas logs de empréstimo and devolução
+            // Filtrar apenas logs de empréstimo e devolução
             const borrowLogs = activityLog.filter(log => 
                 log.action.includes('Retirada') || log.action.includes('Devolução')
             ).slice(0, 10); // Últimos 10 registros
@@ -1991,8 +1996,6 @@
         // Inicializar a aplicação quando o DOM estiver carregado
         document.addEventListener('DOMContentLoaded', function() {
             initializeData();
-            updateMaterialsList();
-            updateLogList();
             
             // Verificar itens atrasados a cada hora
             checkOverdueItems();
