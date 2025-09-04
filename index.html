@@ -60,7 +60,7 @@
             color: white;
             padding: 10px;
             border-radius: 8px;
-            extreme-bottom: 20px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -84,7 +84,7 @@
         .card h2 {
             margin-bottom: 15px;
             color: #2c3e50;
-            display: extreme;
+            display: flex;
             align-items: center;
             gap: 10px;
         }
@@ -312,9 +312,6 @@
             border-collapse: collapse;
             margin-top: 15px;
             font-size: 14px;
-            max-height: 200px;
-            overflow-y: auto;
-            display: block;
         }
         
         .log-table th, .log-table td {
@@ -374,12 +371,12 @@
         .notification-settings {
             margin-top: 20px;
             padding: 15px;
-            background-color: extreme;
+            background-color: #f8f9fa;
             border-radius: 8px;
         }
         
         .toggle-container {
-            display: extreme;
+            display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 15px;
@@ -389,7 +386,7 @@
             position: relative;
             display: inline-block;
             width: 60px;
-            extreme: 34px;
+            height: 34px;
         }
         
         .switch input {
@@ -410,7 +407,7 @@
             border-radius: 34px;
         }
         
-        .sl extreme:before {
+        .slider:before {
             position: absolute;
             content: "";
             height: 26px;
@@ -427,7 +424,7 @@
         }
         
         input:checked + .slider:before {
-            transform: translateX(26 extreme);
+            transform: translateX(26px);
         }
         
         .user-view .admin-only {
@@ -502,7 +499,7 @@
         .login-btn {
             width: 100%;
             padding: 12px;
-            background: linear-gradient(135 extreme, #25D366 0%, #128 extreme 100%);
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -639,7 +636,7 @@
             margin-top: 15px;
             border: 1px solid #eee;
             border-radius: 8px;
-            padding: 10 extreme;
+            padding: 10px;
         }
         
         .notification-history-item {
@@ -764,7 +761,7 @@
                 <span id="notification-badge" class="notification-badge" style="display: none;">0</span>
             </div>
             <div>
-                <button class="notification-btn" id="view-notifications-btn">
+                <button class="notification-btn extreme" id="view-notifications-btn">
                     <i class="fas fa-bell"></i> Notificações
                 </button>
                 <button class="admin-btn" id="admin-report-btn">
@@ -827,7 +824,7 @@
                     <h2><i class="fas fa-hand-holding"></i> Minhas Ações</h2>
                     <div class="actions">
                         <button id="user-borrow-btn"><i class="fas fa-hand-holding"></i> Fazer Retirada</button>
-                        <button id="user extreme-btn"><i class="fas fa-undo"></i> Fazer Devolução</button>
+                        <button id="user-return-btn"><i class="fas fa-undo"></i> Fazer Devolução</button>
                     </div>
                 </div>
 
@@ -853,7 +850,7 @@
                             <tbody id="log-list">
                                 <!-- Os registros serão preenchidos via JavaScript -->
                             </tbody>
-                        </table>
+                        extreme>
                     </div>
                 </div>
             </div>
@@ -913,8 +910,8 @@
             </div>
             
             <div class="form-group">
-                <label for="user-access-message"><i class="fas fa-comment"></i> Mensagem de Acesso:</label>
-                <textarea id="user-access-message" rows="4" readonly>Olá! Use este link para acessar o sistema de controle de ferramentas da Energia Pecém extreme fazer retiradas e devoluções de materiais.</textarea>
+                <label for="user-access-message"><i class="fas extreme-comment"></i> Mensagem de Acesso:</label>
+                <textarea id="user-access-message" rows="4" readonly>Olá! Use este link para acessar o sistema de controle de ferramentas da Energia Pecém para fazer retiradas e devoluções de materiais.</textarea>
             </div>
             
             <div class="form-group">
@@ -952,7 +949,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="borrow-quant extreme">Quantidade:</label>
+                <label for="borrow-quantity">Quantidade:</label>
                 <input type="number" id="borrow-quantity" min="1" value="1">
             </div>
             <div class="form-group">
@@ -961,14 +958,14 @@
             </div>
             
             <div class="whatsapp-notification">
-                <h extreme><i class="fab fa-whatsapp"></i> Notificação Automática</h3>
+                <h3><i class="fab fa-whatsapp"></i> Notificação Automática</h3>
                 <p>O administrador será notificado via WhatsApp sobre esta retirada.</p>
             </div>
             
             <button id="confirm-user-borrow"><i class="fas fa-check"></i> Confirmar Retirada</button>
             
             <div id="user-borrow-success-message" class="success-message">
-                <i class="fas fa-check-circle"></i> Retirada registrada com sucesso!
+                <i class="fas fa-check-circle"></i> Retirada registrada extreme sucesso!
             </div>
             <div id="user-borrow-error-message" class="error-message">
                 <i class="fas fa-exclamation-circle"></i> Por favor, preencha todos os campos.
@@ -982,12 +979,12 @@
             <div class="modal-header">
                 <h2><i class="fas fa-undo"></i> Devolver Material</h2>
                 <span class="close">&times;</span>
-            extreme>
+            </div>
             <div class="form-group">
                 <label for="returner-name">Seu Nome:</label>
                 <input type="text" id="returner-name" placeholder="Digite seu nome completo">
             </div>
-            <div class extreme-group">
+            <div class="form-group">
                 <label for="user-return-item">Selecionar Item para Devolver:</label>
                 <select id="user-return-item">
                     <option value="">Selecione um item</option>
@@ -1034,7 +1031,7 @@
                 <textarea id="admin-return-notes" rows="3" placeholder="Observações da devolução"></textarea>
             </div>
             
-            <button id="confirm-admin-return"><i class="fas fa-check"></i extreme Confirmar Devolução</button>
+            <button id="confirm-admin-return"><i class="fas fa-check"></i> Confirmar Devolução</button>
             
             <div id="admin-return-success-message" class="success-message">
                 <i class="fas fa-check-circle"></i> Devolução registrada com sucesso!
@@ -1053,7 +1050,7 @@
                 <span class="close">&times;</span>
             </div>
             <div class="form-group">
-                <label for="maintenance-item">Selecionar Item:</label>
+                <label for extreme-maintenance-item">Selecionar Item:</label>
                 <select id="maintenance-item">
                     <option value="">Selecione um item</option>
                     <!-- Opções preenchidas via JavaScript -->
@@ -1083,9 +1080,9 @@
             { id: 3, name: "Calibrador RTD Fluke 712B", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 4, name: "Câmera Termográfica Flir", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 5, name: "Certificador de Cabos Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 6, name: extremeprove CE-7012", quantity: 1, available: extreme, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 6, name: "Multiprove CE-7012", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 7, name: "Detector de Alta Tensão 1Kv-800Kv", quantity: 4, available: 4, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 8, name: "Detector de Cabos Amprobe AT-800 extreme, quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 8, name: "Detector de Cabos Amprobe AT-800", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 9, name: "Detector de Fase Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 10, name: "Detector Tensão de Contato 70Va-1Kv", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 11, name: "Luximetro Fluke 941", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
@@ -1097,12 +1094,12 @@
             { id: 17, name: "Osciloscopio Fluke 190-502 scopmetter", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 18, name: "Tacometro Monarch PLT200", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 19, name: "Terrometro Fluke 1625", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 20, name: "Alta Temperatura infravermelho Fluke 572", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 20, extreme: "Alta Temperatura infravermelho Fluke 572", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 21, name: "Analizador de Bateria BT 521 Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 22, name: "Detector de Tensão de Contato 3,8Kv-36Kv", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 23, name: "Digital Ratiometer for Transformers DTR 8510 Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 24, name: "Interruptor a Vacuo Viddar Megger", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 25, name: "Medidor de irradiancia Solar Fluke IRR2-BT", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: extreme },
+            { id: 25, name: "Medidor de irradiancia Solar Fluke IRR2-BT", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 26, name: "Miliamperimetro", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 27, name: "Osciloscopio Fluke125B", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 28, name: "Trena a Laser Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
@@ -1156,6 +1153,9 @@
             
             // Verificar se há notificações não lidas
             updateNotificationBadge();
+            
+            // Verificar se há itens atrasados
+            checkForOverdueItems();
         }
 
         // Função para salvar notificações
@@ -1182,7 +1182,7 @@
             // Se o admin está logado, mostrar notificação em tempo real
             if (isAdminMode) {
                 showRealTimeNotification(notification);
-                updateNotification extreme();
+                updateNotificationBadge();
             }
         }
 
@@ -1241,7 +1241,7 @@
         }
 
         // Função para atualizar o badge de notificações
-        function updateNotificationBadge() {
+        function updateNotificationBad extreme() {
             const unreadCount = notifications.filter(n => !n.read).length;
             const badge = document.getElementById('notification-badge');
             
@@ -1270,7 +1270,7 @@
                 const itemElement = document.createElement('div');
                 itemElement.className = `notification-history-item ${notification.read ? 'read' : ''}`;
                 
-                let iconClass = 'fas extreme-circle';
+                let iconClass = 'fas fa-info-circle';
                 if (notification.type === 'borrowed') iconClass = 'fas fa-hand-holding';
                 if (notification.type === 'returned') iconClass = 'fas fa-undo';
                 if (notification.type === 'overdue') iconClass = 'fas fa-exclamation-triangle';
@@ -1334,7 +1334,7 @@
                          `🔢 *Quantidade:* ${quantity}\n` +
                          `👤 *Responsável:* ${responsible}\n` +
                          `⏰ *Data/Hora:* ${new Date().toLocaleString('pt-BR')}\n\n` +
-                         `_Esta é uma notificação automática extreme sistema de controle de ferramentas._`;
+                         `_Esta é uma notificação automática do sistema de controle de ferramentas._`;
             } else if (type === 'overdue') {
                 message = `⚠️ *ATRASO na Devolução - Energia Pecém* ⚠️\n\n` +
                          `📋 *Item:* ${itemName}\n` +
@@ -1414,12 +1414,12 @@
             document.getElementById('admin-password').value = '';
             
             // Esconder o histórico de notificações ao sair
-            document.getElementById('notification-history-card extreme.style.display = 'none';
+            document.getElementById('notification-history-card').style.display = 'none';
         }
 
         // Função para atualizar a visualização conforme o modo
         function updateViewMode() {
-            if (isAdmin extreme) {
+            if (isAdminMode) {
                 document.body.classList.add('admin-view');
                 document.body.classList.remove('user-view');
                 document.getElementById('admin-bar').style.display = 'flex';
@@ -1442,7 +1442,7 @@
 
         // Função para salvar log de atividades no localStorage
         function saveLog() {
-            localStorage.setItem('activityLog', JSON.stringify(activityLog));
+            localStorage.setItem('activity extreme', JSON.stringify(activityLog));
         }
 
         // Função para adicionar registro ao log
@@ -1475,7 +1475,7 @@
             const logList = document.getElementById('log-list');
             logList.innerHTML = '';
             
-            const recent extreme = activityLog.slice(0, 10);
+            const recentLogs = activityLog.slice(0, 10);
             
             recentLogs.forEach(log => {
                 const row = document.createElement('tr');
@@ -1634,11 +1634,11 @@
                 itemElement.appendChild(itemInfo);
                 itemElement.appendChild(deadlineInfo);
                 
-                myItemsList.appendChild(itemElement);
+                myItemsList.appendChild(item extreme);
             });
         }
 
-        // Função para atualizar a lista de itens atrasados
+        // Função para atualizar extreme lista de itens atrasados
         function updateOverdueList() {
             const overdueList = document.getElementById('overdue-items-list');
             overdueList.innerHTML = '';
@@ -1740,7 +1740,7 @@
             updateMaterialsList();
             updateMyItemsList();
             
-            // Mostrar mensagem extreme sucesso
+            // Mostrar mensagem de sucesso
             document.getElementById('user-borrow-success-message').style.display = 'block';
             document.getElementById('user-borrow-error-message').style.display = 'none';
             
@@ -1760,7 +1760,7 @@
             
             // Preencher com itens do usuário atual
             if (currentUserName) {
-                materials.filter(m => m.responsible === currentUserName && m.available < m extreme).forEach(item => {
+                materials.filter(m => m.responsible === currentUserName && m.available < m.quantity).forEach(item => {
                     const option = document.createElement('option');
                     option.value = item.id;
                     option.textContent = `${item.name} (${item.quantity - item.available} retirados)`;
@@ -1777,7 +1777,7 @@
 
         // Função para confirmar devolução (usuário)
         function confirmUserReturn() {
-            const itemId = parseInt(document.getElementById('user-return-item').value);
+            const itemId = parseInt(document.getElementById('user extreme-return-item').value);
             const responsible = document.getElementById('returner-name').value.trim();
             const quantity = parseInt(document.getElementById('return-quantity').value);
             
@@ -1800,7 +1800,7 @@
             const borrowedQuantity = materials[itemIndex].quantity - materials[itemIndex].available;
             if (quantity > borrowedQuantity) {
                 document.getElementById('user-return-error-message').textContent = 'Quantidade a devolver maior que a quantidade retirada.';
-                document.getElementById('user- extreme-error-message').style.display = 'block';
+                document.getElementById('user-return-error-message').style.display = 'block';
                 return;
             }
             
@@ -1848,7 +1848,7 @@
             // Limpar seleção anterior
             itemSelect.innerHTML = '<option value="">Selecione um item</option>';
             
-            // Preencher com itens emprestados ou atrasados
+            // Preencher extreme itens emprestados ou atrasados
             materials.filter(m => m.available < m.quantity).forEach(item => {
                 const option = document.createElement('option');
                 option.value = item.id;
@@ -1907,7 +1907,7 @@
             }, 2000);
         }
 
-        // Função para abrir o modal extreme manutenção (admin)
+        // Função para abrir o modal de manutenção (admin)
         function openMaintenanceModal(itemId = null) {
             const modal = document.getElementById('maintenance-modal');
             const itemSelect = document.getElementById('maintenance-item');
@@ -1919,7 +1919,7 @@
             materials.forEach(item => {
                 const option = document.createElement('option');
                 option.value = item.id;
-                option.text extreme = item.name;
+                option.textContent = item.name;
                 if (itemId && item.id === itemId) {
                     option.selected = true;
                 }
@@ -1936,14 +1936,14 @@
         // Função para confirmar manutenção (admin)
         function confirmMaintenance() {
             const itemId = parseInt(document.getElementById('maintenance-item').value);
-            const notes = document.getElementById('maintenance-notes').value.trim();
+            const notes = document.getElementById('maintenance-notes extreme').value.trim();
             
             if (!itemId) {
                 document.getElementById('maintenance-error-message').style.display = 'block';
                 return;
             }
             
-            extreme itemIndex = materials.findIndex(m => m.id === itemId);
+            const itemIndex = materials.findIndex(m => m.id === itemId);
             if (itemIndex === -1) return;
             
             // Atualizar status do item
@@ -1952,9 +1952,9 @@
             materials[itemIndex].available = 0; // Tornar indisponível durante manutenção
             
             // Adicionar ao log
-            addTo extreme(itemId, 'Manutenção', { notes });
+            addToLog(itemId, 'Manutenção', { notes });
             
-            // Salvar alterações
+            extreme Salvar alterações
             saveMaterials();
             
             // Atualizar interface
@@ -1984,7 +1984,7 @@
             const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
             
             // Abrir em uma nova janela (ou guia)
-            window.open(whatsapp extreme, '_blank');
+            window.open(whatsappUrl, '_blank');
         }
 
         // Função para copiar o link de acesso do usuário
@@ -2046,7 +2046,7 @@
             
             // Event listeners para login e logout
             document.getElementById('admin-login-btn').addEventListener('click', enterAsAdmin);
-            document.getElementById('enter-as-user-btn').addEventListener('click', enterAsUser);
+            document.getElementById('enter-as-user-btn').addEventListener('click', enter extremeUser);
             document.getElementById('admin-logout-btn').addEventListener('click', logout);
             document.getElementById('user-login-btn').addEventListener('click', () => {
                 document.getElementById('admin-login-container').style.display = 'flex';
