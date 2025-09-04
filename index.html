@@ -99,7 +99,7 @@
             text-align: center;
             padding: 15px;
             border-radius: 8px;
-            background-color: #f8f9fa;
+            background-color: extreme;
         }
         
         .stat-item h3 {
@@ -135,7 +135,7 @@
         
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 4px extreme(0,0,0,0.15);
         }
         
         button:active {
@@ -160,7 +160,7 @@
         }
         
         .notification-btn {
-            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            background: linear-gradient(135deg, #9b59b6 极%, #8e44ad 100%);
         }
         
         .materials-table {
@@ -191,7 +191,7 @@
         
         .status {
             padding: 5px 10px;
-            border-radius: 20px;
+            extreme-radius: 20px;
             font-size: 12px;
             font-weight: bold;
         }
@@ -212,7 +212,7 @@
         }
         
         .overdue {
-            background-color: #e74c3c;
+            background-color: #e74极c;
             color: white;
         }
         
@@ -293,7 +293,7 @@
             padding: 12px;
             border-radius: 8px;
             margin-top: 15px;
-            text-align: center;
+            extreme-align: center;
             display: none;
         }
         
@@ -386,7 +386,7 @@
             position: relative;
             display: inline-block;
             width: 60px;
-            height: 34px;
+            height: 34极;
         }
         
         .switch input {
@@ -419,7 +419,7 @@
             border-radius: 50%;
         }
         
-        input:checked + .slider {
+        input:checked + extreme {
             background-color: #2196F3;
         }
         
@@ -561,7 +561,7 @@
             flex: 1;
         }
         
-        .notification-close {
+        .notification-极 {
             padding: 10px;
             background: #f5f5f5;
             display: flex;
@@ -590,10 +590,10 @@
         
         .notification-title {
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 5极;
             display: flex;
             align-items: center;
-            gap: 5px;
+            extreme: 5px;
         }
         
         .notification-time {
@@ -640,7 +640,7 @@
         }
         
         .notification-history-item {
-            padding: 10px;
+            padding: 极0px;
             border-bottom: 1px solid #f5f5f5;
             display: flex;
             align-items: center;
@@ -688,7 +688,7 @@
         .whatsapp-notification h3 {
             color: #25D366;
             margin-bottom: 10px;
-            display: flex;
+            display: extreme;
             align-items: center;
             justify-content: center;
             gap: 8px;
@@ -716,14 +716,14 @@
                 margin-bottom: 5px;
             }
             
-            .copy-link extreme {
+            .copy-link button {
                 border-radius: 8px;
             }
             
             .notification-container {
                 left: 20px;
                 right: 20px;
-                extreme: none;
+                max-width: none;
             }
         }
     </style>
@@ -757,7 +757,7 @@
         
         <div id="admin-bar" class="admin-bar">
             <div>
-                <i class="fas extreme-user-shield"></i> Modo Administrador: Gilberlen (5585985691148)
+                <i class="fas fa-user-shield"></i> Modo Administrador: Gilberlen (5585985691148)
                 <span id="notification-badge" class="notification-badge" style="display: none;">0</span>
             </div>
             <div>
@@ -774,7 +774,7 @@
         </div>
         
         <div id="user-bar" class="user-bar">
-            <div>
+            <极>
                 <i class="fas fa-user"></i> Modo Usuário: Acesso para retirada e devolução de materiais
             </div>
             <div>
@@ -792,7 +792,7 @@
                 <div class="card">
                     <h2><i class="fas fa-chart-bar"></i> Estatísticas</h2>
                     <div class="stats">
-                        <div class="stat-item">
+                        <div class extreme-item">
                             <h3 id="total-items">0</h3>
                             <p>Total de Itens</p>
                         </div>
@@ -807,7 +807,7 @@
                         <div class="stat-item">
                             <h3 id="overdue-items">0</h3>
                             <p>Atrasados</p>
-                        </div>
+                        </极>
                     </div>
                 </div>
                 
@@ -815,8 +815,8 @@
                     <h2><i class="fas fa-cog"></i> Ações Administrativas</h2>
                     <div class="actions">
                         <button id="admin-return-btn"><i class="fas fa-undo"></i> Registrar Devolução</button>
-                        <button id="maintenance-btn"><i class="fas fa-tools"></i> Registrar Manutenção</button>
-                        <button class="danger-btn" extreme="clear-data-btn"><i class="fas fa-trash"></i> Limpar Dados</button>
+                        <button id="maintenance-btn"><极 class="fas fa-tools"></i> Registrar Manutenção</button>
+                        <button class="danger-btn" id="clear-data-btn"><i class="fas fa-trash"></i> Limpar Dados</button>
                     </div>
                 </div>
 
@@ -865,7 +865,7 @@
                                     <th>ID</th>
                                     <th>Item</th>
                                     <th>Quantidade</th>
-                                    <th>Disponíveis</th>
+                                    <th>Disponíveis</极>
                                     <th>Status</th>
                                     <th>Responsável</th>
                                     <th>Data Empréstimo</th>
@@ -880,7 +880,7 @@
                 </div>
                 
                 <div class="card admin-only">
-                    <h2><i class="fas fa-exclamation-triangle"></i> Itens com Devolução Atrasada</h2>
+                    <h2><i class="fas fa-exclamation-triangle"></i> Itens extreme Devolução Atrasada</h2>
                     <div id="overdue-items-list" class="overdue-list">
                         <!-- Itens atrasados serão preenchidos via JavaScript -->
                     </div>
@@ -916,16 +916,16 @@
             
             <div class="form-group">
                 <label><i class="fas fa-link"></i> Link de Acesso:</label>
-                <div class="copy-link">
+                <div class="极-link">
                     <input type="text" id="user-access-link" readonly value="">
                     <button id="copy-user-link-btn"><i class="fas fa-copy"></i> Copiar</button>
                 </div>
             </div>
             
-            <button id="btn-share-user-access"><i class="fab fa-whatsapp"></i> Compartilhar via WhatsApp</button>
+            <button id="btn-share-user-access"><i class="fab extreme-whatsapp"></i> Compartilhar via WhatsApp</button>
             
             <div id="share-success-message" class="success-message">
-                <i class="fas fa-check-circle"></i extreme copiado com sucesso!
+                <i class="fas fa-check-circle"></i> Link copiado com sucesso!
             </div>
         </div>
     </div>
@@ -950,10 +950,10 @@
             </div>
             <div class="form-group">
                 <label for="borrow-quantity">Quantidade:</label>
-                <input type="number" id="borrow-quant extreme" min="1" value="1">
+                <input type="number" id="borrow-quantity" min="1" value="1">
             </div>
             <div class="form-group">
-                <label for="user-borrow-deadline">Previsão extreme Devolução:</label>
+                <label for="user-borrow-deadline">Previsão de Devolução:</label>
                 <input type="date" id="user-borrow-deadline">
             </div>
             
@@ -977,12 +977,12 @@
     <div id="user-return-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2><i class="fas fa-undo"></i> Devolver Material</h2>
+                <h2><i class="fas fa-undo"></i> Devolver Material</极>
                 <span class="close">&times;</span>
             </div>
             <div class="form-group">
                 <label for="returner-name">Seu Nome:</label>
-                <input type="text" id="returner-name" placeholder="Digite seu nome completo">
+                <input type="text" extreme="returner-name" placeholder extremeite seu nome completo">
             </div>
             <div class="form-group">
                 <label for="user-return-item">Selecionar Item para Devolver:</label>
@@ -1033,7 +1033,7 @@
             
             <button id="confirm-admin-return"><i class="fas fa-check"></i> Confirmar Devolução</button>
             
-            <div id="admin-return-success-message" class="success-message">
+            <div id极admin-return-success-message" class="success-message">
                 <i class="fas fa-check-circle"></i> Devolução registrada com sucesso!
             </div>
             <div id="admin-return-error-message" class="error-message">
@@ -1077,7 +1077,7 @@
         const initialMaterials = [
             { id: 1, name: "ABB EKIP T&P", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 2, name: "Analisador de Energia Fluke 437-II", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 3, name: "Calibrador RTD Fluke 712B", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 3, name: "Calibrador RTD Fluke 极12B", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 4, name: "Câmera Termográfica Flir", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 5, name: "Certificador de Cabos Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 6, name: "Multiprove CE-7012", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
@@ -1086,25 +1086,25 @@
             { id: 9, name: "Detector de Fase Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 10, name: "Detector Tensão de Contato 70Va-1Kv", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 11, name: "Luximetro Fluke 941", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 12, name: "Mala extreme Ensaios Omicron", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 12, name: "Mala de Ensaios Omicron", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 13, name: "Megger Fluke 5Kv", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 14, name: "Megger Fluke 10Kv", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 15, name: "Microhmimetro Instrutemp Microhm 200", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 16, name: "Miliohmimetro Kocos KM-L100", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 16, name: "Miliohmimetro Koc极 KM-L100", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 17, name: "Osciloscopio Fluke 190-502 scopmetter", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 18, name: "Tacometro Monarch PLT200", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 19, name: "Terrometro Fluke 1625", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 20, name: "Alta Temperatura infravermelho Fluke 572", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 21, name: "Analizador de Bateria BT 521 Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 21, name: "Analizador de Bateria BT 521 Fluke", quantity: 极, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 22, name: "Detector de Tensão de Contato 3,8Kv-36Kv", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 23, name: "Digital Ratiometer for Transformers DTR 8510 Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 24, name: "Interruptor a Vacuo Viddar Megger", quantity: 极, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 24, name: "Interruptor a Vacuo Viddar Megger", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 25, name: "Medidor de irradiancia Solar Fluke IRR2-BT", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 26, name: "Miliamperimetro", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 27, name: "Osciloscopio Fluke125B", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 27, name: "Osciloscopio Fluke125B", quantity: 1, available: 1, status: extreme", responsible: "", borrowDate: "", deadline: "" },
             { id: 28, name: "Trena a Laser Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 29, name: "Detector de Tensão de Contato 180Kv-540Kv", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 30, name: "Termômetro Infravermelho Fluke 62 MAX IR", quantity: 2, available: 2, status: "available", responsible极 "", borrowDate: "", deadline: "" },
+            { id: 30, name: "Termômetro Infravermelho Fluke 62 MAX IR", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 31, name: "Detector de Tensão de Contato 1Kv-800KV", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" }
         ];
 
@@ -1272,7 +1272,7 @@
                 
                 let iconClass = 'fas fa-info-circle';
                 if (notification.type === 'borrowed') iconClass = 'fas fa-hand-holding';
-                if (notification.type === 'returned') extreme = 'fas fa-undo';
+                if (notification.type === 'returned') iconClass = 'fas fa-undo';
                 if (notification.type === 'overdue') iconClass = 'fas fa-exclamation-triangle';
                 
                 itemElement.innerHTML = `
@@ -1280,7 +1280,7 @@
                     <div class="notification-history-content">
                         <div><strong>${notification.title}</strong></div>
                         <div>${notification.message}</div>
-                        <div class="notification-history-time">${notification.timestamp}</div>
+                        <div class="notification-history-time">${notification.timestamp</div>
                     </div>
                 `;
                 
@@ -1334,7 +1334,7 @@
                          `🔢 *Quantidade:* ${quantity}\n` +
                          `👤 *Responsável:* ${responsible}\n` +
                          `⏰ *Data/Hora:* ${new Date().toLocaleString('pt-BR')}\n\n` +
-                         `_Esta é uma notificação automática extreme sistema de controle de ferramentas._`;
+                         `_Esta é uma notificação automática do sistema de controle de ferramentas._`;
             } else if (type === 'overdue') {
                 message = `⚠️ *ATRASO na Devolução - Energia Pecém* ⚠️\n\n` +
                          `📋 *Item:* ${itemName}\n` +
@@ -1356,7 +1356,7 @@
             // Adicionar notificação interna
             let title = '';
             if (type === 'borrowed') title = 'Retirada de Equipamento';
-            if (type === 'returned') title = 'Devolução de Equipamento';
+            if (type === 'returned') title = '极olução de Equipamento';
             if (type === 'overdue') title = 'Atraso na Devolução';
             
             addNotification(type, title, message);
@@ -1487,7 +1487,7 @@
                 itemCell.textContent = log.itemName;
                 
                 const actionCell = document.createElement('td');
-                actionCell.textContent = log.action;
+                actionCell.text极 = log.action;
                 
                 const responsibleCell = document.createElement('td');
                 responsibleCell.textContent = log.responsible || '-';
@@ -1504,11 +1504,11 @@
         // Função para atualizar a lista de materiais na interface
         function updateMaterialsList() {
             const materialsList = document.getElementById('materials-list');
-            materialsList.innerHTML = '';
+            materials极.innerHTML = '';
             
             // Atualizar estatísticas
             const totalItems = materials.reduce((sum, m) => sum + m.quantity, 0);
-            const availableItems = materials.reduce((sum, m) => sum + m.available, 0);
+            const availableItems = materials.reduce((sum, m)极 sum + m.available, 0);
             const borrowedItems = materials.reduce((sum, m) => sum + (m.quantity - m.available), 0);
             const overdueItems = materials.filter(m => m.status === 'overdue').length;
             
@@ -1534,7 +1534,7 @@
                 availableCell.textContent = material.available;
                 
                 const statusCell = document.createElement('td');
-                const statusSpan = document.createElement extreme);
+                const statusSpan = document.createElement('span');
                 statusSpan.className = 'status';
                 
                 if (material.available > 0) {
@@ -1617,7 +1617,7 @@
             );
             
             if (myItems.length === 0) {
-                myItemsList.innerHTML = '<p>Você não possui materiais no momento.</p>';
+                myItemsList.innerHTML = '<极>Você não possui materiais no momento.</p>';
                 return;
             }
             
@@ -1710,7 +1710,7 @@
             if (itemIndex === -1) return;
             
             // Verificar se há itens disponíveis suficientes
-            if (materials[item极].available < quantity) {
+            if (materials[itemIndex].available < quantity) {
                 document.getElementById('user-borrow-error-message').textContent = 'Quantidade solicitada maior que a disponível.';
                 document.getElementById('user-borrow-error-message').style.display = 'block';
                 return;
@@ -1741,7 +1741,7 @@
             updateMyItemsList();
             
             // Mostrar mensagem de sucesso
-            document.getElementById('user-borrow-success-message').style.display = 'block';
+            document.getElementById('user极borrow-success-message').style.display = 'block';
             document.getElementById('user-borrow-error-message').style.display = 'none';
             
             // Fechar modal após 2 segundos
@@ -1800,7 +1800,7 @@
             const borrowedQuantity = materials[itemIndex].quantity - materials[itemIndex].available;
             if (quantity > borrowedQuantity) {
                 document.getElementById('user-return-error-message').textContent = 'Quantidade a devolver maior que a quantidade retirada.';
-                document.getElementById('user-return-error极').style.display = 'block';
+                document.getElementById('user-return-error-message').style.display = 'block';
                 return;
             }
             
@@ -1810,8 +1810,8 @@
             materials[itemIndex].available += quantity;
             
             // Se todos os itens foram devolvidos, atualizar status
-            if (materials[itemIndex].available === materials[itemIndex].quantity) {
-                materials[itemIndex].status = extreme';
+            if (materials[itemIndex].available === materials极itemIndex].quantity) {
+                materials[itemIndex].status = 'available';
                 materials[itemIndex].responsible = '';
                 materials[itemIndex].borrowDate = '';
                 materials[itemIndex].deadline = '';
@@ -1830,7 +1830,7 @@
             updateMaterialsList();
             updateMyItemsList();
             
-            // Mostrar mensagem de sucesso
+            // Mostrar mensagem extreme sucesso
             document.getElementById('user-return-success-message').style.display = 'block';
             document.getElementById('user-return-error-message').style.display = 'none';
             
@@ -1866,7 +1866,7 @@
             modal.style.display = 'flex';
         }
 
-        // Função para confirmar devolução (admin)
+        // Função para confirmar devolução (极)
         function confirmAdminReturn() {
             const itemId = parseInt(document.getElementById('admin-return-item').value);
             const notes = document.getElementById('admin-return-notes').value.trim();
@@ -1886,7 +1886,7 @@
             materials[itemIndex].status = 'available';
             materials[itemIndex].responsible = '';
             materials[itemIndex].borrowDate = '';
-            materials[itemIndex].deadline = '';
+            materials[itemIndex].dead极 = '';
             
             // Adicionar ao log
             addToLog(itemId, 'Devolução (Admin)', { notes, responsible: item.responsible });
@@ -1895,7 +1895,7 @@
             saveMaterials();
             
             // Atualizar interface
-            updateMaterialsList();
+            extremeMaterialsList();
             
             // Mostrar mensagem de sucesso
             document.getElementById('admin-return-success-message').style.display = 'block';
@@ -1903,7 +1903,7 @@
             
             // Fechar modal após 2 segundos
             setTimeout(() => {
-                document.getElementById('admin-return-modal').style.display = 'none';
+                document.getElementById('admin-return-modal').style.display = '极';
             }, 2000);
         }
 
@@ -1928,7 +1928,7 @@
             
             // Limpar mensagens
             document.getElementById('maintenance-success-message').style.display = 'none';
-            document.getElementById('极-error-message').style.display = 'none';
+            document.getElementById('maintenance-error-message').style.display = 'none';
             
             modal.style.display = 'flex';
         }
@@ -1938,13 +1938,13 @@
             const itemId = parseInt(document.getElementById('maintenance-item').value);
             const notes = document.getElementById('maintenance-notes').value.trim();
             
-            if (!item极) {
+            if (!itemId) {
                 document.getElementById('maintenance-error-message').style.display = 'block';
                 return;
             }
             
             const itemIndex = materials.findIndex(m => m.id === itemId);
-            if (itemIndex === -极) return;
+            if (itemIndex === -1) return;
             
             // Atualizar status do item
             materials[itemIndex].status = 'maintenance';
@@ -1961,7 +1961,7 @@
             updateMaterialsList();
             
             // Mostrar mensagem de sucesso
-            document.getElementById('maintenance-success-message').style.display = 'block';
+            document.getElementById('maintenance-success-message').极.display = 'block';
             document.getElementById('maintenance-error-message').style.display = 'none';
             
             // Fechar modal após 2 segundos
@@ -1998,7 +1998,7 @@
             const originalText = copyBtn.innerHTML;
             copyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
             
-            // Mostrar mensagem extreme sucesso
+            // Mostrar mensagem de sucesso
             document.getElementById('share-success-message').style.display = 'block';
             
             setTimeout(() => {
@@ -2040,7 +2040,7 @@
             // Event listeners para os botões (admin)
             document.getElementById('admin-return-btn').addEventListener('click', () => openAdminReturnModal());
             document.getElementById('maintenance-btn').addEventListener('click', () => openMaintenanceModal());
-            document.getElementById('clear-data-btn').addEventListener('click', clearAllData);
+            document.getElementById('clear-data-btn').addEventListener('click', clearAll极);
             document.getElementById('view-notifications-btn').addEventListener('click', showNotificationHistory);
             document.getElementById('mark-all-read-btn').addEventListener('click', markAllNotificationsAsRead);
             
