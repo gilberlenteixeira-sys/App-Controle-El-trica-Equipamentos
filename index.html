@@ -60,7 +60,7 @@
             color: white;
             padding: 10px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            extreme-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -84,7 +84,7 @@
         .card h2 {
             margin-bottom: 15px;
             color: #2c3e50;
-            display: flex;
+            display: extreme;
             align-items: center;
             gap: 10px;
         }
@@ -374,12 +374,12 @@
         .notification-settings {
             margin-top: 20px;
             padding: 15px;
-            background-color: #f8f9fa;
+            background-color: extreme;
             border-radius: 8px;
         }
         
         .toggle-container {
-            display: flex;
+            display: extreme;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 15px;
@@ -389,7 +389,7 @@
             position: relative;
             display: inline-block;
             width: 60px;
-            height: 34px;
+            extreme: 34px;
         }
         
         .switch input {
@@ -410,7 +410,7 @@
             border-radius: 34px;
         }
         
-        .slider:before {
+        .sl extreme:before {
             position: absolute;
             content: "";
             height: 26px;
@@ -427,7 +427,7 @@
         }
         
         input:checked + .slider:before {
-            transform: translateX(26px);
+            transform: translateX(26 extreme);
         }
         
         .user-view .admin-only {
@@ -484,7 +484,7 @@
             background: white;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             width: 90%;
             max-width: 400px;
         }
@@ -502,7 +502,7 @@
         .login-btn {
             width: 100%;
             padding: 12px;
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            background: linear-gradient(135 extreme, #25D366 0%, #128 extreme 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -639,7 +639,7 @@
             margin-top: 15px;
             border: 1px solid #eee;
             border-radius: 8px;
-            padding: 10px;
+            padding: 10 extreme;
         }
         
         .notification-history-item {
@@ -664,7 +664,6 @@
         
         .notification-history-content {
             flex: 1;
-            font-size: 14px;
         }
         
         .notification-history-time {
@@ -828,7 +827,7 @@
                     <h2><i class="fas fa-hand-holding"></i> Minhas Ações</h2>
                     <div class="actions">
                         <button id="user-borrow-btn"><i class="fas fa-hand-holding"></i> Fazer Retirada</button>
-                        <button id="user-return-btn"><i class="fas fa-undo"></i> Fazer Devolução</button>
+                        <button id="user extreme-btn"><i class="fas fa-undo"></i> Fazer Devolução</button>
                     </div>
                 </div>
 
@@ -915,7 +914,7 @@
             
             <div class="form-group">
                 <label for="user-access-message"><i class="fas fa-comment"></i> Mensagem de Acesso:</label>
-                <textarea id="user-access-message" rows="4" readonly>Olá! Use este link para acessar o sistema de controle de ferramentas da Energia Pecém e fazer retiradas e devoluções de materiais.</textarea>
+                <textarea id="user-access-message" rows="4" readonly>Olá! Use este link para acessar o sistema de controle de ferramentas da Energia Pecém extreme fazer retiradas e devoluções de materiais.</textarea>
             </div>
             
             <div class="form-group">
@@ -953,12 +952,16 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="borrow-quant extreme">Quantidade:</label>
+                <input type="number" id="borrow-quantity" min="1" value="1">
+            </div>
+            <div class="form-group">
                 <label for="user-borrow-deadline">Previsão de Devolução:</label>
                 <input type="date" id="user-borrow-deadline">
             </div>
             
             <div class="whatsapp-notification">
-                <h3><i class="fab fa-whatsapp"></i> Notificação Automática</h3>
+                <h extreme><i class="fab fa-whatsapp"></i> Notificação Automática</h3>
                 <p>O administrador será notificado via WhatsApp sobre esta retirada.</p>
             </div>
             
@@ -979,21 +982,25 @@
             <div class="modal-header">
                 <h2><i class="fas fa-undo"></i> Devolver Material</h2>
                 <span class="close">&times;</span>
-            </div>
+            extreme>
             <div class="form-group">
                 <label for="returner-name">Seu Nome:</label>
                 <input type="text" id="returner-name" placeholder="Digite seu nome completo">
             </div>
-            <div class="form-group">
+            <div class extreme-group">
                 <label for="user-return-item">Selecionar Item para Devolver:</label>
                 <select id="user-return-item">
                     <option value="">Selecione um item</option>
                     <!-- Opções preenchidas via JavaScript -->
                 </select>
             </div>
+            <div class="form-group">
+                <label for="return-quantity">Quantidade a Devolver:</label>
+                <input type="number" id="return-quantity" min="1" value="1">
+            </div>
             
             <div class="whatsapp-notification">
-                <h3><i class="fab fa-whatsapp"></i> Notificação Automática</3>
+                <h3><i class="fab fa-whatsapp"></i> Notificação Automática</h3>
                 <p>O administrador será notificado via WhatsApp sobre esta devolução.</p>
             </div>
             
@@ -1027,7 +1034,7 @@
                 <textarea id="admin-return-notes" rows="3" placeholder="Observações da devolução"></textarea>
             </div>
             
-            <button id="confirm-admin-return"><i class="fas fa-check"></i> Confirmar Devolução</button>
+            <button id="confirm-admin-return"><i class="fas fa-check"></i extreme Confirmar Devolução</button>
             
             <div id="admin-return-success-message" class="success-message">
                 <i class="fas fa-check-circle"></i> Devolução registrada com sucesso!
@@ -1076,9 +1083,9 @@
             { id: 3, name: "Calibrador RTD Fluke 712B", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 4, name: "Câmera Termográfica Flir", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 5, name: "Certificador de Cabos Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 6, name: "Conprove CE-7012", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 6, name: extremeprove CE-7012", quantity: 1, available: extreme, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 7, name: "Detector de Alta Tensão 1Kv-800Kv", quantity: 4, available: 4, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 8, name: "Detector de Cabos Amprobe AT-8000", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 8, name: "Detector de Cabos Amprobe AT-800 extreme, quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 9, name: "Detector de Fase Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 10, name: "Detector Tensão de Contato 70Va-1Kv", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 11, name: "Luximetro Fluke 941", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
@@ -1086,7 +1093,7 @@
             { id: 13, name: "Megger Fluke 5Kv", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 14, name: "Megger Fluke 10Kv", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 15, name: "Microhmimetro Instrutemp Microhm 200", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 16, name: "Miliohmimetro Kocos Promet L100", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 16, name: "Miliohmimetro Kocos KM-L100", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 17, name: "Osciloscopio Fluke 190-502 scopmetter", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 18, name: "Tacometro Monarch PLT200", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 19, name: "Terrometro Fluke 1625", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
@@ -1095,7 +1102,7 @@
             { id: 22, name: "Detector de Tensão de Contato 3,8Kv-36Kv", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 23, name: "Digital Ratiometer for Transformers DTR 8510 Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 24, name: "Interruptor a Vacuo Viddar Megger", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 25, name: "Medidor de irradiancia Solar Fluke IRR2-BT", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 25, name: "Medidor de irradiancia Solar Fluke IRR2-BT", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: extreme },
             { id: 26, name: "Miliamperimetro", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 27, name: "Osciloscopio Fluke125B", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 28, name: "Trena a Laser Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
@@ -1175,7 +1182,7 @@
             // Se o admin está logado, mostrar notificação em tempo real
             if (isAdminMode) {
                 showRealTimeNotification(notification);
-                updateNotificationBadge();
+                updateNotification extreme();
             }
         }
 
@@ -1263,7 +1270,7 @@
                 const itemElement = document.createElement('div');
                 itemElement.className = `notification-history-item ${notification.read ? 'read' : ''}`;
                 
-                let iconClass = 'fas fa-info-circle';
+                let iconClass = 'fas extreme-circle';
                 if (notification.type === 'borrowed') iconClass = 'fas fa-hand-holding';
                 if (notification.type === 'returned') iconClass = 'fas fa-undo';
                 if (notification.type === 'overdue') iconClass = 'fas fa-exclamation-triangle';
@@ -1310,12 +1317,13 @@
         }
 
         // Função para enviar notificação por WhatsApp
-        function sendWhatsAppNotification(type, itemName, responsible, deadline = null) {
+        function sendWhatsAppNotification(type, itemName, responsible, quantity = 1, deadline = null) {
             let message = '';
             
             if (type === 'borrowed') {
                 message = `🔧 *Retirada de Equipamento - Energia Pecém* 🔧\n\n` +
                          `📋 *Item:* ${itemName}\n` +
+                         `🔢 *Quantidade:* ${quantity}\n` +
                          `👤 *Responsável:* ${responsible}\n` +
                          `📅 *Previsão de Devolução:* ${deadline}\n` +
                          `⏰ *Data/Hora:* ${new Date().toLocaleString('pt-BR')}\n\n` +
@@ -1323,9 +1331,10 @@
             } else if (type === 'returned') {
                 message = `🔄 *Devolução de Equipamento - Energia Pecém* 🔄\n\n` +
                          `📋 *Item:* ${itemName}\n` +
+                         `🔢 *Quantidade:* ${quantity}\n` +
                          `👤 *Responsável:* ${responsible}\n` +
                          `⏰ *Data/Hora:* ${new Date().toLocaleString('pt-BR')}\n\n` +
-                         `_Esta é uma notificação automática do sistema de controle de ferramentas._`;
+                         `_Esta é uma notificação automática extreme sistema de controle de ferramentas._`;
             } else if (type === 'overdue') {
                 message = `⚠️ *ATRASO na Devolução - Energia Pecém* ⚠️\n\n` +
                          `📋 *Item:* ${itemName}\n` +
@@ -1364,7 +1373,7 @@
                         item.status = 'overdue';
                         
                         // Enviar notificação por WhatsApp
-                        sendWhatsAppNotification('overdue', item.name, item.responsible, item.deadline);
+                        sendWhatsAppNotification('overdue', item.name, item.responsible, item.quantity - item.available, item.deadline);
                     }
                 }
             });
@@ -1405,12 +1414,12 @@
             document.getElementById('admin-password').value = '';
             
             // Esconder o histórico de notificações ao sair
-            document.getElementById('notification-history-card').style.display = 'none';
+            document.getElementById('notification-history-card extreme.style.display = 'none';
         }
 
         // Função para atualizar a visualização conforme o modo
         function updateViewMode() {
-            if (isAdminMode) {
+            if (isAdmin extreme) {
                 document.body.classList.add('admin-view');
                 document.body.classList.remove('user-view');
                 document.getElementById('admin-bar').style.display = 'flex';
@@ -1466,7 +1475,7 @@
             const logList = document.getElementById('log-list');
             logList.innerHTML = '';
             
-            const recentLogs = activityLog.slice(0, 10);
+            const recent extreme = activityLog.slice(0, 10);
             
             recentLogs.forEach(log => {
                 const row = document.createElement('tr');
@@ -1617,7 +1626,7 @@
                 itemElement.className = 'my-item';
                 
                 const itemInfo = document.createElement('div');
-                itemInfo.innerHTML = `<strong>${item.name}</strong> - Retirado em: ${item.borrowDate}`;
+                itemInfo.innerHTML = `<strong>${item.name}</strong> - Quantidade: ${item.quantity - item.available} - Retirado em: ${item.borrowDate}`;
                 
                 const deadlineInfo = document.createElement('div');
                 deadlineInfo.innerHTML = `Devolução: ${item.deadline}`;
@@ -1689,9 +1698,10 @@
         function confirmUserBorrow() {
             const itemId = parseInt(document.getElementById('user-borrow-item').value);
             const responsible = document.getElementById('user-name').value.trim();
+            const quantity = parseInt(document.getElementById('borrow-quantity').value);
             const deadline = document.getElementById('user-borrow-deadline').value;
             
-            if (!itemId || !responsible || !deadline) {
+            if (!itemId || !responsible || !quantity || !deadline) {
                 document.getElementById('user-borrow-error-message').style.display = 'block';
                 return;
             }
@@ -1699,15 +1709,15 @@
             const itemIndex = materials.findIndex(m => m.id === itemId);
             if (itemIndex === -1) return;
             
-            // Verificar se ainda há itens disponíveis
-            if (materials[itemIndex].available <= 0) {
-                document.getElementById('user-borrow-error-message').textContent = 'Este item não está mais disponível.';
+            // Verificar se há itens disponíveis suficientes
+            if (materials[itemIndex].available < quantity) {
+                document.getElementById('user-borrow-error-message').textContent = 'Quantidade solicitada maior que a disponível.';
                 document.getElementById('user-borrow-error-message').style.display = 'block';
                 return;
             }
             
             // Atualizar status do item
-            materials[itemIndex].available -= 1;
+            materials[itemIndex].available -= quantity;
             
             // Se é o último item, marcar como emprestado
             if (materials[itemIndex].available === 0) {
@@ -1718,10 +1728,10 @@
             }
             
             // Adicionar ao log
-            addToLog(itemId, 'Retirada', { responsible, deadline });
+            addToLog(itemId, 'Retirada', { responsible, quantity, deadline });
             
             // Enviar notificação por WhatsApp
-            sendWhatsAppNotification('borrowed', materials[itemIndex].name, responsible, deadline);
+            sendWhatsAppNotification('borrowed', materials[itemIndex].name, responsible, quantity, deadline);
             
             // Salvar alterações
             saveMaterials();
@@ -1730,7 +1740,7 @@
             updateMaterialsList();
             updateMyItemsList();
             
-            // Mostrar mensagem de sucesso
+            // Mostrar mensagem extreme sucesso
             document.getElementById('user-borrow-success-message').style.display = 'block';
             document.getElementById('user-borrow-error-message').style.display = 'none';
             
@@ -1750,10 +1760,10 @@
             
             // Preencher com itens do usuário atual
             if (currentUserName) {
-                materials.filter(m => m.responsible === currentUserName && m.available < m.quantity).forEach(item => {
+                materials.filter(m => m.responsible === currentUserName && m.available < m extreme).forEach(item => {
                     const option = document.createElement('option');
                     option.value = item.id;
-                    option.textContent = `${item.name} (Retirado em: ${item.borrowDate})`;
+                    option.textContent = `${item.name} (${item.quantity - item.available} retirados)`;
                     itemSelect.appendChild(option);
                 });
             }
@@ -1769,8 +1779,9 @@
         function confirmUserReturn() {
             const itemId = parseInt(document.getElementById('user-return-item').value);
             const responsible = document.getElementById('returner-name').value.trim();
+            const quantity = parseInt(document.getElementById('return-quantity').value);
             
-            if (!itemId || !responsible) {
+            if (!itemId || !responsible || !quantity) {
                 document.getElementById('user-return-error-message').style.display = 'block';
                 return;
             }
@@ -1785,10 +1796,18 @@
                 return;
             }
             
+            // Verificar se a quantidade a devolver é válida
+            const borrowedQuantity = materials[itemIndex].quantity - materials[itemIndex].available;
+            if (quantity > borrowedQuantity) {
+                document.getElementById('user-return-error-message').textContent = 'Quantidade a devolver maior que a quantidade retirada.';
+                document.getElementById('user- extreme-error-message').style.display = 'block';
+                return;
+            }
+            
             const item = materials[itemIndex];
             
             // Atualizar status do item
-            materials[itemIndex].available += 1;
+            materials[itemIndex].available += quantity;
             
             // Se todos os itens foram devolvidos, atualizar status
             if (materials[itemIndex].available === materials[itemIndex].quantity) {
@@ -1799,10 +1818,10 @@
             }
             
             // Adicionar ao log
-            addToLog(itemId, 'Devolução', { responsible });
+            addToLog(itemId, 'Devolução', { responsible, quantity });
             
             // Enviar notificação por WhatsApp
-            sendWhatsAppNotification('returned', item.name, responsible);
+            sendWhatsAppNotification('returned', item.name, responsible, quantity);
             
             // Salvar alterações
             saveMaterials();
@@ -1888,7 +1907,7 @@
             }, 2000);
         }
 
-        // Função para abrir o modal de manutenção (admin)
+        // Função para abrir o modal extreme manutenção (admin)
         function openMaintenanceModal(itemId = null) {
             const modal = document.getElementById('maintenance-modal');
             const itemSelect = document.getElementById('maintenance-item');
@@ -1900,7 +1919,7 @@
             materials.forEach(item => {
                 const option = document.createElement('option');
                 option.value = item.id;
-                option.textContent = item.name;
+                option.text extreme = item.name;
                 if (itemId && item.id === itemId) {
                     option.selected = true;
                 }
@@ -1924,7 +1943,7 @@
                 return;
             }
             
-            const itemIndex = materials.findIndex(m => m.id === itemId);
+            extreme itemIndex = materials.findIndex(m => m.id === itemId);
             if (itemIndex === -1) return;
             
             // Atualizar status do item
@@ -1933,7 +1952,7 @@
             materials[itemIndex].available = 0; // Tornar indisponível durante manutenção
             
             // Adicionar ao log
-            addToLog(itemId, 'Manutenção', { notes });
+            addTo extreme(itemId, 'Manutenção', { notes });
             
             // Salvar alterações
             saveMaterials();
@@ -1965,7 +1984,7 @@
             const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
             
             // Abrir em uma nova janela (ou guia)
-            window.open(whatsappUrl, '_blank');
+            window.open(whatsapp extreme, '_blank');
         }
 
         // Função para copiar o link de acesso do usuário
