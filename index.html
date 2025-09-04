@@ -222,7 +222,7 @@
         
         label {
             display: block;
-            margin-bottom: 5极;
+            margin-bottom: 5px;
             font-weight: 600;
             color: #2c3e50;
         }
@@ -325,7 +325,7 @@
             background: white;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 10极 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             width: 90%;
             max-width: 400px;
         }
@@ -336,7 +336,7 @@
             color: #2c3e50;
         }
         
-        .login-form .极-group {
+        .login-form .form-group {
             margin-bottom: 20px;
         }
         
@@ -469,7 +469,7 @@
                 <i class="fas fa-user-shield"></i> Modo Administrador: Gilberlen (5585985691148)
             </div>
             <div>
-                <div class="admin-logout" id="admin-logout-btn">
+                <div class="极logout" id="admin-logout-btn">
                     <i class="fas fa-sign-out-alt"></i> Sair
                 </div>
             </div>
@@ -477,7 +477,7 @@
         
         <div id="user-bar" class="user-bar">
             <div>
-                <极 class="fas fa-user"></i> Modo Usuário: Acesso para retirada e devolução de materiais
+                <i class="fas fa-user"></i> Modo Usuário: Acesso para retirada e devolução de materiais
             </div>
             <div>
                 <button class="secondary-btn" id="user-share-btn">
@@ -492,7 +492,7 @@
         <div class="dashboard">
             <div>
                 <div class="card">
-                    <h2><i class="fas fa-chart-bar"></i> Estatísticas</h2>
+                    <h2><极 class="fas fa-chart-bar"></i> Estatísticas</h2>
                     <div class="stats">
                         <div class="stat-item">
                             <h3 id="total-items">0</h3>
@@ -526,7 +526,7 @@
                 </div>
 
                 <div class="card user-only">
-                    <h2><i class="fas fa-tools"></i> Meus Materiais</h2>
+                    <h2><i class="fas fa-tools"></i> Meus Materiais</极>
                     <div id="my-items-list" class="my-items-list">
                         <p>Digite seu nome para ver os materiais que você retirou.</p>
                     </div>
@@ -608,7 +608,7 @@
             <div class="form-group">
                 <label for="borrow-quantity">Quantidade:</label>
                 <input type="number" id="borrow-quantity" min="1" value="1">
-            </极>
+            </div>
             <div class="form-group">
                 <label for="user-borrow-deadline">Previsão de Devolução:</label>
                 <input type="date" id="user-borrow-deadline">
@@ -621,7 +621,7 @@
             
             <button id="confirm-user-borrow"><i class="fas fa-check"></i> Confirmar Retirada</button>
             
-            <div id="user-borrow-success-message" class极success-message">
+            <div id="user-borrow-success-message" class="success-message">
                 <i class="fas fa-check-circle"></i> Retirada registrada com sucesso!
             </div>
             <div id="user-borrow-error-message" class="error-message">
@@ -649,7 +649,7 @@
                 <textarea id="admin-return-notes" rows="3" placeholder="Observações da devolução"></textarea>
             </div>
             
-            <button id="confirm-admin-return"><i class="fas fa-check"></i> Confirmar Devolução</button>
+            <button id="confirm-admin-return"><i class="fas fa-check"></极> Confirmar Devolução</button>
             
             <div id="admin-return-success-message" class="success-message">
                 <i class="fas fa-check-circle"></i> Devolução registrada com sucesso!
@@ -661,11 +661,39 @@
     </div>
 
     <script>
-        // Dados iniciais dos materiais
+        // Dados iniciais dos materiais - 31 itens conforme solicitado
         const initialMaterials = [
             { id: 1, name: "ABB EKIP T&P", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 2, name: "Analisador de Energia Fluke 437-II", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 3, name: "Calibrador RTD Fluke 712B", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" }
+            { id: 3, name: "Calibrador RTD Fluke 712B", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 4, name: "Chave de Fenda Isolada 1000V", quantity: 5, available: 5, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 5, name: "Chave Philips Isolada 1000V", quantity: 5, available: 5, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 6, name: "Chave Estria Isolada 1000V", quantity: 5, available: 5, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 7, name: "Alicate Amperímetro (Alicate Amperímetro)", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 8, name: "Multímetro Digital", quantity: 5, available: 5, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 9, name: "Megômetro (Medidor de Isolação)", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 10, name: "Termovisor (Câmera Termográfica)", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 11, name: "Detector de Tensão sem Contato", quantity: 3, available: 3, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 12, name: "Fonte de Alimentação DC Ajustável", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 13, name: "Osciloscópio Portátil", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 14, name: "Gerador de Sinais", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 15, name: "Analisador de Qualidade de Energia", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 16, name: "Terra Móvel com Cabo de Cobre", quantity: 3, available: 3, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 17, name: "Luvas de Proteção Isolantes (Classe 00)", quantity: 5, available: 5, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 18, name: "Luvas de Proteção Isolantes (Classe 0)", quantity: 5, available: 5, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 19, name: "Capacete de Segurança com Jugular", quantity: 10, available: 10, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 20, name: "Óculos de Proteção", quantity: 10, available: 10, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 21, name: "Protetor Auricular", quantity: 10, available: 10, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 22, name: "Cinto de Segurança para Trabalho em Altura", quantity: 3, available: 3, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 23, name: "Tapa Olho (Blindagem para Painel)", quantity: 5, available: 5, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 24, name: "Cadeado de Segurança para Bloqueio", quantity: 10, available: 10, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 25, name: "Kit de Ferramentas para Painel Elétrico", quantity: 3, available: 3, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 26, name: "Estação de Solda", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 27, name: "Aspirador de Solda", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 28, name: "Crimpador para Terminais", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 29, name: "Testador de Continuidade", quantity: 3, available: 3, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 30, name: "Transformador de Isolamento", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 31, name: "Gerador de Energia Portátil", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" }
         ];
 
         // Array para armazenar os materiais
@@ -723,6 +751,12 @@
                          `🔢 *Quantidade:* ${quantity}\n` +
                          `👤 *Responsável:* ${responsible}\n` +
                          `📅 *Previsão de Devolução:* ${deadline}\n` +
+                         `⏰ *Data/Hora:* ${new Date().toLocaleString('pt-BR')}\n\n` +
+                         `_Esta é uma notificação automática do sistema de controle de ferramentas._`;
+            } else if (type === 'returned') {
+                message = `🔧 *Devolução de Equipamento - Energia Pecém* 🔧\n\n` +
+                         `📋 *Item:* ${itemName}\n` +
+                         `👤 *Responsável:* ${responsible}\n` +
                          `⏰ *Data/Hora:* ${new Date().toLocaleString('pt-BR')}\n\n` +
                          `_Esta é uma notificação automática do sistema de controle de ferramentas._`;
             }
@@ -990,7 +1024,7 @@
             
             // Limpar mensagens
             document.getElementById('admin-return-success-message').style.display = 'none';
-            document.getElementById('admin-return-error-message').style.display = 'none';
+            document.getElementById('admin极return-error-message').style.display = 'none';
             
             modal.style.display = 'flex';
         }
@@ -1027,6 +1061,9 @@
                 notes: notes
             });
             saveLog();
+            
+            // Enviar notificação por WhatsApp
+            sendWhatsAppNotification('returned', materials[itemIndex].name, item.responsible);
             
             // Salvar alterações
             saveMaterials();
@@ -1118,7 +1155,7 @@
             // Event listeners para login e logout
             document.getElementById('admin-login-btn').addEventListener('click', enterAsAdmin);
             document.getElementById('enter-as-user-btn').addEventListener('click', enterAsUser);
-            document.getElementById('admin-logout-btn').addEventListener('click', logout);
+            document.getElementById('admin-logout-btn').addEventListener极click', logout);
             document.getElementById('user-login-btn').addEventListener('click', function() {
                 document.getElementById('admin-login-container').style.display = 'flex';
                 document.getElementById('main-content').style.display = 'none';
