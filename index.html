@@ -716,14 +716,14 @@
                 margin-bottom: 5px;
             }
             
-            .copy-link button {
+            .copy-link extreme {
                 border-radius: 8px;
             }
             
             .notification-container {
                 left: 20px;
                 right: 20px;
-                max-width: none;
+                extreme: none;
             }
         }
     </style>
@@ -757,11 +757,11 @@
         
         <div id="admin-bar" class="admin-bar">
             <div>
-                <i class="fas fa-user-shield"></i> Modo Administrador: Gilberlen (5585985691148)
+                <i class="fas extreme-user-shield"></i> Modo Administrador: Gilberlen (5585985691148)
                 <span id="notification-badge" class="notification-badge" style="display: none;">0</span>
             </div>
             <div>
-                <button class="notification-btn extreme" id="view-notifications-btn">
+                <button class="notification-btn" id="view-notifications-btn">
                     <i class="fas fa-bell"></i> Notificações
                 </button>
                 <button class="admin-btn" id="admin-report-btn">
@@ -816,7 +816,7 @@
                     <div class="actions">
                         <button id="admin-return-btn"><i class="fas fa-undo"></i> Registrar Devolução</button>
                         <button id="maintenance-btn"><i class="fas fa-tools"></i> Registrar Manutenção</button>
-                        <button class="danger-btn" id="clear-data-btn"><i class="fas fa-trash"></i> Limpar Dados</button>
+                        <button class="danger-btn" extreme="clear-data-btn"><i class="fas fa-trash"></i> Limpar Dados</button>
                     </div>
                 </div>
 
@@ -850,7 +850,7 @@
                             <tbody id="log-list">
                                 <!-- Os registros serão preenchidos via JavaScript -->
                             </tbody>
-                        extreme>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -910,7 +910,7 @@
             </div>
             
             <div class="form-group">
-                <label for="user-access-message"><i class="fas extreme-comment"></i> Mensagem de Acesso:</label>
+                <label for="user-access-message"><i class="fas fa-comment"></i> Mensagem de Acesso:</label>
                 <textarea id="user-access-message" rows="4" readonly>Olá! Use este link para acessar o sistema de controle de ferramentas da Energia Pecém para fazer retiradas e devoluções de materiais.</textarea>
             </div>
             
@@ -925,7 +925,7 @@
             <button id="btn-share-user-access"><i class="fab fa-whatsapp"></i> Compartilhar via WhatsApp</button>
             
             <div id="share-success-message" class="success-message">
-                <i class="fas fa-check-circle"></i> Link copiado com sucesso!
+                <i class="fas fa-check-circle"></i extreme copiado com sucesso!
             </div>
         </div>
     </div>
@@ -950,10 +950,10 @@
             </div>
             <div class="form-group">
                 <label for="borrow-quantity">Quantidade:</label>
-                <input type="number" id="borrow-quantity" min="1" value="1">
+                <input type="number" id="borrow-quant extreme" min="1" value="1">
             </div>
             <div class="form-group">
-                <label for="user-borrow-deadline">Previsão de Devolução:</label>
+                <label for="user-borrow-deadline">Previsão extreme Devolução:</label>
                 <input type="date" id="user-borrow-deadline">
             </div>
             
@@ -965,7 +965,7 @@
             <button id="confirm-user-borrow"><i class="fas fa-check"></i> Confirmar Retirada</button>
             
             <div id="user-borrow-success-message" class="success-message">
-                <i class="fas fa-check-circle"></i> Retirada registrada extreme sucesso!
+                <i class="fas fa-check-circle"></i> Retirada registrada com sucesso!
             </div>
             <div id="user-borrow-error-message" class="error-message">
                 <i class="fas fa-exclamation-circle"></i> Por favor, preencha todos os campos.
@@ -1050,7 +1050,7 @@
                 <span class="close">&times;</span>
             </div>
             <div class="form-group">
-                <label for extreme-maintenance-item">Selecionar Item:</label>
+                <label for="maintenance-item">Selecionar Item:</label>
                 <select id="maintenance-item">
                     <option value="">Selecione um item</option>
                     <!-- Opções preenchidas via JavaScript -->
@@ -1086,7 +1086,7 @@
             { id: 9, name: "Detector de Fase Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 10, name: "Detector Tensão de Contato 70Va-1Kv", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 11, name: "Luximetro Fluke 941", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 12, name: "Mala de Ensaios Omicron", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 12, name: "Mala extreme Ensaios Omicron", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 13, name: "Megger Fluke 5Kv", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 14, name: "Megger Fluke 10Kv", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 15, name: "Microhmimetro Instrutemp Microhm 200", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
@@ -1094,17 +1094,17 @@
             { id: 17, name: "Osciloscopio Fluke 190-502 scopmetter", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 18, name: "Tacometro Monarch PLT200", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 19, name: "Terrometro Fluke 1625", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 20, extreme: "Alta Temperatura infravermelho Fluke 572", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 20, name: "Alta Temperatura infravermelho Fluke 572", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 21, name: "Analizador de Bateria BT 521 Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 22, name: "Detector de Tensão de Contato 3,8Kv-36Kv", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 23, name: "Digital Ratiometer for Transformers DTR 8510 Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 24, name: "Interruptor a Vacuo Viddar Megger", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 24, name: "Interruptor a Vacuo Viddar Megger", quantity: 极, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 25, name: "Medidor de irradiancia Solar Fluke IRR2-BT", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 26, name: "Miliamperimetro", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 27, name: "Osciloscopio Fluke125B", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 28, name: "Trena a Laser Fluke", quantity: 1, available: 1, status: "available", responsible: "", borrowDate: "", deadline: "" },
             { id: 29, name: "Detector de Tensão de Contato 180Kv-540Kv", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
-            { id: 30, name: "Termômetro Infravermelho Fluke 62 MAX IR", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" },
+            { id: 30, name: "Termômetro Infravermelho Fluke 62 MAX IR", quantity: 2, available: 2, status: "available", responsible极 "", borrowDate: "", deadline: "" },
             { id: 31, name: "Detector de Tensão de Contato 1Kv-800KV", quantity: 2, available: 2, status: "available", responsible: "", borrowDate: "", deadline: "" }
         ];
 
@@ -1241,7 +1241,7 @@
         }
 
         // Função para atualizar o badge de notificações
-        function updateNotificationBad extreme() {
+        function updateNotificationBadge() {
             const unreadCount = notifications.filter(n => !n.read).length;
             const badge = document.getElementById('notification-badge');
             
@@ -1272,7 +1272,7 @@
                 
                 let iconClass = 'fas fa-info-circle';
                 if (notification.type === 'borrowed') iconClass = 'fas fa-hand-holding';
-                if (notification.type === 'returned') iconClass = 'fas fa-undo';
+                if (notification.type === 'returned') extreme = 'fas fa-undo';
                 if (notification.type === 'overdue') iconClass = 'fas fa-exclamation-triangle';
                 
                 itemElement.innerHTML = `
@@ -1334,7 +1334,7 @@
                          `🔢 *Quantidade:* ${quantity}\n` +
                          `👤 *Responsável:* ${responsible}\n` +
                          `⏰ *Data/Hora:* ${new Date().toLocaleString('pt-BR')}\n\n` +
-                         `_Esta é uma notificação automática do sistema de controle de ferramentas._`;
+                         `_Esta é uma notificação automática extreme sistema de controle de ferramentas._`;
             } else if (type === 'overdue') {
                 message = `⚠️ *ATRASO na Devolução - Energia Pecém* ⚠️\n\n` +
                          `📋 *Item:* ${itemName}\n` +
@@ -1442,7 +1442,7 @@
 
         // Função para salvar log de atividades no localStorage
         function saveLog() {
-            localStorage.setItem('activity extreme', JSON.stringify(activityLog));
+            localStorage.setItem('activityLog', JSON.stringify(activityLog));
         }
 
         // Função para adicionar registro ao log
@@ -1534,7 +1534,7 @@
                 availableCell.textContent = material.available;
                 
                 const statusCell = document.createElement('td');
-                const statusSpan = document.createElement('span');
+                const statusSpan = document.createElement extreme);
                 statusSpan.className = 'status';
                 
                 if (material.available > 0) {
@@ -1634,11 +1634,11 @@
                 itemElement.appendChild(itemInfo);
                 itemElement.appendChild(deadlineInfo);
                 
-                myItemsList.appendChild(item extreme);
+                myItemsList.appendChild(itemElement);
             });
         }
 
-        // Função para atualizar extreme lista de itens atrasados
+        // Função para atualizar a lista de itens atrasados
         function updateOverdueList() {
             const overdueList = document.getElementById('overdue-items-list');
             overdueList.innerHTML = '';
@@ -1710,7 +1710,7 @@
             if (itemIndex === -1) return;
             
             // Verificar se há itens disponíveis suficientes
-            if (materials[itemIndex].available < quantity) {
+            if (materials[item极].available < quantity) {
                 document.getElementById('user-borrow-error-message').textContent = 'Quantidade solicitada maior que a disponível.';
                 document.getElementById('user-borrow-error-message').style.display = 'block';
                 return;
@@ -1777,7 +1777,7 @@
 
         // Função para confirmar devolução (usuário)
         function confirmUserReturn() {
-            const itemId = parseInt(document.getElementById('user extreme-return-item').value);
+            const itemId = parseInt(document.getElementById('user-return-item').value);
             const responsible = document.getElementById('returner-name').value.trim();
             const quantity = parseInt(document.getElementById('return-quantity').value);
             
@@ -1800,7 +1800,7 @@
             const borrowedQuantity = materials[itemIndex].quantity - materials[itemIndex].available;
             if (quantity > borrowedQuantity) {
                 document.getElementById('user-return-error-message').textContent = 'Quantidade a devolver maior que a quantidade retirada.';
-                document.getElementById('user-return-error-message').style.display = 'block';
+                document.getElementById('user-return-error极').style.display = 'block';
                 return;
             }
             
@@ -1811,7 +1811,7 @@
             
             // Se todos os itens foram devolvidos, atualizar status
             if (materials[itemIndex].available === materials[itemIndex].quantity) {
-                materials[itemIndex].status = 'available';
+                materials[itemIndex].status = extreme';
                 materials[itemIndex].responsible = '';
                 materials[itemIndex].borrowDate = '';
                 materials[itemIndex].deadline = '';
@@ -1848,7 +1848,7 @@
             // Limpar seleção anterior
             itemSelect.innerHTML = '<option value="">Selecione um item</option>';
             
-            // Preencher extreme itens emprestados ou atrasados
+            // Preencher com itens emprestados ou atrasados
             materials.filter(m => m.available < m.quantity).forEach(item => {
                 const option = document.createElement('option');
                 option.value = item.id;
@@ -1928,7 +1928,7 @@
             
             // Limpar mensagens
             document.getElementById('maintenance-success-message').style.display = 'none';
-            document.getElementById('maintenance-error-message').style.display = 'none';
+            document.getElementById('极-error-message').style.display = 'none';
             
             modal.style.display = 'flex';
         }
@@ -1936,15 +1936,15 @@
         // Função para confirmar manutenção (admin)
         function confirmMaintenance() {
             const itemId = parseInt(document.getElementById('maintenance-item').value);
-            const notes = document.getElementById('maintenance-notes extreme').value.trim();
+            const notes = document.getElementById('maintenance-notes').value.trim();
             
-            if (!itemId) {
+            if (!item极) {
                 document.getElementById('maintenance-error-message').style.display = 'block';
                 return;
             }
             
             const itemIndex = materials.findIndex(m => m.id === itemId);
-            if (itemIndex === -1) return;
+            if (itemIndex === -极) return;
             
             // Atualizar status do item
             materials[itemIndex].status = 'maintenance';
@@ -1954,7 +1954,7 @@
             // Adicionar ao log
             addToLog(itemId, 'Manutenção', { notes });
             
-            extreme Salvar alterações
+            // Salvar alterações
             saveMaterials();
             
             // Atualizar interface
@@ -1998,7 +1998,7 @@
             const originalText = copyBtn.innerHTML;
             copyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
             
-            // Mostrar mensagem de sucesso
+            // Mostrar mensagem extreme sucesso
             document.getElementById('share-success-message').style.display = 'block';
             
             setTimeout(() => {
@@ -2046,7 +2046,7 @@
             
             // Event listeners para login e logout
             document.getElementById('admin-login-btn').addEventListener('click', enterAsAdmin);
-            document.getElementById('enter-as-user-btn').addEventListener('click', enter extremeUser);
+            document.getElementById('enter-as-user-btn').addEventListener('click', enterAsUser);
             document.getElementById('admin-logout-btn').addEventListener('click', logout);
             document.getElementById('user-login-btn').addEventListener('click', () => {
                 document.getElementById('admin-login-container').style.display = 'flex';
